@@ -6,53 +6,55 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import de.hdm.KontaktSharing.shared.bo.Nutzer;
+import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
+import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 
-public class NutzerMapper {
+public class KontaktlisteMapper {
+
 	/**
-	 * Die Klasse NutzerMapper wird nur einmal instantiiert. Man spricht hierbei von
-	 * einem sogenannten <b>Singleton</b>.
+	 * Die Klasse KontaktlisteMapper wird nur einmal instantiiert. Man spricht
+	 * hierbei von einem sogenannten <b>Singleton</b>.
 	 * <p>
 	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	 * einzige Instanz dieser Klasse.
 	 * 
-	 * @see nutzerMapper()
+	 * @see kontaktlisteMapper()
 	 */
 
-	private static NutzerMapper nutzerMapper = null;
+	private static KontaktlisteMapper kontaktlisteMapper = null;
 
 	/**
 	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
 	 * neue Instanzen dieser Klasse zu erzeugen.
 	 */
 
-	protected NutzerMapper() {
+	protected KontaktlisteMapper() {
 	}
 
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>NutzerMapper.nutzerMapper()</code>. Sie stellt die
+	 * <code>KontaktlisteMapper.kontaktlisteMapper()</code>. Sie stellt die
 	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
-	 * Instanz von <code>NutzerMapper</code> existiert.
+	 * Instanz von <code>KontaktlisteMapper</code> existiert.
 	 * <p>
 	 * 
-	 * <b>Fazit:</b> NutzerMapper sollte nicht mittels <code>new</code> instantiiert
-	 * werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * <b>Fazit:</b> KontaktlisteMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
 	 * 
-	 * @return DAS <code>NutzerMapper</code>-Objekt.
-	 * @see nutzerMapper
+	 * @return DAS <code>KontaktlisteMapper</code>-Objekt.
+	 * @see kontaktlisteMapper
 	 */
 
-	public static NutzerMapper nutzerMapper() {
-		if (nutzerMapper == null) {
-			nutzerMapper = new NutzerMapper();
+	public static KontaktlisteMapper kontaktlisteMapper() {
+		if (kontaktlisteMapper == null) {
+			kontaktlisteMapper = new KontaktlisteMapper();
 		}
 
-		return nutzerMapper;
+		return kontaktlisteMapper;
 	}
 
-	public Nutzer findByKey(int id) {
+	public Kontaktliste findByKey(int id) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
@@ -61,51 +63,48 @@ public class NutzerMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT idNutzer, email FROM nutzer " + "WHERE idNutzer=" + id);
+			ResultSet rs = stmt.executeQuery(
+					"SELECT idKontaktliste, kontaktlistenname FROM eigenschaft " + "WHERE idEigenschaft=" + id);
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
 			 * Prüfe, ob ein Ergebnis vorliegt.
 			 */
 			if (rs.next()) {
-				// neue Nutzer wird ausgegeben
-				return new Nutzer(rs);
+				// Ergebnis-Tupel in Objekt umwandeln
+				Kontaktliste kl = new Kontaktliste();
+				kl.setId(rs.getInt("idKontaktliste"));
+				return kl;
 			}
 		}
 
 		catch (SQLException e2) {
 			e2.printStackTrace();
-			// Nutzer gefunden, aber zuordnung zum BO resultiert in einem Fehler
 			return null;
 		}
-		// Kein Nutzer gefunden dann null
+
 		return null;
 	}
 
-	/**
-	 * Auslesen aller Nutzer.
-	 *
-	 * @return Ein Vektor mit Nutzer-Objekten, die sämtliche Nutzer repräsentieren.
-	 *         Bei evtl. Exceptions wird ein partiell gefüllter oder ggf. auch
-	 *         leerer Vetor zurückgeliefert.
-	 */
-	public Vector<Nutzer> findAll() {
+	public Vector<Kontaktliste> findAll() {
 		Connection con = DBConnection.connection();
 
 		// Ergebnisvektor vorbereiten
-		Vector<Nutzer> result = new Vector<Nutzer>();
+		Vector<Kontaktliste> result = new Vector<Kontaktliste>();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT idNutzer, email FROM nutzer");
+			ResultSet rs = stmt.executeQuery("SELECT idKontaktliste, kontaktlistenname FROM Kontaktliste");
 
-			// Für jeden Eintrag im Suchergebnis wird nun ein Nutzer-Objekt erstellt.
+			// Für jeden Eintrag im Suchergebnis wird nun ein Kontaktliste-Objekt
+			// erstellt.
 			while (rs.next()) {
-				Nutzer n = new Nutzer(rs);
+				Kontaktliste kl = new Kontaktliste();
+				kl.setId(rs.getInt("idKontaktliste"));
 
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(n);
+				result.addElement(kl);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -115,58 +114,60 @@ public class NutzerMapper {
 		return result;
 	}
 
-	public Nutzer insert(Nutzer n) {
+	public Kontaktliste insert(Kontaktliste kl) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO nutzer ( email) " + "VALUES (" + n.getEmail() + ")");
+			stmt.executeUpdate(
+					"INSERT INTO kontaktliste (Kontaktlistenname) " + "VALUES (" + kl.getKontaktlistenname() + ")");
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
 
-		return n;
+		return kl;
 	}
 
 	/**
 	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * 
-	 * @param n
+	 * @param kl
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
-	public Nutzer update(Nutzer n) {
+	public Kontaktliste update(Kontaktliste kl) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE nutzer SET email ='" + n.getEmail() + " WHERE idNutzer = '" + n.getId() + "';");
+			stmt.executeUpdate("UPDATE kontaktliste SET kontaktlistenname ='" + kl.getKontaktlistenname() + ";"
+					+ "WHERE idKontaktliste = '" + kl.getId() + "'");
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
 
-		// Um Analogie zu insert(Nutzer n) zu wahren, geben wir n zurück
-		return n;
+		// Um Analogie zu insert(Kontaktliste kl) zu wahren, geben wir kl zurück
+		return kl;
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
+	 * Löschen der Daten eines <code>Kontaktlisten</code>-Objekts aus der Datenbank.
 	 * 
-	 * @param n
+	 * @param kl
 	 *            das aus der DB zu löschende "Objekt"
 	 */
-	public void delete(Nutzer n) {
+	public void delete(Kontaktliste kl) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM nutzer " + "WHERE idNutzer=" + n.getId());
+			stmt.executeUpdate("DELETE FROM kontaktliste " + "WHERE idKontaktliste=" + kl.getId());
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();
