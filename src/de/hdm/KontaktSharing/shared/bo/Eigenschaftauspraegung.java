@@ -3,30 +3,30 @@ package de.hdm.KontaktSharing.shared.bo;
 import java.util.Date;
 
 /**
- * Realisierung einer Eigenschaftausprägung. Eine Eigenschaftsausprägung besitzt
+ * Realisierung einer Eigenschaftausprï¿½gung. Eine Eigenschaftsausprï¿½gung besitzt
  * Text, Datum und Zahl.
  */
 
-public class Eigenschaftausprägung extends BusinessObject {
+public class Eigenschaftauspraegung extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Text von Eigenschaftsausprägung
+	 * Text von Eigenschaftsausprï¿½gung
 	 */
 	private String text = "";
 	
 	/**
-	 * Zahl von Eigenschaftsausprägung
+	 * Zahl von Eigenschaftsausprï¿½gung
 	 */
 	private int zahl = 0;
 	
 	/**
-	 * Datum von Eigenschaftsausprägung
+	 * Datum von Eigenschaftsausprï¿½gung
 	 */
 	 private Date datum;//nochmal nach schauen
 	 
-	 public Eigenschaftausprägung() {
+	 public Eigenschaftauspraegung() {
 		    super();
 		  }
 	 
@@ -55,21 +55,21 @@ public class Eigenschaftausprägung extends BusinessObject {
 	  }
 	  
 	  /**
-	   * Setzen des Textes der Eigenschaftsausprägung
+	   * Setzen des Textes der Eigenschaftsausprï¿½gung
 	   */
 	  public void setText(String string) {
 	    this.text = string;
 	  }
 	  
 	  /**
-	   * Setzen der Zahl der Eigenschaftsausprägung
+	   * Setzen der Zahl der Eigenschaftsausprï¿½gung
 	   */
 	  public void setZahl(int i) {
 		  this.zahl = i;
 	  }
 	  
 	  /**
-	   * Setzen des Datums der Eigenschaftsausprägung
+	   * Setzen des Datums der Eigenschaftsausprï¿½gung
 	   */
 	  public void setDatum (Date datum) {
 		  this.datum = datum;

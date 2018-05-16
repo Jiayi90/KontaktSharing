@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
-import de.hdm.KontaktSharing.shared.bo.Eigenschaftausprägung;
+
 
 public class EigenschaftMapper {
 
