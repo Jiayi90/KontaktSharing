@@ -1,15 +1,18 @@
 package de.hdm.KontaktSharing.server;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Vector;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.KontaktSharing.shared.KontaktSharingAdministration;
-import de.hdm.KontaktSharing.server.report.*;
 import de.hdm.KontaktSharing.server.db.*;
 import de.hdm.KontaktSharing.shared.bo.*;
-import de.hdm.KontaktSharing.shared.*;
 
 @SuppressWarnings("serial")
 public class KontaktSharingAdministrationImpl extends RemoteServiceServlet implements KontaktSharingAdministration {
@@ -86,53 +89,52 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	}
 
-	public Nutzer createNutzer(String email) throws IllegalArgumentException {
+	public Nutzer createNutzer(String email) throws IllegalArgumentException, SQLException {
 
 		Nutzer n = new Nutzer();
 		n.setEmail(email);
-
-		/**
-		 * Setzen eines vorläufigen Nutzer-ID.
-		 */
-
-		n.setId(1);
-
-		// Objekt in der DB speichern.
-
 		return this.nutzerMapper.insert(n);
 
 	}
 
 	/**
 	 * Auslesen eines Nutzers anhand seiner ID
+	 * 
+	 * @throws SQLException
 	 */
 
-	public Nutzer getNutzerById(int id) throws IllegalArgumentException {
+	public Nutzer getNutzerById(int id) throws IllegalArgumentException, SQLException {
 		return this.nutzerMapper.findByKey(id);
 	}
 
 	/**
 	 * Auslesen aller Nutzer
+	 * 
+	 * @throws SQLException
 	 */
 
-	public Vector<Nutzer> getAllNutzer() throws IllegalArgumentException {
+	public Vector<Nutzer> getAllNutzer() throws IllegalArgumentException, SQLException {
 		return this.nutzerMapper.findAll();
 
 	}
 
 	/**
 	 * Speichern eines Nutzers
+	 * 
+	 * @throws SQLException
 	 */
 
-	public void save(Nutzer n) throws IllegalArgumentException {
+	public void save(Nutzer n) throws IllegalArgumentException, SQLException {
 		nutzerMapper.update(n);
 	}
 
 	/**
 	 * Löschen eines Nutzers
+	 * 
+	 * @throws SQLException
 	 */
 
-	public void delete(Nutzer n) throws IllegalArgumentException {
+	public void delete(Nutzer n) throws IllegalArgumentException, SQLException {
 
 		this.nutzerMapper.delete(n);
 
@@ -299,10 +301,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	public Kontakt createKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum)
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, SQLException {
 
 		Kontakt k = new Kontakt();
-		k.setName(name);
 		k.setErzeugungsdatum(erzeugungsdatum);
 		k.setModifikationsdatum(modifikationsdatum);
 
@@ -320,34 +321,53 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Auslesen eines Kontakts anhand seiner ID
+	 * 
+	 * @throws SQLException
 	 */
 
-	public Kontakt getKontaktById(int id) throws IllegalArgumentException {
+	public Kontakt getKontaktById(int id) throws IllegalArgumentException, SQLException {
 		return this.kontaktMapper.findByKey(id);
 	}
 
 	/**
 	 * Auslesen aller Kontakte
+	 * 
+	 * @throws SQLException
 	 */
 
-	public Vector<Kontakt> getAllKontakt() throws IllegalArgumentException {
+	public Vector<Kontakt> getAllKontakt() throws IllegalArgumentException, SQLException {
+		return this.kontaktMapper.findAll();
+
+	}
+
+	/**
+	 * Auslesen aller Kontakte
+	 * 
+	 * @throws SQLException
+	 */
+
+	public Vector<Kontakt> getAllKontaktForNutzer() throws IllegalArgumentException, SQLException {
 		return this.kontaktMapper.findAll();
 
 	}
 
 	/**
 	 * Speichern eines Kontakts
+	 * 
+	 * @throws SQLException
 	 */
 
-	public void save(Kontakt k) throws IllegalArgumentException {
+	public void save(Kontakt k) throws IllegalArgumentException, SQLException {
 		kontaktMapper.update(k);
 	}
 
 	/**
 	 * Löschen eines Kontakts
+	 * 
+	 * @throws SQLException
 	 */
 
-	public void delete(Kontakt k) throws IllegalArgumentException {
+	public void delete(Kontakt k) throws IllegalArgumentException, SQLException {
 
 		this.kontaktMapper.delete(k);
 
@@ -408,4 +428,24 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	public void setNutzer(Nutzer n) {
 		this.nutzer = n;
 	}
+
+	@Override
+	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws SQLException {
+		return this.kontaktMapper.findAllByNutzerId(1);
+	}
+	
+	private Integer getLoggedInNutzerId() {
+		return this.getLoggedInNutzer().map(nutzer -> nutzer.getId()).orElse(new Integer(0));
+	}
+
+	private Optional<Nutzer> getLoggedInNutzer() {
+		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
+		HttpSession session = httpServletRequest.getSession();
+		Object userObj = session.getAttribute("user");
+		if (userObj != null && userObj instanceof Nutzer) {
+			return Optional.of((Nutzer) userObj);
+		}
+		return Optional.empty();
+	}
+
 }

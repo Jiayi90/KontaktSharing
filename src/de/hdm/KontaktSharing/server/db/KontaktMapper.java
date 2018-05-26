@@ -1,14 +1,12 @@
 package de.hdm.KontaktSharing.server.db;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
 
-public class KontaktMapper {
+public class KontaktMapper extends CommonMapper<Kontakt> {
 
 	/**
 	 * Die Klasse KontaktMapper wird nur einmal instantiiert. Man spricht hierbei
@@ -61,86 +59,33 @@ public class KontaktMapper {
 	 *            Primärschlüsselattribut (->DB)
 	 * @return Kontakt-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	 *         nicht vorhandenem DB-Tupel.
+	 * @throws SQLException 
 	 */
 
-	public Kontakt findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT idKontakt, name, erzeugungsdatum, modifikationsdatum FROM kontakt "
+	public Kontakt findByKey(int id) throws SQLException {
+		return this.findObject("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt "
 					+ "WHERE idKontakt=" + id);
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
-			 * Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// neue Kontakt wird ausgegeben
-				return new Kontakt(rs);
-			}
-		}
-
-		catch (SQLException e2) {
-			e2.printStackTrace();
-			// Kontakt gefunden, aber zuordnung zum BO resultiert in einem Fehler
-			return null;
-		}
-		// Kein Kontakt gefunden dann null
-		return null;
 	}
 
 	/**
 	 * Auslesen aller Kontakte.
 	 *
 	 * @return Ein Vektor mit Kontakt-Objekten, die sämtliche Kontakte
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter oder
-	 *         ggf. auch leerer Vetor zurückgeliefert.
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
+	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @throws SQLException 
 	 */
-	public Vector<Kontakt> findAll() {
-		Connection con = DBConnection.connection();
-
-		// Ergebnisvektor vorbereiten
-		Vector<Kontakt> result = new Vector<Kontakt>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(
-					"SELECT idKontakt, name, erzeugungsdatum, modifikationsdatum FROM kontakt" + " ORDER BY idKontakt");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
-			while (rs.next()) {
-				Kontakt k = new Kontakt(rs);
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(k);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
+	public Vector<Kontakt> findAll() throws SQLException {
+		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt ORDER BY idKontakt");
+	}
+	
+	public Vector<Kontakt> findAllByNutzerId(int id) throws SQLException {
+		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
 	}
 
-	public Kontakt insert(Kontakt k) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO kontakt (name, erzeugungsdatum, modifikationsdatum) " + "VALUES ("
-					+ k.getName() + "," + k.getErzeugungsdatum() + "," + k.getModifikationsdatum() + ")");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+	public Kontakt insert(Kontakt k) throws SQLException {
+		this.excecute("INSERT INTO kontakt (erzeugungsdatum, modifikationsdatum) VALUES ("
+					+  k.getErzeugungsdatum() + "," + k.getModifikationsdatum() + ")");
 
 		return k;
 	}
@@ -151,22 +96,12 @@ public class KontaktMapper {
 	 * @param k
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
+	 * @throws SQLException 
 	 */
-	public Kontakt update(Kontakt k) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("UPDATE kontakt SET name ='" + k.getName() + "', " + "erzeugungsdatum='"
+	public Kontakt update(Kontakt k) throws SQLException {
+		this.excecute("UPDATE kontakt SET erzeugungsdatum='"
 					+ k.getErzeugungsdatum() + "', " + "modifikationsdatum='" + k.getModifikationsdatum() + ";"
 					+ "WHERE idKontakt = '" + k.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Um Analogie zu insert(Kontakt k) zu wahren, geben wir k zurück
 		return k;
 	}
 
@@ -175,18 +110,19 @@ public class KontaktMapper {
 	 * 
 	 * @param k
 	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException 
 	 */
-	public void delete(Kontakt k) {
-		Connection con = DBConnection.connection();
+	public void delete(Kontakt k) throws SQLException {
+		this.excecute("DELETE FROM kontakt " + "WHERE idKontakt=" + k.getId());
+	}
 
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM kontakt " + "WHERE idKontakt=" + k.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+	@Override
+	protected Kontakt createFromResultSet(ResultSet rs) throws SQLException {
+		Kontakt kontakt = new Kontakt();
+		kontakt.setId((rs.getInt("idKontakt")));;
+		kontakt.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+		kontakt.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+		return kontakt;
 	}
 
 }

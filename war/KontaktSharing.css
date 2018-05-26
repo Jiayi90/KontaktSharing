@@ -1,1 +1,35 @@
-@charset "ISO-8859-1";
+#navigator .gwt-Hyperlink a{
+	font-size: 2em;
+	color: #333333;
+	padding-top:0.5em;
+}
+
+#header {
+	background-color:  #88fc86;
+	width:100%;
+}
+
+#header h1 {
+	margin: 0;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+#navigator {
+	width: 180px;
+	float: left;
+	background-color: #dddddd;
+	min-height: calc(100vh - 82px);
+}
+
+#rootElement > table {
+	width: 100%;
+}
+
+
+
+body, html {
+	padding: 0 !important;
+	margin: 0 !important;
+	min-height: 100vh;
+}
