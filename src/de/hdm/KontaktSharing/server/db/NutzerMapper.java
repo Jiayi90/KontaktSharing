@@ -11,8 +11,8 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	 * Die Klasse NutzerMapper wird nur einmal instantiiert. Man spricht hierbei von
 	 * einem sogenannten <b>Singleton</b>.
 	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
-	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fï¿½r
+	 * sï¿½mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	 * einzige Instanz dieser Klasse.
 	 * 
 	 * @see nutzerMapper()
@@ -21,7 +21,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	private static NutzerMapper nutzerMapper = null;
 
 	/**
-	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+	 * Geschï¿½tzter Konstruktor - verhindert die Mï¿½glichkeit, mit <code>new</code>
 	 * neue Instanzen dieser Klasse zu erzeugen.
 	 */
 
@@ -31,7 +31,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch
 	 * <code>NutzerMapper.nutzerMapper()</code>. Sie stellt die
-	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Singleton-Eigenschaft sicher, indem Sie dafï¿½r sorgt, dass nur eine einzige
 	 * Instanz von <code>NutzerMapper</code> existiert.
 	 * <p>
 	 * 
@@ -49,7 +49,12 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 
 		return nutzerMapper;
 	}
-
+	/**
+	 * Findet einen Nutzer anhand seiner id
+	 * @param id
+	 * @return findObject
+	 * @throws SQLException
+	 */
 	public Nutzer findByKey(int id) throws SQLException {
 		return this.findObject("SELECT idNutzer, email FROM nutzer " + "WHERE idNutzer=" + id);
 	}
@@ -57,14 +62,15 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	/**
 	 * Auslesen aller Nutzer.
 	 *
-	 * @return Ein Vektor mit Nutzer-Objekten, die sämtliche Nutzer repräsentieren.
-	 *         Bei evtl. Exceptions wird ein partiell gefüllter oder ggf. auch
-	 *         leerer Vetor zurückgeliefert.
+	 * @return Ein Vektor mit Nutzer-Objekten, die sï¿½mtliche Nutzer reprï¿½sentieren.
+	 *         Bei evtl. Exceptions wird ein partiell gefï¿½llter oder ggf. auch
+	 *         leerer Vetor zurï¿½ckgeliefert.
 	 * @throws SQLException 
 	 */
 	public Vector<Nutzer> findAll() throws SQLException {
 		return this.findVector("SELECT idNutzer, email FROM nutzer");
 	}
+	
 	
 	public Nutzer findByMail(String mail) throws SQLException {
 		return this.findObject("SELECT idNutzer, Email FROM nutzer WHERE Email='" + mail +"'");
@@ -80,7 +86,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	 * 
 	 * @param n
 	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
+	 * @return das als Parameter ï¿½bergebene Objekt
 	 * @throws SQLException 
 	 */
 	public Nutzer update(Nutzer n) throws SQLException {
@@ -89,10 +95,10 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
+	 * Lï¿½schen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
 	 * 
 	 * @param n
-	 *            das aus der DB zu löschende "Objekt"
+	 *            das aus der DB zu lï¿½schende "Objekt"
 	 * @throws SQLException 
 	 */
 	public void delete(Nutzer n) throws SQLException {
