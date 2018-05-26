@@ -24,15 +24,6 @@ public class Nutzer extends BusinessObject{
 		    super();
 		  }
 	  /**
-	   * Falls Fehler beim erstellen eines Nutzers auftritt, wird eine Exception geworfen
-	   * @param rs
-	   * @throws SQLException
-	   */
-	  public Nutzer(ResultSet rs) throws SQLException {
-		  super(rs.getInt("idNutzer"));
-		  this.setEmail(rs.getString("email"));
-	  }
-	  /**
 	   * Auslesen der Email.
 	   */
 	  public String getEmail() {
