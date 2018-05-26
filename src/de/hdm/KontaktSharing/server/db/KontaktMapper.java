@@ -78,11 +78,22 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	public Vector<Kontakt> findAll() throws SQLException {
 		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt ORDER BY idKontakt");
 	}
-	
+	/**
+	 * Diese Methode liefert alle Kontakte, die eine Nutzer erstellt hat
+	 * @param id
+	 * @return findVector
+	 * @throws SQLException
+	 */
 	public Vector<Kontakt> findAllByNutzerId(int id) throws SQLException {
 		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
 	}
-
+	
+	/**
+	 * Einfügen eines Kontaktes in der DB
+	 * @param k
+	 * @return k, der Kotakt wird ausgegeben der in der DB reingeschrieben worden ist
+	 * @throws SQLException
+	 */
 	public Kontakt insert(Kontakt k) throws SQLException {
 		this.excecute("INSERT INTO kontakt (erzeugungsdatum, modifikationsdatum) VALUES ("
 					+  k.getErzeugungsdatum() + "," + k.getModifikationsdatum() + ")");
@@ -115,7 +126,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	public void delete(Kontakt k) throws SQLException {
 		this.excecute("DELETE FROM kontakt " + "WHERE idKontakt=" + k.getId());
 	}
-
+	
 	@Override
 	protected Kontakt createFromResultSet(ResultSet rs) throws SQLException {
 		Kontakt kontakt = new Kontakt();
