@@ -89,5 +89,26 @@ implements ReportGenerator {
 		    this.administration.setNutzer(n);
 		  }
 	 
-
+	 /**
+	  * Erstellen von <code>AllKontaktReport<code>-Objekten.
+	  * 
+	  * @param k das Kontaktobjekt bzgl. dessen Report erstellt werden soll. 
+	  * @return der fertige Report
+	  */
+	 
+	 @override
+	 public AllKontaktReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException {
+		 
+		 if (this.getKontaktSharing() == null)
+			 return null;
+		 
+		 // Zunächst wird ein leerer Report angelegt.
+		 
+		 AllKontaktReport result = new AllKontaktReport();
+		 
+		 // Jeder Report hat einen Titel
+		 
+		 result.setTitle("Alle Kontakte des Nutzers";)
+		 
+	 }
 }
