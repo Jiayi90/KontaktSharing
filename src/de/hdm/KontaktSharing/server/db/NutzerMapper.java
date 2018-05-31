@@ -1,20 +1,18 @@
 package de.hdm.KontaktSharing.server.db;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
 
-public class NutzerMapper {
+public class NutzerMapper extends CommonMapper<Nutzer> {
 	/**
 	 * Die Klasse NutzerMapper wird nur einmal instantiiert. Man spricht hierbei von
 	 * einem sogenannten <b>Singleton</b>.
 	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
-	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal fï¿½r
+	 * sï¿½mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
 	 * einzige Instanz dieser Klasse.
 	 * 
 	 * @see nutzerMapper()
@@ -23,7 +21,7 @@ public class NutzerMapper {
 	private static NutzerMapper nutzerMapper = null;
 
 	/**
-	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+	 * Geschï¿½tzter Konstruktor - verhindert die Mï¿½glichkeit, mit <code>new</code>
 	 * neue Instanzen dieser Klasse zu erzeugen.
 	 */
 
@@ -33,7 +31,7 @@ public class NutzerMapper {
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch
 	 * <code>NutzerMapper.nutzerMapper()</code>. Sie stellt die
-	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Singleton-Eigenschaft sicher, indem Sie dafï¿½r sorgt, dass nur eine einzige
 	 * Instanz von <code>NutzerMapper</code> existiert.
 	 * <p>
 	 * 
@@ -51,83 +49,35 @@ public class NutzerMapper {
 
 		return nutzerMapper;
 	}
-
-	public Nutzer findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT idNutzer, email FROM nutzer " + "WHERE idNutzer=" + id);
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
-			 * Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// neue Nutzer wird ausgegeben
-				return new Nutzer(rs);
-			}
-		}
-
-		catch (SQLException e2) {
-			e2.printStackTrace();
-			// Nutzer gefunden, aber zuordnung zum BO resultiert in einem Fehler
-			return null;
-		}
-		// Kein Nutzer gefunden dann null
-		return null;
+	/**
+	 * Findet einen Nutzer anhand seiner id
+	 * @param id
+	 * @return findObject
+	 * @throws SQLException
+	 */
+	public Nutzer findByKey(int id) throws SQLException {
+		return this.findObject("SELECT idNutzer, email FROM nutzer " + "WHERE idNutzer=" + id);
 	}
 
 	/**
 	 * Auslesen aller Nutzer.
 	 *
-	 * @return Ein Vektor mit Nutzer-Objekten, die sämtliche Nutzer repräsentieren.
-	 *         Bei evtl. Exceptions wird ein partiell gefüllter oder ggf. auch
-	 *         leerer Vetor zurückgeliefert.
+	 * @return Ein Vektor mit Nutzer-Objekten, die sï¿½mtliche Nutzer reprï¿½sentieren.
+	 *         Bei evtl. Exceptions wird ein partiell gefï¿½llter oder ggf. auch
+	 *         leerer Vetor zurï¿½ckgeliefert.
+	 * @throws SQLException 
 	 */
-	public Vector<Nutzer> findAll() {
-		Connection con = DBConnection.connection();
-
-		// Ergebnisvektor vorbereiten
-		Vector<Nutzer> result = new Vector<Nutzer>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT idNutzer, email FROM nutzer");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Nutzer-Objekt erstellt.
-			while (rs.next()) {
-				Nutzer n = new Nutzer(rs);
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(n);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
+	public Vector<Nutzer> findAll() throws SQLException {
+		return this.findVector("SELECT idNutzer, email FROM nutzer");
+	}
+	
+	
+	public Nutzer findByMail(String mail) throws SQLException {
+		return this.findObject("SELECT idNutzer, Email FROM nutzer WHERE Email='" + mail +"'");
 	}
 
-	public Nutzer insert(Nutzer n) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO nutzer ( email) " + "VALUES (" + n.getEmail() + ")");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
+	public Nutzer insert(Nutzer n) throws SQLException {
+		this.excecute("INSERT INTO nutzer ( email) " + "VALUES (" + n.getEmail() + ")");
 		return n;
 	}
 
@@ -136,41 +86,32 @@ public class NutzerMapper {
 	 * 
 	 * @param n
 	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
+	 * @return das als Parameter ï¿½bergebene Objekt
+	 * @throws SQLException 
 	 */
-	public Nutzer update(Nutzer n) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("UPDATE nutzer SET email ='" + n.getEmail() + " WHERE idNutzer = '" + n.getId() + "';");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Um Analogie zu insert(Nutzer n) zu wahren, geben wir n zurück
+	public Nutzer update(Nutzer n) throws SQLException {
+		this.excecute("UPDATE nutzer SET email ='" + n.getEmail() + " WHERE idNutzer = '" + n.getId() + "';");
 		return n;
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
+	 * Lï¿½schen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
 	 * 
 	 * @param n
-	 *            das aus der DB zu löschende "Objekt"
+	 *            das aus der DB zu lï¿½schende "Objekt"
+	 * @throws SQLException 
 	 */
-	public void delete(Nutzer n) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM nutzer " + "WHERE idNutzer=" + n.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+	public void delete(Nutzer n) throws SQLException {
+		this.excecute("DELETE FROM nutzer " + "WHERE idNutzer=" + n.getId());
 	}
+
+	@Override
+	protected Nutzer createFromResultSet(ResultSet rs) throws SQLException {
+		Nutzer nutzer = new Nutzer();
+		nutzer.setId(rs.getInt("idNutzer"));
+		nutzer.setEmail(rs.getString("Email"));
+		return nutzer;
+	}
+
 
 }

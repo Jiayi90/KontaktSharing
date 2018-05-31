@@ -54,4 +54,5 @@ war/WEB-INF/classes/
 /.gwt
 
 /war/KontaktSharing/
+/test-classes/
 /build/

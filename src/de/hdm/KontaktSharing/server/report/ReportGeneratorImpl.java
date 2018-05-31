@@ -96,7 +96,7 @@ implements ReportGenerator {
 	  * @return der fertige Report
 	  */
 	 
-	 @override
+	 @Override
 	 public AllKontaktReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException {
 		 
 		 if (this.getKontaktSharing() == null)
@@ -108,7 +108,27 @@ implements ReportGenerator {
 		 
 		 // Jeder Report hat einen Titel
 		 
-		 result.setTitle("Alle Kontakte des Nutzers";)
+		 result.setTitle("Alle Kontakte des Nutzers");
 		 
+		 return result;
 	 }
+
+	@Override
+	public AllKontaktByNutzer createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SelectedEigenschaftauspraegungByNutzer createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
+			Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ShareKontaktByNutzer createShareKontaktByNutzer(Nutzer n, Kontakt k) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

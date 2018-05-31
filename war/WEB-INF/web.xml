@@ -5,28 +5,24 @@
 
 	<!-- Servlets -->
 	<servlet>
-		<servlet-name>bankVerwaltungServlet</servlet-name>
-		<servlet-class>de.hdm.KontaktSharing.server.KontaktSharingImpl</servlet-class>
+		<servlet-name>kontaktSharingAdministrationServlet</servlet-name>
+		<servlet-class>de.hdm.KontaktSharing.server.KontaktSharingAdministrationImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>bankVerwaltungServlet</servlet-name>
-		<url-pattern>/kontaktsharing/overview</url-pattern>
-		<!--<url-pattern>/bankprojektcommands/bankadministration</url-pattern>
-		<url-pattern>/bankprojektreports/bankadministration</url-pattern>-->
+		<servlet-name>kontaktSharingAdministrationServlet</servlet-name>
+		<url-pattern>/KontaktSharing/administrationService</url-pattern>
 	</servlet-mapping>
-
-	<!--<servlet>
-		<servlet-name>reportGeneratorServlet</servlet-name>
-		<servlet-class>de.hdm.thies.bankProjekt.server.report.ReportGeneratorImpl</servlet-class>
+	
+	<servlet>
+		<servlet-name>loginService</servlet-name>
+		<servlet-class>de.hdm.KontaktSharing.server.LoginServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>reportGeneratorServlet</servlet-name>
-		<url-pattern>/bankprojekt_2_0/reportgenerator</url-pattern>
-		<url-pattern>/bankprojektcommands/reportgenerator</url-pattern>
-		<url-pattern>/bankprojektreports/reportgenerator</url-pattern>
-	</servlet-mapping>-->
+		<servlet-name>loginService</servlet-name>
+		<url-pattern>/KontaktSharing/loginService</url-pattern>
+	</servlet-mapping>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

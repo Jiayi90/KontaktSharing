@@ -1,16 +1,24 @@
 package de.hdm.KontaktSharing.shared;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.hdm.KontaktSharing.shared.bo.*;
+import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
+import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
+import de.hdm.KontaktSharing.shared.bo.Kontakt;
+import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
+import de.hdm.KontaktSharing.shared.bo.Nutzer;
 
-@RemoteServiceRelativePath("overview")
+@RemoteServiceRelativePath("administrationService")
 public interface KontaktSharingAdministration extends RemoteService {
 	
 	public void init() throws IllegalArgumentException;
+	
+	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws IllegalArgumentException, Exception;
 
 	/**
 	 * Ein Nutzer anlegen
@@ -48,9 +56,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Löschen des übergebenen Kontaktes 
 	 * @param k das zu löschende Kontakt
 	 * @throws IllegalArgumentException
+	 * @throws SQLException 
 	 */
 	
-	public void delete(Kontakt k) throws IllegalArgumentException;
+	public void delete(Kontakt k) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * Eine neue Kontaktliste für den Nutzer erstellen.
