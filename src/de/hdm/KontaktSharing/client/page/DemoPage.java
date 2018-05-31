@@ -46,7 +46,7 @@ public class DemoPage extends CommonPage {
 
 	@Override
 	protected void run() {
-		LoginServiceAsync loginService = ClientsideSettings.getLoginService();
+		final LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 		Button login = new Button("Loginn");
 		Button logout = new Button("Logout");
 

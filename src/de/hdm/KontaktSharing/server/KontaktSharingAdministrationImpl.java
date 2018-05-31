@@ -1,6 +1,7 @@
 package de.hdm.KontaktSharing.server;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Vector;
@@ -367,6 +368,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * @throws SQLException
 	 */
 
+	@Override
 	public void delete(Kontakt k) throws IllegalArgumentException, SQLException {
 
 		this.kontaktMapper.delete(k);
@@ -446,6 +448,85 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			return Optional.of((Nutzer) userObj);
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public Nutzer getNutzerByEmail(String email) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Kontakt createKontakt(Nutzer n) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Kontakt k) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Kontaktliste createKontaktliste(Nutzer n) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Kontaktliste kl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Eigenschaft createEigenschaft(Kontakt k) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Eigenschaft e) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Eigenschaftauspraegung createEigenschaftauspraegung(Eigenschaft e) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<Kontakt> getKontaktOf(Kontaktliste kl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Eigenschaft> getEigenschaftOf(Kontakt k) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaft e)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Nutzer getNutzer() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
