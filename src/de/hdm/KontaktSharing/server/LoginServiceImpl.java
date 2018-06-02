@@ -1,65 +1,30 @@
 package de.hdm.KontaktSharing.server;
 
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import de.hdm.KontaktSharing.shared.bo.LoginInfo;
+import de.hdm.KontaktSharing.shared.LoginService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.KontaktSharing.server.db.NutzerMapper;
-import de.hdm.KontaktSharing.shared.LoginService;
-import de.hdm.KontaktSharing.shared.bo.Nutzer;
-import de.hdm.KontaktSharing.shared.exception.InvalidLoginException;
+public class LoginServiceImpl extends RemoteServiceServlet implements
+    LoginService {
 
-@SuppressWarnings("serial")
-public class LoginServiceImpl extends RemoteServiceServlet implements LoginService {
-	private NutzerMapper nutzerMapper;
-	@Override
-	public void init() throws IllegalArgumentException {
-		this.nutzerMapper = NutzerMapper.nutzerMapper();
-	}
+  public LoginInfo login(String requestUri) {
+    UserService userService = UserServiceFactory.getUserService();
+    User user = userService.getCurrentUser();
+    LoginInfo loginInfo = new LoginInfo();
 
-	@Override
-	public void logout() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Nutzer login(String mail, String password) throws IllegalArgumentException, SQLException, InvalidLoginException {
-		Nutzer nutzer = this.nutzerMapper.findByMail(mail);
-		if(nutzer == null) {
-			throw new InvalidLoginException();
-		}
-		this.storeUserInSession(nutzer);
-		return nutzer;
-	}
-	
-	@Override
-	public Nutzer getCurrentUser() {
-		Nutzer nutzer = null;
-		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-		HttpSession session = httpServletRequest.getSession();
-		Object userObj = session.getAttribute("user");
-		if (userObj != null && userObj instanceof Nutzer) {
-			nutzer = (Nutzer) userObj;
-		}
-		return nutzer;
-	}	
-	
-    public void storeUserInSession(Nutzer nutzer)
-    {
-        HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-        HttpSession session = httpServletRequest.getSession(true);
-        session.setAttribute("nutzer", nutzer);
+    if (user != null) {
+      loginInfo.setLoggedIn(true);
+      loginInfo.setEmailAddress(user.getEmail());
+      loginInfo.setNickname(user.getNickname());
+      loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
+    } else {
+      loginInfo.setLoggedIn(false);
+      loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
     }
- 
-    public void deleteUserFromSession()
-    {
-        HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-        HttpSession session = httpServletRequest.getSession();
-        session.removeAttribute("nutzer");
-    }
+    return loginInfo;
+  }
 
 }
