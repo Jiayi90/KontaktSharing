@@ -1,6 +1,7 @@
 package de.hdm.KontaktSharing.shared.report;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -32,7 +33,7 @@ public class AllKontaktByNutzer extends CompositeReport implements Serializable{
 		return null;
 	}
 
-	public Object getCreated() {
+	public Date getCreated() {
 		// TODO Auto-generated method stub
 		return null;
 	}
