@@ -38,6 +38,7 @@ public abstract class CommonPage extends VerticalPanel {
 	protected HTML createHeadline(String text) {
 		HTML content = new HTML(text);
 		content.setStylePrimaryName("page-headline");
+		this.getElement().setId("content");
 		return content;
 	}
 

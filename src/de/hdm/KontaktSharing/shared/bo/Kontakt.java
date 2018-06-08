@@ -23,6 +23,8 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 	 * Das Modufikationsdatum des Kontaktes
 	 */
 	private Date modifikationsdatum;
+	
+	private int idNutzer;
 
 	/**
 	 * No Argument Constructor
@@ -30,6 +32,8 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 
 	public Kontakt() {
 		super();
+		this.erzeugungsdatum = new Date();
+		this.modifikationsdatum = new Date();
 	}
 
 	/**
@@ -63,6 +67,14 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 	 */
 	public void setModifikationsdatum(Date modifikationsdatum) {
 		this.modifikationsdatum = modifikationsdatum;
+	}
+
+	public int getIdNutzer() {
+		return idNutzer;
+	}
+
+	public void setIdNutzer(int idNutzer) {
+		this.idNutzer = idNutzer;
 	}
 
 }

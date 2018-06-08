@@ -12,12 +12,17 @@ public class Eigenschaft extends BusinessObject {
 	/**
 	 * Die Bezeichnung der Eigenschaft.
 	 */
-	private String bezeichnung = "";
+	private String bezeichnung;
 
 	/**
 	 * Typ der Eigenschaft
 	 */
-	private String typ = "";
+	private Typ typ;
+	
+	/**
+	 * 
+	 */
+	private boolean mehrfach;
 
 	/**
 	 * Auslesen der Bezeichnung aus Eigenschaft
@@ -26,10 +31,11 @@ public class Eigenschaft extends BusinessObject {
 		return this.bezeichnung;
 	}
 
+
 	/**
 	 * Auslesen vom Typ der Eigenschaft
 	 */
-	public String getTyp() {
+	public Typ getTyp() {
 		return this.typ;
 	}
 	/**
@@ -49,8 +55,29 @@ public class Eigenschaft extends BusinessObject {
 	/**
 	 * Setzen des Typs.
 	 */
-	public void setTyp(String typ) {
+	public void setTyp(Typ typ) {
 		this.typ = typ;
+	}
+	
+	public void setTyp(String typ) {
+		typ = typ.toLowerCase();
+		if(typ.equals("string")) {
+			this.typ = Typ.STRING;
+		} else if(typ.equals("int")) {
+			this.typ = Typ.INT;
+		} else if(typ.equals("date")) {
+			this.typ = Typ.DATE;
+		}
+	}
+
+
+	public boolean isMehrfach() {
+		return mehrfach;
+	}
+
+
+	public void setMehrfach(boolean mehrfach) {
+		this.mehrfach = mehrfach;
 	}
 
 }

@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
+
+import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 
-public class EigenschaftauspraegungMapper {
+public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspraegung> {
 
 	/**
 	 * Die Klasse EigenschaftauspraegungMapper wird nur einmal instantiiert. Man
@@ -61,38 +65,12 @@ public class EigenschaftauspraegungMapper {
 	 *            Primärschlüsselattribut (->DB)
 	 * @return Eigenschaftauspraegung-Objekt, das dem übergebenen Schlüssel
 	 *         entspricht, null bei nicht vorhandenem DB-Tupel.
+	 * @throws SQLException 
 	 */
 
-	public Eigenschaftauspraegung findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT idEigenschaftauspraegung, text, zahl, datum FROM eigenschaftauspraegung "
+	public Eigenschaftauspraegung findByKey(int id) throws SQLException {
+		return this.findObject("SELECT idEigenschaftauspraegung, text, zahl, datum FROM eigenschaftauspraegung "
 					+ "WHERE idEigenschaftauspraegung=" + id);
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
-			 * Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
-				ea.setId(rs.getInt("idEigenschaftauspraegung"));
-				return ea;
-			}
-		}
-
-		catch (SQLException e2) {
-			e2.printStackTrace();
-			return null;
-		}
-
-		return null;
 	}
 
 	/**
@@ -101,51 +79,14 @@ public class EigenschaftauspraegungMapper {
 	 * @return Ein Vektor mit Eigenschaftsausprägung-Objekten, die sämtliche
 	 *         Eigenschaftauspraegungen repräsentieren. Bei evtl. Exceptions wird ein
 	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @throws SQLException 
 	 */
-	public Vector<Eigenschaftauspraegung> findAll() {
-		Connection con = DBConnection.connection();
-
-		// Ergebnisvektor vorbereiten
-		Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT idEigenschaftauspraegung, Zahl, Datum FROM Eigenschaftauspraegung");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Eigenschaftauspraegung-Objekt
-			// erstellt.
-			while (rs.next()) {
-				Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
-				ea.setId(rs.getInt("idEigenschaftauspraegung"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(ea);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
+	public Vector<Eigenschaftauspraegung> findAll() throws SQLException {
+		return this.findVector("SELECT idEigenschaftauspraegung, Zahl, Datum FROM Eigenschaftauspraegung");
 	}
 
-	public Eigenschaftauspraegung insert(Eigenschaftauspraegung ea) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO Eigenschaftauspraegung (Text, Zahl, Datum) " + "VALUES (" + ea.getText()
-					+ "," + ea.getZahl() + "," + ea.getDatum() + ")");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		return ea;
+	public Eigenschaftauspraegung insert(Eigenschaftauspraegung ea) throws SQLException {
+		return this.insert("INSERT INTO Eigenschaftauspraegung (Text, Zahl, Datum, Eigenschaft_idEigenschaft, Kontakt_idKontakt) VALUES (%s, %s, %s, %s, %s)", ea.getText(), ea.getZahl(), toSqlDate(ea.getDatum()), ea.getIdEigenschaft(), ea.getIdKontakt());
 	}
 
 	/**
@@ -154,24 +95,21 @@ public class EigenschaftauspraegungMapper {
 	 * @param ea
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
+	 * @throws SQLException 
 	 */
-	public Eigenschaftauspraegung update(Eigenschaftauspraegung ea) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("UPDATE eigenschaftauspraegung SET text ='" + ea.getText() + "', " + "zahl='"
+	public Eigenschaftauspraegung update(Eigenschaftauspraegung ea) throws SQLException {
+		this.excecute("UPDATE eigenschaftauspraegung SET text ='" + ea.getText() + "', " + "zahl='"
 					+ ea.getZahl() + "', " + "datum='" + ea.getDatum() + "" + "WHERE idEigenschaftsausprägung = '"
 					+ ea.getId() + "';");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+		return this.findByKey(ea.getId());
+	}
+	
+	private String toSqlDate(Date date) {
+		if(date == null) {
+			return null;
 		}
-
-		// Um Analogie zu insert(Eigenschaftauspraegung ea) zu wahren, geben wir ea
-		// zurück
-		return ea;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
 	}
 
 	/**
@@ -180,18 +118,16 @@ public class EigenschaftauspraegungMapper {
 	 * 
 	 * @param ea
 	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException 
 	 */
-	public void delete(Eigenschaftauspraegung ea) {
-		Connection con = DBConnection.connection();
+	public void delete(Eigenschaftauspraegung ea) throws SQLException {
+		this.excecute("DELETE FROM eigenschaftauspraegung " + "WHERE idEigenschaftauspraegung=" + ea.getId());
+	}
 
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM eigenschaftauspraegung " + "WHERE idEigenschaftauspraegung=" + ea.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+	@Override
+	protected Eigenschaftauspraegung createFromResultSet(ResultSet rs) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

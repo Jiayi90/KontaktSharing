@@ -142,7 +142,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	public Eigenschaftauspraegung createEigenschaftauspraegung(String text, int zahl, Date datum)
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, SQLException {
 
 		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
 		ea.setText(text);
@@ -163,40 +163,44 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Auslesen einer Eigenschaftauspraegung anhand seiner ID
+	 * @throws SQLException 
 	 */
 
-	public Eigenschaftauspraegung getEigenschaftauspraegungById(int id) throws IllegalArgumentException {
+	public Eigenschaftauspraegung getEigenschaftauspraegungById(int id) throws IllegalArgumentException, SQLException {
 		return this.eigenschaftauspraegungMapper.findByKey(id);
 	}
 
 	/**
 	 * Auslesen aller Eigenschaftauspraegungen
+	 * @throws SQLException 
 	 */
 
-	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegung() throws IllegalArgumentException {
+	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegung() throws IllegalArgumentException, SQLException {
 		return this.eigenschaftauspraegungMapper.findAll();
 
 	}
 
 	/**
 	 * Speichern einer Eigenschaftauspraegung
+	 * @throws SQLException 
 	 */
 
-	public void save(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+	public void save(Eigenschaftauspraegung ea) throws IllegalArgumentException, SQLException {
 		eigenschaftauspraegungMapper.update(ea);
 	}
 
 	/**
 	 * Löschen einer Eigenschaftauspraegung
+	 * @throws SQLException 
 	 */
 
-	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException, SQLException {
 
 		this.eigenschaftauspraegungMapper.delete(ea);
 
 	}
 
-	public Eigenschaft createEigenschaft(String bezeichnung, String typ) throws IllegalArgumentException {
+	public Eigenschaft createEigenschaft(String bezeichnung, String typ) throws IllegalArgumentException, SQLException {
 
 		Eigenschaft e = new Eigenschaft();
 		e.setBezeichnung(bezeichnung);
@@ -216,19 +220,11 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Auslesen einer Eigenschaft anhand seiner ID
+	 * @throws SQLException 
 	 */
 
-	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException {
+	public Eigenschaft getEigenschaftById(int id) throws IllegalArgumentException, SQLException {
 		return this.eigenschaftMapper.findByKey(id);
-	}
-
-	/**
-	 * Auslesen aller Eigenschaften
-	 */
-
-	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException {
-		return this.eigenschaftMapper.findAll();
-
 	}
 
 	/**
@@ -298,25 +294,6 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	public void delete(Kontaktliste kl) throws IllegalArgumentException {
 
 		this.kontaktlisteMapper.delete(kl);
-
-	}
-
-	public Kontakt createKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum)
-			throws IllegalArgumentException, SQLException {
-
-		Kontakt k = new Kontakt();
-		k.setErzeugungsdatum(erzeugungsdatum);
-		k.setModifikationsdatum(modifikationsdatum);
-
-		/**
-		 * Setzen eines vorläufigen Kontakt-ID.
-		 */
-
-		k.setId(1);
-
-		// Objekt in der DB speichern.
-
-		return this.kontaktMapper.insert(k);
 
 	}
 
@@ -457,9 +434,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Kontakt createKontakt(Nutzer n) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Kontakt createKontakt(Kontakt k) throws IllegalArgumentException, SQLException {
+		return kontaktMapper.insert(k);
 	}
 
 	@Override
@@ -493,9 +469,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Eigenschaftauspraegung createEigenschaftauspraegung(Eigenschaft e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Eigenschaftauspraegung createEigenschaftauspraegung(Eigenschaftauspraegung e) throws IllegalArgumentException, SQLException {
+		return this.eigenschaftauspraegungMapper.insert(e);
 	}
 
 	@Override
@@ -527,6 +502,11 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	public Nutzer getNutzer() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException, Exception {
+		return this.eigenschaftMapper.findAll();
 	}
 
 }

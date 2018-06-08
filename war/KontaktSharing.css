@@ -33,3 +33,22 @@ body, html {
 	margin: 0 !important;
 	min-height: 100vh;
 }
+
+.page-headline {
+	font-size: 2.5em;
+	font-weight: bold;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+#createContactButton {
+	border: none;
+    padding: 0;
+    background: none;
+    width: 48px;
+    height: 48px;
+}
+
+#content {
+	margin:1em;
+}

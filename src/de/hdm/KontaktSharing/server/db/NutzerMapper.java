@@ -77,8 +77,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	}
 
 	public Nutzer insert(Nutzer n) throws SQLException {
-		this.excecute("INSERT INTO nutzer ( email) " + "VALUES (" + n.getEmail() + ")");
-		return n;
+		return this.insert("INSERT INTO nutzer ( email) " + "VALUES (" + n.getEmail() + ")");
 	}
 
 	/**

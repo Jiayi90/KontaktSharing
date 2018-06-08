@@ -7,9 +7,10 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
+import de.hdm.KontaktSharing.shared.bo.Kontakt;
 
 
-public class EigenschaftMapper {
+public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 
 	/**
 	 * Die Klasse EigenschaftMapper wird nur einmal instantiiert. Man spricht
@@ -60,83 +61,20 @@ public class EigenschaftMapper {
 	 *            Primärschlüsselattribut (->DB)
 	 * @return Eigenschaft-Objekt, das dem übergebenen Schlüssel entspricht, null
 	 *         bei nicht vorhandenem DB-Tupel.
+	 * @throws SQLException 
 	 */
 
-	public Eigenschaft findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt
-					.executeQuery("SELECT idEigenschaft, bezeichnung, typ FROM eigenschaft " + "WHERE idEigenschaft=" + id);
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
-			 * Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Eigenschaft e = new Eigenschaft();
-				e.setId(rs.getInt("idEigenschaft"));
-				return e;
-			}
-		}
-
-		catch (SQLException e2) {
-			e2.printStackTrace();
-			return null;
-		}
-
-		return null;
+	public Eigenschaft findByKey(int id) throws SQLException {
+		return this.findObject("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft WHERE idEigenschaft=" + id);
 	}
 
-	public Vector<Eigenschaft> findAll() {
-		Connection con = DBConnection.connection();
-
-		// Ergebnisvektor vorbereiten
-		Vector<Eigenschaft> result = new Vector<Eigenschaft>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT idEigenschaft, Bezeichnung, Typ FROM Eigenschaft");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Eigenschaft-Objekt
-			// erstellt.
-			while (rs.next()) {
-				Eigenschaft e = new Eigenschaft();
-				e.setId(rs.getInt("idEigenschaft"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(e);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
+	public Vector<Eigenschaft> findAll() throws SQLException {
+		return this.findVector("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft");
 	}
 
-	public Eigenschaft insert(Eigenschaft e) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO Eigenschaft (Bezeichnung, Typ) " + "VALUES (" + e.getBezeichnung() + ","
-					+ e.getTyp() + ")");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		return e;
+	public Eigenschaft insert(Eigenschaft e) throws SQLException {
+		return this.insert("INSERT INTO Eigenschaft (Bezeichnung, Typ, mehrfach) " + 
+				"VALUES (" + e.getBezeichnung() + ","+ e.getTyp() + ","+ e.isMehrfach() +")");
 	}
 
 	/**
@@ -180,6 +118,16 @@ public class EigenschaftMapper {
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+	}
+
+	@Override
+	protected Eigenschaft createFromResultSet(ResultSet rs) throws SQLException {
+		Eigenschaft eigenschaft = new Eigenschaft();
+		eigenschaft.setId(rs.getInt("idEigenschaft"));
+		eigenschaft.setBezeichnung(rs.getString("Bezeichnung"));
+		eigenschaft.setTyp(rs.getString("Typ"));
+		eigenschaft.setMehrfach(rs.getBoolean("mehrfach"));
+		return eigenschaft;
 	}
 
 }

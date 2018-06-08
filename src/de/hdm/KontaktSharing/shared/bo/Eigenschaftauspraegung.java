@@ -26,6 +26,10 @@ public class Eigenschaftauspraegung extends BusinessObject {
 	 */
 	 private Date datum;//nochmal nach schauen
 	 
+	 
+	 private int idEigenschaft;
+	 private int idKontakt;
+	 
 	 public Eigenschaftauspraegung() {
 		    super();
 		  }
@@ -74,4 +78,21 @@ public class Eigenschaftauspraegung extends BusinessObject {
 	  public void setDatum (Date datum) {
 		  this.datum = datum;
 	  }
+
+	public int getIdEigenschaft() {
+		return idEigenschaft;
+	}
+
+	public void setIdEigenschaft(int idEigenschaft) {
+		this.idEigenschaft = idEigenschaft;
+	}
+
+	public int getIdKontakt() {
+		return idKontakt;
+	}
+
+	public void setIdKontakt(int idKontakt) {
+		this.idKontakt = idKontakt;
+	}
+	  
 }

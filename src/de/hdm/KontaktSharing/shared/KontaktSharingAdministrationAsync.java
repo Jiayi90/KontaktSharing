@@ -13,11 +13,11 @@ public interface KontaktSharingAdministrationAsync {
 	
 	void getAllKontaktByLoggedInNutzer(AsyncCallback<Vector<Kontakt>> callback);
 
-	void createKontakt(Nutzer n, AsyncCallback<Kontakt> callback);
+	void createKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 
 	void createEigenschaft(Kontakt k, AsyncCallback<Eigenschaft> callback);
 
-	void createEigenschaftauspraegung(Eigenschaft e, AsyncCallback<Eigenschaftauspraegung> callback);
+	void createEigenschaftauspraegung(Eigenschaftauspraegung e, AsyncCallback<Eigenschaftauspraegung> callback);
 
 	void createKontaktliste(Nutzer n, AsyncCallback<Kontaktliste> callback);
 
@@ -46,5 +46,7 @@ public interface KontaktSharingAdministrationAsync {
 	void getNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
 
 	void getNutzer(AsyncCallback<Nutzer> callback);
+	
+	void getAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
 
 }

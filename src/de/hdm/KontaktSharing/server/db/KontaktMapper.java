@@ -2,6 +2,8 @@ package de.hdm.KontaktSharing.server.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
@@ -63,7 +65,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 */
 
 	public Kontakt findByKey(int id) throws SQLException {
-		return this.findObject("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt "
+		return this.findObject("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt "
 					+ "WHERE idKontakt=" + id);
 	}
 
@@ -76,7 +78,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException 
 	 */
 	public Vector<Kontakt> findAll() throws SQLException {
-		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt ORDER BY idKontakt");
+		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt ORDER BY idKontakt");
 	}
 	/**
 	 * Diese Methode liefert alle Kontakte, die eine Nutzer erstellt hat
@@ -85,7 +87,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException
 	 */
 	public Vector<Kontakt> findAllByNutzerId(int id) throws SQLException {
-		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
+		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
 	}
 	
 	/**
@@ -95,10 +97,15 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException
 	 */
 	public Kontakt insert(Kontakt k) throws SQLException {
-		this.excecute("INSERT INTO kontakt (erzeugungsdatum, modifikationsdatum) VALUES ("
-					+  k.getErzeugungsdatum() + "," + k.getModifikationsdatum() + ")");
+		String sql = String.format("INSERT INTO kontakt (erzeugungsdatum, modifikationsdatum, nutzer_idNutzer) VALUES "
+				+ "('%s', '%s', %o)", toSqlDate(k.getErzeugungsdatum()), toSqlDate(k.getModifikationsdatum()), k.getIdNutzer());
+		return this.insert(sql);
 
-		return k;
+	}
+	
+	private String toSqlDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
 	}
 
 	/**
@@ -110,9 +117,11 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException 
 	 */
 	public Kontakt update(Kontakt k) throws SQLException {
-		this.excecute("UPDATE kontakt SET erzeugungsdatum='"
-					+ k.getErzeugungsdatum() + "', " + "modifikationsdatum='" + k.getModifikationsdatum() + ";"
-					+ "WHERE idKontakt = '" + k.getId());
+		this.excecute(String.format("UPDATE kontakt SET "
+				+ "erzeugungsdatum='%erzeugungsdatum', "
+				+ "modifikationsdatum='%modifikationsdatum', "
+				+ "nutzer_idNutzer='%idNutzer' "
+				+ "WHERE idKontakt='%idKontakt'", k.getErzeugungsdatum(), k.getModifikationsdatum(),  k.getId()));
 		return k;
 	}
 
@@ -133,6 +142,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 		kontakt.setId((rs.getInt("idKontakt")));;
 		kontakt.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
 		kontakt.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+		kontakt.setIdNutzer(rs.getInt("nutzer_idNutzer"));
 		return kontakt;
 	}
 

@@ -38,11 +38,12 @@ public interface KontaktSharingAdministration extends RemoteService {
 	  
 	/**
 	 * Einen neuen Kontakt für den Nutzer erstellen.
-	 * @param Nutzer n
+	 * @param Kontakt k
 	 * @return neuen Kontakt erstellt. 
+	 * @throws SQLException 
 	 */
 	
-	public Kontakt createKontakt(Nutzer n) throws IllegalArgumentException;
+	public Kontakt createKontakt(Kontakt k) throws IllegalArgumentException, Exception;
 
 	/**
 	 * Speichern eines Kontakt-Objekts in der Datenbank.
@@ -113,9 +114,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Eine neue Eigenschaftschaftauspraegung für die Eigenschaft erstellen.
 	 * @param Eigenschaft e
 	 * @return neue Eigenschaftschaftauspraegung erstellt. 
+	 * @throws SQLException 
 	 */
 
-	public Eigenschaftauspraegung createEigenschaftauspraegung (Eigenschaft e) throws IllegalArgumentException;
+	public Eigenschaftauspraegung createEigenschaftauspraegung (Eigenschaftauspraegung e) throws IllegalArgumentException, SQLException;
 
 	/**
 	 * Speichern eines Eigenschaftauspraegung-Objekts in der Datenbank.
@@ -129,9 +131,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Löschen der übergebenen Eigenschaftauspraegung 
 	 * @param ea das zu löschende Eigenschaftauspraegung
 	 * @throws IllegalArgumentException
+	 * @throws SQLException 
 	 */
 	
-	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException;
+	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException, SQLException;
 	
 	/**
 	 * Auslesen sämtlicher Kontakte aus einer Kontaktliste
@@ -164,5 +167,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public Nutzer getNutzer() throws IllegalArgumentException;
 	
+	
+	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException, Exception;
 	
 }

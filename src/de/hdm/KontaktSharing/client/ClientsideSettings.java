@@ -19,7 +19,7 @@ import de.hdm.KontaktSharing.shared.ReportGeneratorAsync;
  * 
  * @author thies & jiayi
  * @version 1.0
- * @since 19.05.2018
+ * @since 04.05.2018
  * 
  */
 public class ClientsideSettings extends CommonSettings {
@@ -101,26 +101,26 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Anlegen und Auslesen der applikationsweit eindeutigen BankAdministration.
-	 * Diese Methode erstellt die BankAdministration, sofern sie noch nicht
+	 * Anlegen und Auslesen der applikationsweit eindeutigen KontaktSharingAdministration.
+	 * Diese Methode erstellt die KontaktShringAdministration, sofern sie noch nicht
 	 * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
 	 * zuvor angelegte Objekt zurückgegeben.
 	 * </p>
 	 * 
 	 * <p>
 	 * Der Aufruf dieser Methode erfolgt im Client z.B. durch
-	 * <code>BankAdministrationAsync bankVerwaltung = ClientSideSettings.getBankVerwaltung()</code>
+	 * <code>KontaktsharingAdministrationAsync kontaktsharingAdministration = ClientSideSettings.getKontaktSharingAdministration()</code>
 	 * .
 	 * </p>
 	 * 
-	 * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
-	 * @author Peter Thies
-	 * @since 28.02.2012
+	 * @return eindeutige Instanz des Typs <code>KontaktSharingAdministrationAsync</code>
+	 * @author Peter Thies, Jiayi
+	 * @since 04.05.2018
 	 */
 	public static KontaktSharingAdministrationAsync getKontaktSharingAdministration() {
-		// Gab es bislang noch keine BankAdministration-Instanz, dann...
+		// Gab es bislang noch keine KontaktsharingAdministration-Instanz, dann...
 		if (administration == null) {
-			// Zunächst instantiieren wir BankAdministration
+			// Zunächst instantiieren wir KontaktSharingAdministration
 			administration = GWT.create(KontaktSharingAdministration.class);
 		}
 
@@ -149,11 +149,11 @@ public class ClientsideSettings extends CommonSettings {
 	 * .
 	 * </p>
 	 * 
-	 * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
-	 * @author Peter Thies
-	 * @since 28.02.2012
+	 * @return eindeutige Instanz des Typs <code>KontaktSharingAdministrationAsync</code>
+	 * @author Peter Thies, Jiayi
+	 * @since 04.05.2018
 	 */
-	public static ReportGeneratorAsync getReportGenerator() {
+	/*public static ReportGeneratorAsync getReportGenerator() {
 		// Gab es bislang noch keine ReportGenerator-Instanz, dann...
 		if (reportGenerator == null) {
 			// Zunächst instantiieren wir ReportGenerator
@@ -176,6 +176,6 @@ public class ClientsideSettings extends CommonSettings {
 
 		// So, nun brauchen wir den ReportGenerator nur noch zurückzugeben.
 		return reportGenerator;
-	}
+	}*/
 
 }

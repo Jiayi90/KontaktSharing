@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 
@@ -19,7 +22,8 @@ public abstract class CommonMapper<T> {
 	 * @throws SQLException
 	 */
 	protected abstract T createFromResultSet(ResultSet rs) throws SQLException;
-	Logger logger = java.util.logging.Logger.getLogger("NameOfYourLogger");
+	public abstract T findByKey(int id) throws SQLException;
+	public abstract Vector<T> findAll() throws SQLException;
 	
 	/**
 	 * liefert anhand eines sql statements ein objekt zurück
@@ -44,7 +48,21 @@ public abstract class CommonMapper<T> {
 	protected void excecute(String sqlStatement) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
-		stmt.executeUpdate(sqlStatement);
+		stmt.executeUpdate(String.format(sqlStatement));
+	}
+
+	protected T insert(String sqlStatement, Object ... args) throws SQLException {
+		Connection con = DBConnection.connection();
+		Statement stmt = con.createStatement();
+		List<String> list = Arrays.stream(args).map(arg -> (arg == null) ? "null" : "'" + arg + "'").collect(Collectors.toList());
+		String sql = String.format(sqlStatement, list.toArray());
+		stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = stmt.getGeneratedKeys();
+		if(rs.next()) {
+			int id = rs.getInt(1);
+			return this.findByKey(id);
+		}
+		return null;
 	}
 	
 	/**
