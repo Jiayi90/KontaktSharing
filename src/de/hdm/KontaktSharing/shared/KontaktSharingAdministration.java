@@ -117,7 +117,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * @throws SQLException 
 	 */
 
-	public Eigenschaftauspraegung createEigenschaftauspraegung (Eigenschaftauspraegung e) throws IllegalArgumentException, SQLException;
+	public Eigenschaftauspraegung createEigenschaftauspraegung (Eigenschaftauspraegung e) throws IllegalArgumentException, Exception;
 
 	/**
 	 * Speichern eines Eigenschaftauspraegung-Objekts in der Datenbank.
@@ -134,7 +134,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * @throws SQLException 
 	 */
 	
-	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException, SQLException;
+	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * Auslesen sämtlicher Kontakte aus einer Kontaktliste
