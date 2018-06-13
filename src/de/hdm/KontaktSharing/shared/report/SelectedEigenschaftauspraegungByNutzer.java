@@ -1,6 +1,7 @@
 package de.hdm.KontaktSharing.shared.report;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 /**
  * Report, der alle ausgewaehlten Eigenschaftauspraegungen des Nutzers darstellt.
@@ -15,5 +16,10 @@ import java.io.Serializable;
 public class SelectedEigenschaftauspraegungByNutzer extends CompositeReport implements Serializable {
 
 	  private static final long serialVersionUID = 1L;
+
+	public Vector<Row> getRows() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	  
 }
