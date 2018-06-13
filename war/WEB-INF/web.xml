@@ -21,7 +21,7 @@
 
 	<servlet-mapping>
 		<servlet-name>loginService</servlet-name>
-		<url-pattern>/KontaktSharing/loginService</url-pattern>
+		<url-pattern>/KontaktSharing/login</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->
