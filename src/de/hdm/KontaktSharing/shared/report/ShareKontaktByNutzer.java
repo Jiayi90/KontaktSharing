@@ -1,6 +1,7 @@
 package de.hdm.KontaktSharing.shared.report;
 
 import java.io.Serializable;
+import java.util.Vector;
 /**
  * Report, der alle geteilte Kontakte des Nutzers darstellt.
  * Die Klasse traegt keine weiteren Attribute- und Methoden-Implementierungen,
@@ -14,5 +15,10 @@ import java.io.Serializable;
 public class ShareKontaktByNutzer extends CompositeReport implements Serializable{
 
 	  private static final long serialVersionUID = 1L;
+
+	public Vector<Row> getRows() {
+		
+		return null;
+	}
 
 }
