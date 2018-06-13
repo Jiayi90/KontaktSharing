@@ -168,6 +168,18 @@ public class PlainTextReportWriter extends ReportWriter {
 	    return this.getHeader() + this.reportText + this.getTrailer();
 	  }
 
+	@Override
+	public void process(ShareKontaktByNutzer r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void process(SelectedEigenschaftauspraegungByNutzer r) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 
