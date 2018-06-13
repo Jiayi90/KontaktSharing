@@ -8,8 +8,7 @@ import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
-import de.hdm.KontaktSharing.shared.report.AllKontaktByNutzer;
-import de.hdm.KontaktSharing.shared.report.AllKontaktReport;
+import de.hdm.KontaktSharing.shared.report.AllKontaktByNutzerReport;
 import de.hdm.KontaktSharing.shared.report.SelectedEigenschaftauspraegungByNutzer;
 import de.hdm.KontaktSharing.shared.report.ShareKontaktByNutzer;
 
@@ -44,54 +43,29 @@ import de.hdm.KontaktSharing.shared.report.ShareKontaktByNutzer;
  */
 @RemoteServiceRelativePath("reportgenerator")
 public interface ReportGenerator extends RemoteService {
+	  /**
+	   * Erstellen eines <code>AllKontaktByNutzer</code>-Reports. Dieser
+	   * Report-Typ stellt sämtliche Kontakte eines Nutzers dar.
+	   * 
+	   * @param Nutzer n und Eigenschaft e
+	   * @return das fertige Reportobjekt
+	   * @throws IllegalArgumentException
+	   */
+	  public abstract AllKontaktByNutzerReport createAllKontaktByNutzer(
+	      Nutzer n, Eigenschaft e) throws IllegalArgumentException;
 
-	/**
-	 * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von GWT
-	 * RPC zus�tzlich zum No Argument Constructor der implementierenden Klasse
-	 * KontaktSharingAdministrationImpl} notwendig. Bitte diese Methode direkt nach
-	 * der Instantiierung aufrufen.
-	 * 
-	 * @throws IllegalArgumentException
-	 */
-	public void init() throws IllegalArgumentException;
 
-	/**
-	 * Erstellen eines <code>AllKontaktByNutzer</code>-Reports. Dieser Report-Typ
-	 * stellt sämtliche Kontakte eines Nutzers dar.
-	 * 
-	 * @param Nutzer
-	 *            n und Eigenschaft e
-	 * @return das fertige Reportobjekt
-	 * @throws IllegalArgumentException
-	 */
-	public abstract AllKontaktByNutzer createAllKontaktByNutzer(Nutzer n, Eigenschaft e)
-			throws IllegalArgumentException;
+	AllKontaktByNutzerReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException;
 
-	/**
-	 * Erstellen eines <code>SelectedEigenschaftauspraegungByNutzer</code>-Reports.
-	 * Dieser Report-Typ stellt sämtliche ausgewaehlte Eigenschaftauspraegungen
-	 * eines Nutzers dar.
-	 * 
-	 * @param Nutzer
-	 *            n und Eigenschaftauspraegung ea
-	 * @return das fertige Reportobjekt
-	 * @throws IllegalArgumentException
-	 */
-	public abstract SelectedEigenschaftauspraegungByNutzer createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
-			Eigenschaftauspraegung ea) throws IllegalArgumentException;
 
-	/**
-	 * Erstellen eines <code>SelectedEigenschaftauspraegungByNutzer</code>-Reports.
-	 * Dieser Report-Typ stellt sämtliche geteilte Kontakte eines Nutzers dar.
-	 * 
-	 * @param Nutzer
-	 *            n und Kontakt k
-	 * @return das fertige Reportobjekt
-	 * @throws IllegalArgumentException
-	 */
-	public abstract ShareKontaktByNutzer createShareKontaktByNutzer(Nutzer n, Kontakt k)
-			throws IllegalArgumentException;
+	SelectedEigenschaftauspraegungByNutzer createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
+			Eigenschaftauspraegung ea);
 
-	public abstract AllKontaktReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException;
 
-}
+	ShareKontaktByNutzer createShareKontaktByNutzer(Nutzer n, Kontakt k);
+
+
+	void init();
+	  
+}  
+

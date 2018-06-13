@@ -97,14 +97,14 @@ implements ReportGenerator {
 	  */
 	 
 	 @Override
-	 public AllKontaktReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException {
+	 public AllKontaktByNutzerReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException {
 		 
 		 if (this.getKontaktSharing() == null)
 			 return null;
 		 
 		 // Zunächst wird ein leerer Report angelegt.
 		 
-		 AllKontaktReport result = new AllKontaktReport();
+		 AllKontaktByNutzerReport result = new AllKontaktByNutzerReport();
 		 
 		 // Jeder Report hat einen Titel
 		 
@@ -114,7 +114,7 @@ implements ReportGenerator {
 	 }
 
 	@Override
-	public AllKontaktByNutzer createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
+	public AllKontaktByNutzerReport createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
