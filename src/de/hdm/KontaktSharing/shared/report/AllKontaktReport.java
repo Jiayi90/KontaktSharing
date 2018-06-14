@@ -1,5 +1,7 @@
 package de.hdm.KontaktSharing.shared.report;
 
+import java.util.Date;
+
 public class AllKontaktReport {
 
 
@@ -31,6 +33,11 @@ public class AllKontaktReport {
 	public int getNumSubReports() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void setCreated(Date date) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

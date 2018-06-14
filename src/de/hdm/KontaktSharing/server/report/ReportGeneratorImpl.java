@@ -90,6 +90,31 @@ implements ReportGenerator {
 		  }
 	 
 	 /**
+	  * Hinzufügen des Report-Impressum. Diese Methode ist aus den
+	  * <code>create...</code>-Methoden ausgegliedert, da jede dieser Methoden
+	  * diese Tätigkeiten redundant auszuführen hätte. Stattdessen rufen die
+	  * <code>create...</code>-Methoden diese Methode auf.
+	  * 
+	  * @param r der um das Impressum zu erweiterende Report.
+	  */
+	 
+	 protected void addImprint(Report r) {
+		 
+		 // Das Impressum soll wesentliche Informationen über den Nutzer enthalten.
+		 
+		 Nutzer n = this.administration.getNutzer();
+		 
+		 // Das Impressum soll mehrzeilig sein.
+		 
+		 CompositeParagraph imprint = new CompositeParagraph();
+		 
+		 imprint.addSubParagraph(new SimpleParagraph(n.getEmail()));
+
+		 // Das eigentliche Hinzufügen des Impressums zum Report.
+		 r.setImprint(imprint);
+	 }
+	 
+	 /**
 	  * Erstellen von <code>AllKontaktReport<code>-Objekten.
 	  * 
 	  * @param k das Kontaktobjekt bzgl. dessen Report erstellt werden soll. 
@@ -109,6 +134,49 @@ implements ReportGenerator {
 		 // Jeder Report hat einen Titel
 		 
 		 result.setTitle("Alle Kontakte des Nutzers");
+		 
+		 // Impressum hinzufügen
+		 
+		 this.addImprint(result);
+		 
+		 /*
+		  * Das Datum der erstellung des Reports hinzufügen.
+		  *  Automatische Instantizierung des Date-Objekts new Date().
+		  */
+		 
+		 result.setCreated(new Date());
+
+	    /*
+	     * Ab hier erfolgt die Zusammenstellung der Kopfdaten (die Dinge, die oben
+	     * auf dem Report stehen) des Reports. Die Kopfdaten sind mehrzeilig, daher
+	     * die Verwendung von CompositeParagraph.
+	     */ 
+
+		 CompositeParagraph header = new CompositeParagraph();
+		 
+		 // KontaktId aufnehmen
+		 
+		 header.addSubParagraph(new SimpleParagraph("Kontakt-Id: " + k.getId()));
+		 
+		 result.setHeaderData(header);
+		 
+		 Row headline = new Row();
+		 
+		 headline.addColumn(new Column("Kontakt"));
+		 
+		 result.addRow(headline);
+		 
+		 Vector<Kontakt> kontakte = this.administration.getEigenschaftOf(k);
+		 
+		 for (Kontakt k : kontakte) {
+			 
+			 Row accountRow = new Row();
+			 
+			 accountRow.addColumn(new Column(String.valueOf(k.getId())));
+			 accountRow.addColumn(new Column(String.valueOf(this.administration.getEigenschaftauspraegungOf(e))));
+			 
+			 result.addRow(accountRow);
+		 }
 		 
 		 return result;
 	 }
