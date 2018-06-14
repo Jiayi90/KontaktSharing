@@ -39,5 +39,10 @@ public class AllKontaktReport extends CompositeReport implements Serializable {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public void setCreated(Date date) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
