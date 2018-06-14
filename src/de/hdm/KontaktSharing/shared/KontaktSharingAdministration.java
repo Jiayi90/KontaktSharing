@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
@@ -163,6 +164,14 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 */
 	
 	public Nutzer getNutzer() throws IllegalArgumentException;
+	
+	
+	/**
+	 * Prüfen des Nutzers
+	 * @param email
+	 * @return Nutzer
+	 */
+	public Nutzer checkNutzer(String email) ;
 	
 	
 }

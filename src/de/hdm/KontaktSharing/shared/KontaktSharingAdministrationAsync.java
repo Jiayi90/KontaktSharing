@@ -3,6 +3,7 @@ package de.hdm.KontaktSharing.shared;
 import java.util.ArrayList;
 import java.util.Vector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.hdm.KontaktSharing.shared.bo.*;
 
 public interface KontaktSharingAdministrationAsync {
@@ -46,5 +47,8 @@ public interface KontaktSharingAdministrationAsync {
 	void getNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
 
 	void getNutzer(AsyncCallback<Nutzer> callback);
+	
+	void checkNutzer(String email, AsyncCallback<Nutzer> callback);
+	
 
 }

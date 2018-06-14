@@ -25,7 +25,7 @@ public abstract class ReportWriter {
 	   * @param r der zu übersetzende Report
 	   */
 
-	public abstract void process(AllKontaktByNutzer r);
+	public abstract void process(AllKontaktByNutzerReport r);
 
 	/**
 	   * Übersetzen eines <code>AllKontaktReprt</code> in das
@@ -34,5 +34,25 @@ public abstract class ReportWriter {
 	   * @param r der zu übersetzende Report
 	   */
 	public abstract void process(AllKontaktReport r);
+	
+	
+	/**
+	   * Übersetzen eines <code>ShareKontaktByNutzer</code> in das
+	   * Zielformat.
+	   * 
+	   * @param r der zu übersetzende Report
+	   */
+	
+	public abstract void process(ShareKontaktByNutzer r); 
+		
+	
+	/**
+	   * Übersetzen eines <code>SelectedEigenschaftauspraegungByNutzer</code> in das
+	   * Zielformat.
+	   * 
+	   * @param r der zu übersetzende Report
+	   */
+	public abstract void process(SelectedEigenschaftauspraegungByNutzer r);
+
 
 }
