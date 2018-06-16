@@ -67,6 +67,10 @@ public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 	public Eigenschaft findByKey(int id) throws SQLException {
 		return this.findObject("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft WHERE idEigenschaft=" + id);
 	}
+	
+	public Eigenschaft findByBezeichnung(String bezeichnung) throws SQLException {
+		return this.findObject("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft WHERE Bezeichnung=" + bezeichnung);
+	}
 
 	public Vector<Eigenschaft> findAll() throws SQLException {
 		return this.findVector("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft");

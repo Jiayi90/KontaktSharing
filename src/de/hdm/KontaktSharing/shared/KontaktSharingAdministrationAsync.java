@@ -49,4 +49,8 @@ public interface KontaktSharingAdministrationAsync {
 	
 	void getAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
 
+	void getAllEigenschaftauspraegungByKontakt(Kontakt kontakt, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+	void createEigenschaftauspraegungen(Vector<Eigenschaftauspraegung> auspraegungen, AsyncCallback<Void> callback);
+
 }

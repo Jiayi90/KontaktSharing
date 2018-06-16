@@ -52,3 +52,16 @@ body, html {
 #content {
 	margin:1em;
 }
+
+#kontakt-list {
+	border-collapse: collapse;
+}
+
+
+#kontakt-list tr:first-child td {
+	background-color: #ceffce;
+}
+
+#kontakt-list td {
+	border: 1px solid lightgray;
+}

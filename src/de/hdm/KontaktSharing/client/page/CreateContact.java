@@ -1,22 +1,22 @@
 package de.hdm.KontaktSharing.client.page;
 
-import java.util.HashMap;
+import java.text.ParseException;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import com.google.appengine.repackaged.com.google.api.client.util.ArrayMap;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DatePicker;
-
 import de.hdm.KontaktSharing.client.ClientsideSettings;
+import de.hdm.KontaktSharing.client.widget.NavigationWidget;
 import de.hdm.KontaktSharing.client.widget.SmallButton;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
@@ -37,7 +37,7 @@ public class CreateContact extends CommonPage {
 		ClientsideSettings.getKontaktSharingAdministration().getAllEigenschaft(new RenderForm(table));
 		this.add(table);
 		Button saveButton = new Button("Neuen Kontakt erstellen");
-		saveButton.addClickHandler(new SaveKontakt(table));
+		saveButton.addClickHandler(new SaveEigenschaftenauspraegung(table));
 		this.add(saveButton);
 	}
 
@@ -142,7 +142,7 @@ public class CreateContact extends CommonPage {
 			if (typ == Typ.STRING) {
 				return new TextBox();
 			} else if (typ == Typ.DATE) {
-				return new DatePicker();
+				return new TextBox();
 			} else if (typ == Typ.INT) {
 				return new TextBox();
 			} else {
@@ -152,32 +152,15 @@ public class CreateContact extends CommonPage {
 
 	}
 	
-	class SaveKontakt implements ClickHandler {
-		FlexTable table;
-		public SaveKontakt(FlexTable table) {
-			this.table = table;
-		}
-		@Override
-		public void onClick(ClickEvent event) {
-			Kontakt kontakt = new Kontakt();
-			kontakt.setIdNutzer(1);
-			ClientsideSettings.getKontaktSharingAdministration().createKontakt(kontakt, new SaveEigenschaftenauspraegung(table));
-		}
-	}
 	
-	class SaveEigenschaftenauspraegung implements AsyncCallback<Kontakt> {
+	class SaveEigenschaftenauspraegung implements ClickHandler {
 		FlexTable table;
 		SaveEigenschaftenauspraegung(FlexTable table) {
 			this.table = table;
 		}
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
 
 		@Override
-		public void onSuccess(Kontakt kontakt) {
+		public void onClick(ClickEvent event) {
 			NavigableMap<Integer, Eigenschaft> eigenschaften= new TreeMap<Integer, Eigenschaft>();
 			for(int row = 0; row < table.getRowCount(); row ++) {
 				for(int col = 0; col < table.getCellCount(row); col++) {
@@ -193,6 +176,7 @@ public class CreateContact extends CommonPage {
 				}
 			}
 			
+			Vector<Eigenschaftauspraegung> auspraegungen = new Vector<Eigenschaftauspraegung>();
 			for(Map.Entry<Integer, Eigenschaft> current :eigenschaften.entrySet()) {
 				int fromRow = current.getKey();
 				Eigenschaft eigenschaft = current.getValue();
@@ -205,21 +189,51 @@ public class CreateContact extends CommonPage {
 			    	Typ typ = eigenschaft.getTyp();
 					Eigenschaftauspraegung eigausp = new Eigenschaftauspraegung();
 					eigausp.setIdEigenschaft(eigenschaft.getId());
-					eigausp.setIdKontakt(kontakt.getId());
 			    	if(typ == Typ.DATE) {
-			    		eigausp.setDatum(((DatePicker) widget).getValue());
+			    		String value = ((TextBox) widget).getValue();		    			
+			    		if(value == null || value.isEmpty())
+			    			continue;
+			    		DateTimeFormat simpleDateFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
+	
+						eigausp.setDatum(simpleDateFormat.parse(value));
 			    	} else if (typ == Typ.INT) {
-			    		eigausp.setZahl(Integer.valueOf(((TextBox) widget).getValue()));
+			    		String value = ((TextBox) widget).getValue();
+			    		if(value == null || value.isEmpty())
+			    			continue;
+			    		eigausp.setZahl(Integer.valueOf(value));
 			    	} else {
-			    		eigausp.setText(((TextBox) widget).getValue());
+			    		String value = ((TextBox) widget).getValue();
+			    		if(value == null || value.isEmpty())
+			    			continue;
+			    		eigausp.setText(value);
 			    	}
-			    	ClientsideSettings.getKontaktSharingAdministration().createEigenschaftauspraegung(eigausp, new KontaktCreated());
+			    	auspraegungen.add(eigausp);
 			    }
 			}
-		}
+			if(auspraegungen.stream().filter(auspraegung -> auspraegung.getIdEigenschaft() == 1).findFirst().isPresent()) {
+				Kontakt kontakt = new Kontakt();
+				kontakt.setIdNutzer(1);
+				ClientsideSettings.getKontaktSharingAdministration().createKontakt(kontakt, new AsyncCallback<Kontakt>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Kontakt newKontakt) {
+						auspraegungen.stream().forEach(auspraegung -> auspraegung.setIdKontakt(newKontakt.getId()));
+						ClientsideSettings.getKontaktSharingAdministration().createEigenschaftauspraegungen(auspraegungen, new KontaktCreated());	
+					}
+				});	
+			} else {
+				Window.alert("Bitte geben Sie dem Kontakt einen Name");
+			}
+		} 
 	}
 }
-class KontaktCreated implements AsyncCallback<Eigenschaftauspraegung> {
+class KontaktCreated implements AsyncCallback<Void> {
 
 	@Override
 	public void onFailure(Throwable caught) {
@@ -228,9 +242,8 @@ class KontaktCreated implements AsyncCallback<Eigenschaftauspraegung> {
 	}
 
 	@Override
-	public void onSuccess(Eigenschaftauspraegung result) {
-		// TODO Auto-generated method stub
-		
+	public void onSuccess(Void result) {
+		NavigationWidget.navigateTo(new ListContactsPage());
 	}
-	
+
 }

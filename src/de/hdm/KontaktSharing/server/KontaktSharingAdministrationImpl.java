@@ -346,10 +346,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 */
 
 	@Override
-	public void delete(Kontakt k) throws IllegalArgumentException, SQLException {
-
-		this.kontaktMapper.delete(k);
-
+	public void delete(Kontakt kontakt) throws IllegalArgumentException, SQLException {
+		this.eigenschaftauspraegungMapper.deleteByKontaktId(kontakt);
+		this.kontaktMapper.delete(kontakt);
 	}
 
 	public Teilhaberschaft createTeilhaberschaft() throws IllegalArgumentException {
@@ -507,6 +506,25 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	@Override
 	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException, Exception {
 		return this.eigenschaftMapper.findAll();
+	}
+
+	@Override
+	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegungByKontakt(Kontakt kontakt)
+			throws IllegalArgumentException, Exception {
+		return this.eigenschaftauspraegungMapper.findAllByIdKontakt(kontakt.getId());
+	}
+
+	@Override
+	public void createEigenschaftauspraegungen(Vector<Eigenschaftauspraegung> auspraegungen)
+			throws IllegalArgumentException, Exception {
+		auspraegungen.stream().forEach(ea -> {
+			try {
+				this.eigenschaftauspraegungMapper.insert(ea);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 	}
 
 }

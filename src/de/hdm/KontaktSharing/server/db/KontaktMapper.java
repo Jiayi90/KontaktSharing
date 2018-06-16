@@ -133,7 +133,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException 
 	 */
 	public void delete(Kontakt k) throws SQLException {
-		this.excecute("DELETE FROM kontakt " + "WHERE idKontakt=" + k.getId());
+		this.excecute("DELETE FROM kontakt WHERE idKontakt=" + k.getId());
 	}
 	
 	@Override

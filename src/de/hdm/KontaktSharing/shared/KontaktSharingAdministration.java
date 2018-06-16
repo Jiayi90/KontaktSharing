@@ -170,4 +170,8 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException, Exception;
 	
+	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegungByKontakt(Kontakt kontakt) throws IllegalArgumentException, Exception;
+	
+	public void createEigenschaftauspraegungen(Vector<Eigenschaftauspraegung> auspraegungen) throws IllegalArgumentException, Exception;
+	
 }

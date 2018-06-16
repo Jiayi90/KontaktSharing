@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
+import de.hdm.KontaktSharing.shared.bo.Kontakt;
 
 public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspraegung> {
 
@@ -69,8 +70,13 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	 */
 
 	public Eigenschaftauspraegung findByKey(int id) throws SQLException {
-		return this.findObject("SELECT idEigenschaftauspraegung, text, zahl, datum FROM eigenschaftauspraegung "
+		return this.findObject("SELECT idEigenschaftauspraegung, Eigenschaft_idEigenschaft, Kontakt_idKontakt, Text, Zahl, Datum FROM eigenschaftauspraegung "
 					+ "WHERE idEigenschaftauspraegung=" + id);
+	}
+	
+	public Vector<Eigenschaftauspraegung> findAllByIdKontakt(int id) throws SQLException {
+		return this.findVector("SELECT idEigenschaftauspraegung, Eigenschaft_idEigenschaft, Kontakt_idKontakt, Text, Zahl, Datum FROM eigenschaftauspraegung "
+				+ "WHERE Kontakt_idKontakt=" + id);
 	}
 
 	/**
@@ -82,7 +88,7 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	 * @throws SQLException 
 	 */
 	public Vector<Eigenschaftauspraegung> findAll() throws SQLException {
-		return this.findVector("SELECT idEigenschaftauspraegung, Zahl, Datum FROM Eigenschaftauspraegung");
+		return this.findVector("SELECT idEigenschaftauspraegung, Eigenschaft_idEigenschaft, Kontakt_idKontakt, Text, Zahl, Datum FROM Eigenschaftauspraegung");
 	}
 
 	public Eigenschaftauspraegung insert(Eigenschaftauspraegung ea) throws SQLException {
@@ -123,11 +129,21 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	public void delete(Eigenschaftauspraegung ea) throws SQLException {
 		this.excecute("DELETE FROM eigenschaftauspraegung " + "WHERE idEigenschaftauspraegung=" + ea.getId());
 	}
+	
+	public void deleteByKontaktId(Kontakt kontakt) throws SQLException {
+		this.excecute("DELETE FROM eigenschaftauspraegung WHERE Kontakt_idKontakt=" + kontakt.getId());
+	}
 
 	@Override
 	protected Eigenschaftauspraegung createFromResultSet(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();
+		auspraegung.setId(rs.getInt("idEigenschaftauspraegung"));
+		auspraegung.setDatum(rs.getDate("Datum"));
+		auspraegung.setIdEigenschaft(rs.getInt("Eigenschaft_idEigenschaft"));
+		auspraegung.setIdKontakt(rs.getInt("Kontakt_idKontakt"));
+		auspraegung.setText(rs.getString("Text"));
+		auspraegung.setZahl(rs.getInt("Zahl"));
+		return auspraegung;
 	}
 
 }
