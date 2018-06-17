@@ -104,9 +104,13 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	 * @throws SQLException 
 	 */
 	public Eigenschaftauspraegung update(Eigenschaftauspraegung ea) throws SQLException {
-		this.excecute("UPDATE eigenschaftauspraegung SET text ='" + ea.getText() + "', " + "zahl='"
-					+ ea.getZahl() + "', " + "datum='" + ea.getDatum() + "" + "WHERE idEigenschaftsausprägung = '"
-					+ ea.getId() + "';");
+		if(ea.getText() != null) {
+			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Text='%s' WHERE idEigenschaftauspraegung='%s';", ea.getText(), String.valueOf(ea.getId())));	
+		} else if(ea.getDatum() != null) {
+			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Datum='%s WHERE idEigenschaftauspraegung=%s;", ea.getDatum().toString(), ea.getId()));
+		} else if(ea.getZahl() != null) {
+			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Zahl=%s WHERE idEigenschaftauspraegung=%s;", ea.getZahl(), ea.getId()));
+		}
 		return this.findByKey(ea.getId());
 	}
 	
@@ -127,7 +131,7 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	 * @throws SQLException 
 	 */
 	public void delete(Eigenschaftauspraegung ea) throws SQLException {
-		this.excecute("DELETE FROM eigenschaftauspraegung " + "WHERE idEigenschaftauspraegung=" + ea.getId());
+		this.excecute("DELETE FROM eigenschaftauspraegung WHERE idEigenschaftauspraegung=" + ea.getId());
 	}
 	
 	public void deleteByKontaktId(Kontakt kontakt) throws SQLException {

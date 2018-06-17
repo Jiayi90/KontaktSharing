@@ -123,9 +123,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Speichern eines Eigenschaftauspraegung-Objekts in der Datenbank.
 	 * @param ea zu sicherndes Objekt
 	 * @throws IllegalArgumentException
+	 * @throws Exception 
 	 */
 	
-	public void update(Eigenschaftauspraegung ea) throws IllegalArgumentException;
+	public void update(Eigenschaftauspraegung ea) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * Löschen der übergebenen Eigenschaftauspraegung 

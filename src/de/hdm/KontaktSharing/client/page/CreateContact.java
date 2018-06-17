@@ -1,6 +1,5 @@
 package de.hdm.KontaktSharing.client.page;
 
-import java.text.ParseException;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import java.util.Map;
 import java.util.NavigableMap;

@@ -45,10 +45,11 @@ public abstract class CommonMapper<T> {
 	 * @param sqlStatement
 	 * @throws SQLException
 	 */
-	protected void excecute(String sqlStatement) throws SQLException {
+	protected void excecute(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
-		stmt.executeUpdate(String.format(sqlStatement));
+		List<String> list = Arrays.stream(args).map(arg -> (arg == null) ? "null" : "'" + arg + "'").collect(Collectors.toList());
+		stmt.executeUpdate(String.format(sqlStatement, list));
 	}
 
 	protected T insert(String sqlStatement, Object ... args) throws SQLException {

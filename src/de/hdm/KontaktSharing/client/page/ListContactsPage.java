@@ -87,6 +87,15 @@ public class ListContactsPage extends CommonPage {
 			public void onSuccess(Vector<Eigenschaftauspraegung> result) {
 				String name = findEigenschaftauspraegungById(result, 1).getText();
 				SmallButton editButton = new SmallButton("icons/edit.png");
+				editButton.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						NavigationWidget.navigateTo(new EditContact(kontakt));
+					}
+					
+				});
+				
 				SmallButton deleteButton = new SmallButton("icons/delete.png");
 				deleteButton.addClickHandler(new ClickHandler() {
 

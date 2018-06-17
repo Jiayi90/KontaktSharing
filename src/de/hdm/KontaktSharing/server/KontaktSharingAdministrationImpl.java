@@ -473,9 +473,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public void update(Eigenschaftauspraegung ea) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	public void update(Eigenschaftauspraegung ea) throws IllegalArgumentException, Exception {
+		this.eigenschaftauspraegungMapper.update(ea);		
 	}
 
 	@Override
