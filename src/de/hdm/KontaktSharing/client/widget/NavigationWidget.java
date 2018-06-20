@@ -9,8 +9,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import de.hdm.KontaktSharing.client.page.CommonPage;
+import de.hdm.KontaktSharing.client.page.ListContactListPage;
 import de.hdm.KontaktSharing.client.page.ListContactsPage;
 
 /**
@@ -40,9 +42,14 @@ public class NavigationWidget extends VerticalPanel{
 	private NavigationWidget(Panel container, CommonPage contentPanel) {
 		this.getElement().setId("navigator");
 		final Button contact = new Button("Kontakt", new ClickDisplayContactCallback());
-		final Button contactList = new Button("Kontaktliste");
+		contact.getElement().setClassName("navi-button");
+		final Button contactList = new Button("Kontaktliste", new ClickDisplayContactListCallback());
+		contactList.getElement().setClassName("navi-button");
+		final SimplePanel panel = new SimplePanel();
+		panel.getElement().setId("expander");
 		this.add(contact);
 		this.add(contactList);
+		this.add(panel);
 	}
 	
 	class ClickDisplayContactCallback implements ClickHandler {
@@ -50,5 +57,14 @@ public class NavigationWidget extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			NavigationWidget.navigateTo(new ListContactsPage());
 		}	
+	}
+	
+	class ClickDisplayContactListCallback implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			NavigationWidget.navigateTo(new ListContactListPage());
+		}
+		
 	}
 }

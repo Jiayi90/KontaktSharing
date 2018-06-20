@@ -9,10 +9,12 @@ import de.hdm.KontaktSharing.shared.KontaktSharingAdministrationAsync;
 
 public abstract class CommonPage extends VerticalPanel {
 	KontaktSharingAdministrationAsync kontaktSharingAdmin;
+	CommonPage page;
 
 	@Override
 	public void onLoad() {
 		kontaktSharingAdmin = ClientsideSettings.getKontaktSharingAdministration();
+		page = this;
 		/*
 		 * Bevor wir unsere eigene Formatierung veranslassen, überlassen wir es der
 		 * Superklasse eine Initialisierung vorzunehmen.

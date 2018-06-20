@@ -1,6 +1,7 @@
 package de.hdm.KontaktSharing.shared;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.KontaktSharing.shared.bo.*;
@@ -41,7 +42,7 @@ public interface KontaktSharingAdministrationAsync {
 
 	void getEigenschaftOf(Kontakt k, AsyncCallback<ArrayList<Eigenschaft>> callback);
 
-	void getKontaktOf(Kontaktliste kl, AsyncCallback<ArrayList<Kontakt>> callback);
+	void getKontaktOf(Kontaktliste kl, AsyncCallback<List<Kontakt>> callback);
 
 	void getNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
 
@@ -52,5 +53,18 @@ public interface KontaktSharingAdministrationAsync {
 	void getAllEigenschaftauspraegungByKontakt(Kontakt kontakt, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
 	void createEigenschaftauspraegungen(Vector<Eigenschaftauspraegung> auspraegungen, AsyncCallback<Void> callback);
+
+	void getAllKontaktlisten(AsyncCallback<Vector<Kontaktliste>> callback);
+	
+	void getAllKontaktlistenWithUserCount(AsyncCallback<Vector<Kontaktliste>> callback);
+	
+	void getKontaktlistenWithUserinformation(AsyncCallback<Kontaktliste> callback);
+
+	void getAllKontaktWithNameByLoggedInNutzer(AsyncCallback<Vector<Kontakt>> callback);
+
+	void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte, AsyncCallback<Void> callback);
+
+	void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte,
+			AsyncCallback<Void> callback);
 
 }

@@ -7,8 +7,6 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
@@ -31,10 +29,10 @@ public abstract class CommonMapper<T> {
 	 * @return null
 	 * @throws SQLException
 	 */
-	protected T findObject(String sqlStatement) throws SQLException {
+	protected T findObject(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(sqlStatement);
+		ResultSet rs = stmt.executeQuery(parseQueryString(sqlStatement, args));
 		if (rs.next()) {
 			return createFromResultSet(rs);
 		}
@@ -48,16 +46,13 @@ public abstract class CommonMapper<T> {
 	protected void excecute(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
-		List<String> list = Arrays.stream(args).map(arg -> (arg == null) ? "null" : "'" + arg + "'").collect(Collectors.toList());
-		stmt.executeUpdate(String.format(sqlStatement, list));
+		stmt.executeUpdate(parseQueryString(sqlStatement, args));
 	}
 
 	protected T insert(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
-		List<String> list = Arrays.stream(args).map(arg -> (arg == null) ? "null" : "'" + arg + "'").collect(Collectors.toList());
-		String sql = String.format(sqlStatement, list.toArray());
-		stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+		stmt.executeUpdate(parseQueryString(sqlStatement, args), Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = stmt.getGeneratedKeys();
 		if(rs.next()) {
 			int id = rs.getInt(1);
@@ -72,17 +67,22 @@ public abstract class CommonMapper<T> {
 	 * @return result
 	 * @throws SQLException
 	 */
-	protected Vector<T> findVector(String sqlStatement) throws SQLException {
+	protected Vector<T> findVector(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Vector<T> result = new Vector<T>();
 
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(sqlStatement);
+		ResultSet rs = stmt.executeQuery(parseQueryString(sqlStatement, args));
 		while (rs.next()) {
 			T n = createFromResultSet(rs);
 			result.addElement(n);
 		}
 		return result;
+	}
+	
+	private String parseQueryString(String sqlStatement, Object ... args) {
+		List<String> list = Arrays.stream(args).map(arg -> (arg == null) ? "null" : "'" + arg + "'").collect(Collectors.toList());
+		return String.format(sqlStatement, list.toArray());
 	}
 
 }

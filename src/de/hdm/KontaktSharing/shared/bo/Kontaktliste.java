@@ -20,6 +20,11 @@ public class Kontaktliste extends BusinessObject implements TeilbaresObjekt{
 	 * In der Kontaktliste werden Kontakte gespeichert
 	 */
 	private List<Kontakt> kontakte;
+	
+	/**
+	 * Die Id des Nutzers, der die Liste erstellt hat
+	 */
+	private int nutzerId;
 
 	/**
 	 * No-Argument Constructor
@@ -58,4 +63,13 @@ public class Kontaktliste extends BusinessObject implements TeilbaresObjekt{
 		this.kontaktlistenname = kontaktlistenname;
 	}
 
+	public int getNutzerId() {
+		return nutzerId;
+	}
+
+	public void setNutzerId(int nutzerId) {
+		this.nutzerId = nutzerId;
+	}
+
+	
 }

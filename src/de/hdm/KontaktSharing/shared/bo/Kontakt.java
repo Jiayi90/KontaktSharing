@@ -2,7 +2,7 @@ package de.hdm.KontaktSharing.shared.bo;
 
 import java.sql.SQLException;
 import java.util.Date;
-
+import java.util.Vector;
 import java.sql.ResultSet;
 
 /**
@@ -25,6 +25,8 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 	private Date modifikationsdatum;
 	
 	private int idNutzer;
+	
+	private Vector<Eigenschaftauspraegung> eigenschaftauspraegung;
 
 	/**
 	 * No Argument Constructor
@@ -76,5 +78,24 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 	public void setIdNutzer(int idNutzer) {
 		this.idNutzer = idNutzer;
 	}
+
+	public Vector<Eigenschaftauspraegung> getEigenschaftauspraegung() {
+		return eigenschaftauspraegung;
+	}
+	
+	public String getName() {
+		return eigenschaftauspraegung
+				.stream()
+				.filter(eigenschaft -> eigenschaft.getIdEigenschaft() == 1)
+				.map(eigenschaft -> eigenschaft.getText())
+				.findFirst()
+				.orElse(null);
+	}
+
+	public void setEigenschaftauspraegung(Vector<Eigenschaftauspraegung> eigenschaftauspraegung) {
+		this.eigenschaftauspraegung = eigenschaftauspraegung;
+	}
+	
+	
 
 }

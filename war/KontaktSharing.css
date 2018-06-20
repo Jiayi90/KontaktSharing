@@ -65,3 +65,13 @@ body, html {
 #kontakt-list td {
 	border: 1px solid lightgray;
 }
+
+#expander {
+	height: calc(100vh - 200px);
+}
+
+.navi-button {
+	height: 32px;
+    width: 150px;
+    margin-top: 8px;
+}

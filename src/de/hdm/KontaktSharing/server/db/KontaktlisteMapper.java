@@ -1,15 +1,12 @@
 package de.hdm.KontaktSharing.server.db;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 
-import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 
-public class KontaktlisteMapper {
+public class KontaktlisteMapper extends CommonMapper<Kontaktliste>  {
 
 	/**
 	 * Die Klasse KontaktlisteMapper wird nur einmal instantiiert. Man spricht
@@ -54,81 +51,22 @@ public class KontaktlisteMapper {
 		return kontaktlisteMapper;
 	}
 
-	public Kontaktliste findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery(
-					"SELECT idKontaktliste, kontaktlistenname FROM eigenschaft " + "WHERE idEigenschaft=" + id);
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
-			 * Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Kontaktliste kl = new Kontaktliste();
-				kl.setId(rs.getInt("idKontaktliste"));
-				return kl;
-			}
-		}
-
-		catch (SQLException e2) {
-			e2.printStackTrace();
-			return null;
-		}
-
-		return null;
+	@Override
+	public Kontaktliste findByKey(int id) throws SQLException {
+		return this.findObject("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste WHERE idKontaktliste=" + id);
 	}
 
-	public Vector<Kontaktliste> findAll() {
-		Connection con = DBConnection.connection();
-
-		// Ergebnisvektor vorbereiten
-		Vector<Kontaktliste> result = new Vector<Kontaktliste>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT idKontaktliste, kontaktlistenname FROM Kontaktliste");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Kontaktliste-Objekt
-			// erstellt.
-			while (rs.next()) {
-				Kontaktliste kl = new Kontaktliste();
-				kl.setId(rs.getInt("idKontaktliste"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(kl);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
+	@Override
+	public Vector<Kontaktliste> findAll() throws SQLException {
+		return this.findVector("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste");
 	}
 
-	public Kontaktliste insert(Kontaktliste kl) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate(
-					"INSERT INTO kontaktliste (Kontaktlistenname) " + "VALUES (" + kl.getKontaktlistenname() + ")");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		return kl;
+	public Kontaktliste insert(String name, int idNutzer) throws SQLException {
+		return this.insert("INSERT INTO kontaktliste (Kontaktlistenname, nutzer_idNutzer) VALUES (%s, %s)", name, idNutzer);
+	}
+	
+	public Kontaktliste insert(Kontaktliste kl) throws SQLException {
+		return this.insert(kl.getKontaktlistenname(), kl.getNutzerId());
 	}
 
 	/**
@@ -137,22 +75,11 @@ public class KontaktlisteMapper {
 	 * @param kl
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
+	 * @throws SQLException 
 	 */
-	public Kontaktliste update(Kontaktliste kl) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("UPDATE kontaktliste SET kontaktlistenname ='" + kl.getKontaktlistenname() + ";"
-					+ "WHERE idKontaktliste = '" + kl.getId() + "'");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Um Analogie zu insert(Kontaktliste kl) zu wahren, geben wir kl zurück
-		return kl;
+	public Kontaktliste update(Kontaktliste kl) throws SQLException {
+		this.excecute("UPDATE kontaktliste SET Kontaktlistenname=%s, nutzer_idNutzer=%s WHERE idKontaktliste=%s", kl.getKontaktlistenname(), kl.getId());
+		return this.findByKey(kl.getId());		
 	}
 
 	/**
@@ -160,18 +87,23 @@ public class KontaktlisteMapper {
 	 * 
 	 * @param kl
 	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException 
 	 */
-	public void delete(Kontaktliste kl) {
-		Connection con = DBConnection.connection();
+	public void delete(Kontaktliste kl) throws SQLException {
+		this.excecute("DELETE FROM kontaktliste WHERE idKontaktliste=%s", kl.getId());
+	}
+	
+	public void updateName(int id, String name) throws SQLException {
+		this.excecute("UPDATE kontaktliste SET Kontaktlistenname=%s WHERE idKontaktliste=%s", name, id);
+	}
 
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM kontaktliste " + "WHERE idKontaktliste=" + kl.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+	@Override
+	protected Kontaktliste createFromResultSet(ResultSet rs) throws SQLException {
+		Kontaktliste liste = new Kontaktliste();
+		liste.setId(rs.getInt("idKontaktliste"));
+		liste.setKontaktlistenname(rs.getString("Kontaktlistenname"));
+		liste.setNutzerId(rs.getInt("nutzer_idNutzer"));
+		return liste;
 	}
 
 }

@@ -3,6 +3,7 @@ package de.hdm.KontaktSharing.server;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 
@@ -64,6 +65,13 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 */
 
 	private TeilhaberschaftMapper teilhaberschaftMapper = null;
+	
+	/**
+	 * Referenz auf den ListenstrukturMapper, der Listenstrukturobjekte mit der
+	 * Datenbank abgleicht.
+	 */
+	
+	private ListenstrukturMapper listenstrukturMapper = null;
 
 	public KontaktSharingAdministrationImpl() throws IllegalArgumentException {
 
@@ -87,6 +95,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.kontaktlisteMapper = KontaktlisteMapper.kontaktlisteMapper();
 		this.kontaktMapper = KontaktMapper.kontaktMapper();
 		this.teilhaberschaftMapper = TeilhaberschaftMapper.teilhaberschaftMapper();
+		this.listenstrukturMapper = ListenstrukturMapper.listenstrukturMapper();
 
 	}
 
@@ -245,7 +254,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	}
 
-	public Kontaktliste createKontaktliste(String kontaktlistenname) throws IllegalArgumentException {
+	public Kontaktliste createKontaktliste(String kontaktlistenname) throws IllegalArgumentException, Exception {
 
 		Kontaktliste kl = new Kontaktliste();
 		kl.setKontaktlistenname(kontaktlistenname);
@@ -266,15 +275,16 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Auslesen einer Kontaktliste anhand seiner ID
 	 */
 
-	public Kontaktliste getKontaktlisteById(int id) throws IllegalArgumentException {
+	public Kontaktliste getKontaktlisteById(int id) throws IllegalArgumentException, Exception {
 		return this.kontaktlisteMapper.findByKey(id);
 	}
 
 	/**
 	 * Auslesen aller Kontaktlisten
+	 * @throws Exception 
 	 */
 
-	public Vector<Kontaktliste> getAllKontaktliste() throws IllegalArgumentException {
+	public Vector<Kontaktliste> getAllKontaktliste() throws IllegalArgumentException, Exception {
 		return this.kontaktlisteMapper.findAll();
 
 	}
@@ -283,7 +293,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Speichern einer Kontaktliste
 	 */
 
-	public void save(Kontaktliste kl) throws IllegalArgumentException {
+	public void save(Kontaktliste kl) throws IllegalArgumentException, Exception {
 		kontaktlisteMapper.update(kl);
 	}
 
@@ -291,8 +301,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Löschen einer Kontaktliste
 	 */
 
-	public void delete(Kontaktliste kl) throws IllegalArgumentException {
+	public void delete(Kontaktliste kl) throws IllegalArgumentException, Exception {
 
+		this.listenstrukturMapper.delete(kl);
 		this.kontaktlisteMapper.delete(kl);
 
 	}
@@ -478,9 +489,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public ArrayList<Kontakt> getKontaktOf(Kontaktliste kl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Kontakt> getKontaktOf(Kontaktliste kl) throws IllegalArgumentException, Exception {
+		return this.kontaktMapper.findAllByKontaktlistId(kl.getId());
 	}
 
 	@Override
@@ -519,6 +529,83 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		auspraegungen.stream().forEach(ea -> {
 			try {
 				this.eigenschaftauspraegungMapper.insert(ea);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Override
+	public Vector<Kontaktliste> getAllKontaktlisten() throws IllegalArgumentException, Exception {
+		return this.kontaktlisteMapper.findAll();
+	}
+
+	@Override
+	public Vector<Kontakt> getAllKontaktWithNameByLoggedInNutzer() throws IllegalArgumentException, Exception {
+		Vector<Kontakt> kontakte = this.getAllKontaktByLoggedInNutzer();
+		kontakte.stream().forEach(kontakt -> {
+			try {
+				kontakt.setEigenschaftauspraegung(this.getAllEigenschaftauspraegungByKontakt(kontakt));
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		return kontakte;
+	}
+
+	@Override
+	public void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte)
+			throws IllegalArgumentException, Exception {
+		Kontaktliste kl = this.kontaktlisteMapper.insert(name, 1);
+		idsKontakte.stream().forEach(id -> {
+			try {
+				listenstrukturMapper.insert(kl.getId(), id);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		
+	}
+
+	@Override
+	public Vector<Kontaktliste> getAllKontaktlistenWithUserCount() throws IllegalArgumentException, Exception {
+		Vector<Kontaktliste> listen = this.getAllKontaktlisten();
+		listen.stream().forEach(liste -> {
+			List<Kontakt> kontakte;
+			try {
+				kontakte = this.getKontaktOf(liste);
+				liste.setKontakte(kontakte);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		return listen;
+	}
+
+	@Override
+	public Kontaktliste getKontaktlistenWithUserinformation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte)
+			throws IllegalArgumentException, Exception {
+		this.kontaktlisteMapper.updateName(id, name);
+		this.listenstrukturMapper.delete(id);
+		idsKontakte.stream().forEach(idKontakt -> {
+			try {
+				this.listenstrukturMapper.insert(id, idKontakt);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

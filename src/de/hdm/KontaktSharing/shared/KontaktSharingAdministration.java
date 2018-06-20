@@ -2,6 +2,7 @@ package de.hdm.KontaktSharing.shared;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -19,6 +20,8 @@ public interface KontaktSharingAdministration extends RemoteService {
 	public void init() throws IllegalArgumentException;
 	
 	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws IllegalArgumentException, Exception;
+	
+	public Vector<Kontakt> getAllKontaktWithNameByLoggedInNutzer() throws IllegalArgumentException, Exception;
 
 	/**
 	 * Ein Nutzer anlegen
@@ -82,9 +85,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Löschen der übergebenen Kontaktliste 
 	 * @param kl das zu löschende Kontakt
 	 * @throws IllegalArgumentException
+	 * @throws Exception 
 	 */
 	
-	public void delete(Kontaktliste kl) throws IllegalArgumentException;
+	public void delete(Kontaktliste kl) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * Eine neue Eigenschaft für den Kontakt erstellen.
@@ -141,9 +145,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Auslesen sämtlicher Kontakte aus einer Kontaktliste
 	 * @param Kontaktliste kl
 	 * @return Eine Liste aller Kontakte aus der Kontaktliste
+	 * @throws Exception 
 	 */
 	
-	public ArrayList<Kontakt> getKontaktOf(Kontaktliste kl) throws IllegalArgumentException;
+	public List<Kontakt> getKontaktOf(Kontaktliste kl) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * Auslesen sämtlicher Eigenschaften aus einem Kontakt
@@ -174,5 +179,15 @@ public interface KontaktSharingAdministration extends RemoteService {
 	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegungByKontakt(Kontakt kontakt) throws IllegalArgumentException, Exception;
 	
 	public void createEigenschaftauspraegungen(Vector<Eigenschaftauspraegung> auspraegungen) throws IllegalArgumentException, Exception;
+	
+	public Vector<Kontaktliste> getAllKontaktlisten() throws IllegalArgumentException, Exception;
+	
+	public void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte) throws IllegalArgumentException, Exception;
+	
+	public void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte) throws IllegalArgumentException, Exception;
+
+	public Vector<Kontaktliste> getAllKontaktlistenWithUserCount() throws IllegalArgumentException, Exception;
+
+	public Kontaktliste getKontaktlistenWithUserinformation();
 	
 }

@@ -90,6 +90,10 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
 	}
 	
+	public Vector<Kontakt> findAllByKontaktlistId(int id) throws SQLException {
+		return this.findVector("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM kontakt INNER JOIN listenstruktur WHERE kontakt.idKontakt=listenstruktur.Kontakt_idKontakt AND listenstruktur.Kontaktliste_idKontaktliste=%s", id);
+	}
+	
 	/**
 	 * Einfügen eines Kontaktes in der DB
 	 * @param k
@@ -135,6 +139,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	public void delete(Kontakt k) throws SQLException {
 		this.excecute("DELETE FROM kontakt WHERE idKontakt=" + k.getId());
 	}
+	
 	
 	@Override
 	protected Kontakt createFromResultSet(ResultSet rs) throws SQLException {
