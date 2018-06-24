@@ -39,5 +39,15 @@ public class AllKontaktReport {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void addRow(Row accountRow) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setHeaderData(CompositeParagraph header) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
