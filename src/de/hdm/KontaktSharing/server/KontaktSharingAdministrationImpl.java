@@ -535,4 +535,10 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		return null;
 	}
 
+	@Override
+	public Nutzer checkNutzer(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

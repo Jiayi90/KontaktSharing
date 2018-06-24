@@ -14,7 +14,7 @@ import java.util.Vector;
  * @author Thies, Tran
  */
 
-public class AllKontaktByNutzer extends CompositeReport implements Serializable{
+public class AllKontaktByNutzerReport extends CompositeReport implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

@@ -70,7 +70,7 @@ public class Report implements Serializable {
 	   * 
 	   * @return Text der Kopfdaten.
 	   */
-	  public Paragraph getHeaderData() {
+	  public Object getHeaderData() {
 	    return this.headerData;
 	  }
 

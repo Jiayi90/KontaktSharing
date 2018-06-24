@@ -130,14 +130,14 @@ implements ReportGenerator {
 	  */
 	 
 	 @Override
-	 public AllKontaktReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException {
+	 public AllKontaktByNutzerReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException {
 		 
 		 if (this.getKontaktSharing() == null)
 			 return null;
 		 
 		 // Zunächst wird ein leerer Report angelegt.
 		 
-		 AllKontaktReport result = new AllKontaktReport();
+		 AllKontaktByNutzerReport result = new AllKontaktByNutzerReport();
 		 
 		 // Jeder Report hat einen Titel
 		 
@@ -172,7 +172,7 @@ implements ReportGenerator {
 		 
 		 headline.addColumn(new Column("Kontakt"));
 		 
-		 result.addRow(headline);
+//		 result.addRow(headline);
 		 
 		 ArrayList<Eigenschaftauspraegung> kontakte = this.administration.getEigenschaftOf(k);
 		 
@@ -183,7 +183,7 @@ implements ReportGenerator {
 			 accountRow.addColumn(new Column(String.valueOf(k.getId())));
 			 accountRow.addColumn(new Column(String.valueOf(this.administration.getEigenschaftauspraegungOf(kontakt))));
 			 
-			 result.addRow(accountRow);
+//			 result.addRow(accountRow);
 		 }
 		 
 		 return result;
@@ -195,7 +195,7 @@ implements ReportGenerator {
 	}
 
 	@Override
-	public AllKontaktByNutzer createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
+	public AllKontaktByNutzerReport createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
