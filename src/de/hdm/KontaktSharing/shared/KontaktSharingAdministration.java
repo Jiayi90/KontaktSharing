@@ -147,7 +147,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * @return Eine Liste aller Eigenschaften aus dem Kontakt
 	 */
 	
-	public ArrayList<Eigenschaft> getEigenschaftOf(Kontakt k) throws IllegalArgumentException;
+	public ArrayList<Eigenschaftauspraegung> getEigenschaftOf(Kontakt k) throws IllegalArgumentException;
 	
 	/**
 	 * Auslesen sämtlicher Eigenschaftauspraegungen aus einer Eigenschaft
@@ -155,7 +155,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * @return Eine Liste aller Eigenschaftauspraegungen aus einer Eigenschaft
 	 */
 	
-	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaft e) throws IllegalArgumentException;
+	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaftauspraegung e) throws IllegalArgumentException;
 
 	/**
 	 * Auslesen des Nutzers

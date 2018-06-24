@@ -1,8 +1,13 @@
 package de.hdm.KontaktSharing.server.report;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import de.hdm.KontaktSharing.client.KontaktSharing;
 import de.hdm.KontaktSharing.server.KontaktSharingAdministrationImpl;
 import de.hdm.KontaktSharing.shared.*;
 import de.hdm.KontaktSharing.shared.bo.*;
@@ -31,6 +36,8 @@ implements ReportGenerator {
 	
 	private KontaktSharingAdministration administration = null;
 	
+    KontaktSharing ks = GWT.create(KontaktSharing.class);
+
 	 /**
 	   * <p>
 	   * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
@@ -69,6 +76,7 @@ implements ReportGenerator {
 		KontaktSharingAdministrationImpl a = new KontaktSharingAdministrationImpl();
 	    a.init();
 	    this.administration = a;
+	    
 	  }
 
 	 /**
@@ -166,20 +174,25 @@ implements ReportGenerator {
 		 
 		 result.addRow(headline);
 		 
-		 Vector<Kontakt> kontakte = this.administration.getEigenschaftOf(k);
+		 ArrayList<Eigenschaftauspraegung> kontakte = this.administration.getEigenschaftOf(k);
 		 
-		 for (Kontakt k : kontakte) {
+		 for (Eigenschaftauspraegung kontakt : kontakte) {
 			 
 			 Row accountRow = new Row();
 			 
 			 accountRow.addColumn(new Column(String.valueOf(k.getId())));
-			 accountRow.addColumn(new Column(String.valueOf(this.administration.getEigenschaftauspraegungOf(e))));
+			 accountRow.addColumn(new Column(String.valueOf(this.administration.getEigenschaftauspraegungOf(kontakt))));
 			 
 			 result.addRow(accountRow);
 		 }
 		 
 		 return result;
 	 }
+
+	private void addImprint(AllKontaktReport result) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public AllKontaktByNutzer createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
