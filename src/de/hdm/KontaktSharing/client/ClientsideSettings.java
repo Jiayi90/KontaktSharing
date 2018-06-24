@@ -14,7 +14,7 @@ import de.hdm.KontaktSharing.shared.ReportGenerator;
 import de.hdm.KontaktSharing.shared.ReportGeneratorAsync;
 
 /**
- * Klasse mit Eigenschaften und Diensten, die für alle Client-seitigen Klassen
+ * Klasse mit Eigenschaften und Diensten, die fï¿½r alle Client-seitigen Klassen
  * relevant sind.
  * 
  * @author thies & jiayi
@@ -79,21 +79,21 @@ public class ClientsideSettings extends CommonSettings {
 	 * <h2>HINWEIS:</h2>
 	 * <p>
 	 * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch
-	 * bedarfsweise Einfügen und Auskommentieren etwa von
-	 * <code>System.out.println(...);</code> steuern. Sie belassen künftig
-	 * sämtliches Logging im Code und können ohne abermaliges Kompilieren den Log
-	 * Level "von außen" durch die Datei <code>logging.properties</code> steuern.
+	 * bedarfsweise Einfï¿½gen und Auskommentieren etwa von
+	 * <code>System.out.println(...);</code> steuern. Sie belassen kï¿½nftig
+	 * sï¿½mtliches Logging im Code und kï¿½nnen ohne abermaliges Kompilieren den Log
+	 * Level "von auï¿½en" durch die Datei <code>logging.properties</code> steuern.
 	 * Sie finden diese Datei in Ihrem <code>war/WEB-INF</code>-Ordner. Der dort
-	 * standardmäßig vorgegebene Log Level ist <code>WARN</code>. Dies würde
+	 * standardmï¿½ï¿½ig vorgegebene Log Level ist <code>WARN</code>. Dies wï¿½rde
 	 * bedeuten, dass Sie keine <code>INFO</code>-Meldungen wohl aber
 	 * <code>WARN</code>- und <code>SEVERE</code>-Meldungen erhielten. Wenn Sie also
-	 * auch Log des Levels <code>INFO</code> wollten, müssten Sie in dieser Datei
+	 * auch Log des Levels <code>INFO</code> wollten, mï¿½ssten Sie in dieser Datei
 	 * <code>.level = INFO</code> setzen.
 	 * </p>
 	 * 
 	 * Weitere Infos siehe Dokumentation zu Java Logging.
 	 * 
-	 * @return die Logger-Instanz für die Server-Seite
+	 * @return die Logger-Instanz fï¿½r die Server-Seite
 	 */
 	public static Logger getLogger() {
 		return log;
@@ -104,7 +104,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * Anlegen und Auslesen der applikationsweit eindeutigen BankAdministration.
 	 * Diese Methode erstellt die BankAdministration, sofern sie noch nicht
 	 * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
-	 * zuvor angelegte Objekt zurückgegeben.
+	 * zuvor angelegte Objekt zurï¿½ckgegeben.
 	 * </p>
 	 * 
 	 * <p>
@@ -120,11 +120,11 @@ public class ClientsideSettings extends CommonSettings {
 	public static KontaktSharingAdministrationAsync getKontaktSharingAdministration() {
 		// Gab es bislang noch keine BankAdministration-Instanz, dann...
 		if (administration == null) {
-			// Zunächst instantiieren wir BankAdministration
+			// Zunï¿½chst instantiieren wir BankAdministration
 			administration = GWT.create(KontaktSharingAdministration.class);
 		}
 
-		// So, nun brauchen wir die BankAdministration nur noch zurückzugeben.
+		// So, nun brauchen wir die BankAdministration nur noch zurï¿½ckzugeben.
 		return administration;
 	}
 
@@ -140,7 +140,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * Anlegen und Auslesen des applikationsweit eindeutigen ReportGenerators. Diese
 	 * Methode erstellt den ReportGenerator, sofern dieser noch nicht existiert. Bei
 	 * wiederholtem Aufruf dieser Methode wird stets das bereits zuvor angelegte
-	 * Objekt zurückgegeben.
+	 * Objekt zurï¿½ckgegeben.
 	 * </p>
 	 * 
 	 * <p>
@@ -154,28 +154,29 @@ public class ClientsideSettings extends CommonSettings {
 	 * @since 28.02.2012
 	 */
 	public static ReportGeneratorAsync getReportGenerator() {
-		// Gab es bislang noch keine ReportGenerator-Instanz, dann...
-		if (reportGenerator == null) {
-			// Zunächst instantiieren wir ReportGenerator
-			reportGenerator = GWT.create(ReportGenerator.class);
-
-			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
-				@Override
-				public void onFailure(Throwable caught) {
-					ClientsideSettings.getLogger().severe("Der ReportGenerator konnte nicht initialisiert werden!");
-				}
-
-				@Override
-				public void onSuccess(Void result) {
-					ClientsideSettings.getLogger().info("Der ReportGenerator wurde initialisiert.");
-				}
-			};
-
-			reportGenerator.init(initReportGeneratorCallback);
-		}
-
-		// So, nun brauchen wir den ReportGenerator nur noch zurückzugeben.
-		return reportGenerator;
+//		// Gab es bislang noch keine ReportGenerator-Instanz, dann...
+//		if (reportGenerator == null) {
+//			// Zunï¿½chst instantiieren wir ReportGenerator
+//			reportGenerator = GWT.create(ReportGenerator.class);
+//
+//			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
+//				@Override
+//				public void onFailure(Throwable caught) {
+//					ClientsideSettings.getLogger().severe("Der ReportGenerator konnte nicht initialisiert werden!");
+//				}
+//
+//				@Override
+//				public void onSuccess(Void result) {
+//					ClientsideSettings.getLogger().info("Der ReportGenerator wurde initialisiert.");
+//				}
+//			};
+//
+//			reportGenerator.init(initReportGeneratorCallback);
+//		}
+//
+//		// So, nun brauchen wir den ReportGenerator nur noch zurï¿½ckzugeben.
+//		return reportGenerator;
+		return null;
 	}
 
 }

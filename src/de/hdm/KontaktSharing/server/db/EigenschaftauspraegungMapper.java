@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 
@@ -98,15 +99,15 @@ public class EigenschaftauspraegungMapper {
 	/**
 	 * Auslesen aller Eigenschaftsausprägung.
 	 * 
-	 * @return Ein Vektor mit Eigenschaftsausprägung-Objekten, die sämtliche
+	 * @return Ein ArrayList mit Eigenschaftsausprägung-Objekten, die sämtliche
 	 *         Eigenschaftauspraegungen repräsentieren. Bei evtl. Exceptions wird ein
-	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
+	 *         partiell gefüllter oder ggf. auch leerer ArrayList zurückgeliefert.
 	 */
-	public Vector<Eigenschaftauspraegung> findAll() {
+	public ArrayList<Eigenschaftauspraegung> findAll() {
 		Connection con = DBConnection.connection();
 
 		// Ergebnisvektor vorbereiten
-		Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+		ArrayList<Eigenschaftauspraegung> result = new ArrayList<Eigenschaftauspraegung>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -120,7 +121,7 @@ public class EigenschaftauspraegungMapper {
 				ea.setId(rs.getInt("idEigenschaftauspraegung"));
 
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(ea);
+				result.add(ea);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();

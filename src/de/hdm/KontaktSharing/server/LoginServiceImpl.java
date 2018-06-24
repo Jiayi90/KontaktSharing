@@ -9,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class LoginServiceImpl extends RemoteServiceServlet implements LoginService {
 
+
 	/**
 	 * Dient zum Serialisieren von Objekten fuer eine RPC faehigen austausch
 	 * zwischen Server und Client.

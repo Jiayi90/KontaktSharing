@@ -38,9 +38,10 @@ public interface KontaktSharingAdministrationAsync {
 
 	void update(Kontakt k, AsyncCallback<Void> callback);
 
-	void getEigenschaftauspraegungOf(Eigenschaft e, AsyncCallback<ArrayList<Eigenschaftauspraegung>> callback);
+	void getEigenschaftauspraegungOf(Eigenschaftauspraegung e,
+			AsyncCallback<ArrayList<Eigenschaftauspraegung>> callback);
 
-	void getEigenschaftOf(Kontakt k, AsyncCallback<ArrayList<Eigenschaft>> callback);
+	void getEigenschaftOf(Kontakt k, AsyncCallback<ArrayList<Eigenschaftauspraegung>> callback);
 
 	void getKontaktOf(Kontaktliste kl, AsyncCallback<ArrayList<Kontakt>> callback);
 

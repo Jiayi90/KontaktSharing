@@ -74,6 +74,8 @@ public class KontaktSharing implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
+		
+		//loadPanel();
 		// Check login status using login service.
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		// Start-URL der Anwendung GWT.getHostPageBaseURL() !!!
