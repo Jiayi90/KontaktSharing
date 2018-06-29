@@ -63,11 +63,8 @@ public class KontaktSharing implements EntryPoint {
 
 		loginButton.addClickHandler(new loginButtonClickHandler());
 		loginButton.setStylePrimaryName("loginButton");
-		Widget welcomeMessage = null;
-		welcomeMessage.setStylePrimaryName("landingPageWelcomeMessage");
 		loginPanel.setStylePrimaryName("loginPanel");
 		loginMessage.setStylePrimaryName("landingPageLoginMessage");
-		loginPanel.add(welcomeMessage);
 		loginPanel.add(loginMessage);
 		loginPanel.add(loginButton);
 		RootPanel.get("content").add(loginPanel);
@@ -87,15 +84,7 @@ public class KontaktSharing implements EntryPoint {
 			}
 		});
 		
-		HorizontalPanel flowpanel = new HorizontalPanel();
-		// Cookies.setCookie("logout", loginInfo.getLogoutUrl());
-		textBox.setStylePrimaryName("searchTextBox");
-		textBox.setMaxLength(100);
-		textBox.getElement().setPropertyString("placeholder", " Schnellsuche...");
-		flowpanel.add(textBox);
-		flowpanel.setStylePrimaryName("logoutBarContainer");
-		RootPanel.get("logout").add(flowpanel);// hPanelBar.add(logoutButton);
-		RootPanel.get("leftmenutree").clear();
+		
 		AllKontaktReport kontaktView = new AllKontaktReport();
 
 		// AUFRUF DES BAUMS
@@ -141,7 +130,7 @@ public class KontaktSharing implements EntryPoint {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Fehler beim Login: " + caught.getMessage());
+			Window.alert("Login-Fehler!!: " + caught.getMessage());
 		}
 
 		@Override
@@ -161,7 +150,7 @@ public class KontaktSharing implements EntryPoint {
 
 	class CreateNutzerDialogBox extends DialogBox {
 		private Label frage = new Label(
-				"Sie haben noch keinen Nutzer auf diesem Kontaktmanager. MÃ¶chten Sie einen neuen Nutzer anlegen?");
+				"Sie haben noch keinen Nutzer auf der KontaktSharing Plattform. Moechten Sie einen neuen Nutzer anlegen?");
 		private Button ja = new Button("Ja");
 		private Button nein = new Button("Nein");
 		private String googleMail = "";
@@ -182,12 +171,12 @@ public class KontaktSharing implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Ihr User konnte nicht erstellt werden" + caught.getMessage());
+				Window.alert("User konnte nicht angelegt werden" + caught.getMessage());
 			}
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				Window.alert("Ihr Nutzer wurde erfolgreich angelegt");
+				Window.alert("Dein Nutzer-Account wurde erfolgreich angelegt");
 				Cookies.setCookie("email", result.getEmail());
 				Cookies.setCookie("id", result.getId() + "");
 				loadKontaktSharing();
