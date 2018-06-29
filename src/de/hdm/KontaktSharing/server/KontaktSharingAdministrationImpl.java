@@ -436,19 +436,19 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		return this.kontaktMapper.findAllByNutzerId(1);
 	}
 	
-	private Integer getLoggedInNutzerId() {
-		return this.getLoggedInNutzer().map(nutzer -> nutzer.getId()).orElse(new Integer(0));
-	}
-
-	private Optional<Nutzer> getLoggedInNutzer() {
-		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-		HttpSession session = httpServletRequest.getSession();
-		Object userObj = session.getAttribute("user");
-		if (userObj != null && userObj instanceof Nutzer) {
-			return Optional.of((Nutzer) userObj);
-		}
-		return Optional.empty();
-	}
+//	private Integer getLoggedInNutzerId() {
+//		return this.getLoggedInNutzer().map(nutzer -> nutzer.getId()).orElse(new Integer(0));
+//	}
+//
+//	private Optional<Nutzer> getLoggedInNutzer() {
+//		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
+//		HttpSession session = httpServletRequest.getSession();
+//		Object userObj = session.getAttribute("user");
+//		if (userObj != null && userObj instanceof Nutzer) {
+//			return Optional.of((Nutzer) userObj);
+//		}
+//		return Optional.empty();
+//	}
 
 	@Override
 	public Nutzer getNutzerByEmail(String email) throws IllegalArgumentException {

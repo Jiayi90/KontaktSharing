@@ -68,7 +68,7 @@ public class ListContactsPage extends CommonPage {
 
 		@Override
 		public void onSuccess(Vector<Kontakt> result) {
-			result.stream().forEach(kontakt -> this.page.createContactRow(kontakt));
+//			result.stream().forEach(kontakt -> this.page.createContactRow(kontakt));
 		}
 		
 	}
