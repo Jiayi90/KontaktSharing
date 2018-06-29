@@ -43,7 +43,7 @@ public class KontaktSharing implements EntryPoint {
 	private Anchor signInLink = new Anchor("Sign In");
 	private Anchor signOutLink = new Anchor("Sign Out");
 	
-	private static KontaktSharingAdministrationAsync ksverwaltung = ClientsideSettings
+	private static KontaktSharingAdministrationAsync administration = ClientsideSettings
 			.getKontaktSharingAdministration();
 	
 	private TextBox textBox = new TextBox();
@@ -53,6 +53,7 @@ public class KontaktSharing implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + "KontaktSharing.html", new LoginCallback());
 
@@ -127,7 +128,7 @@ public class KontaktSharing implements EntryPoint {
 		public void onSuccess(LoginInfo result) {
 			loginInfo = result;
 			if (loginInfo.isLoggedIn()) {
-				ksverwaltung.checkNutzer(loginInfo.getEmailAddress(), new FindNutzerCallback());
+				administration.checkNutzer(loginInfo.getEmailAddress(), new FindNutzerCallback());
 
 			} else {
 				loadLogin();
@@ -199,7 +200,7 @@ public class KontaktSharing implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ksverwaltung.checkNutzer(googleMail, new CreateNutzerCallback());
+				administration.checkNutzer(googleMail, new CreateNutzerCallback());
 
 			}
 
