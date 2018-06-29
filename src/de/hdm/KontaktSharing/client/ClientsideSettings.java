@@ -155,9 +155,9 @@ public class ClientsideSettings extends CommonSettings {
 	 */
 	public static ReportGeneratorAsync getReportGenerator() {
 //		// Gab es bislang noch keine ReportGenerator-Instanz, dann...
-//		if (reportGenerator == null) {
+		if (reportGenerator == null) {
 //			// Zun�chst instantiieren wir ReportGenerator
-//			reportGenerator = GWT.create(ReportGenerator.class);
+			reportGenerator = GWT.create(ReportGenerator.class);
 //
 //			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
 //				@Override
@@ -172,11 +172,11 @@ public class ClientsideSettings extends CommonSettings {
 //			};
 //
 //			reportGenerator.init(initReportGeneratorCallback);
-//		}
+		}
 //
 //		// So, nun brauchen wir den ReportGenerator nur noch zur�ckzugeben.
-//		return reportGenerator;
-		return null;
+		return reportGenerator;
+//		return null;
 	}
 
 }
