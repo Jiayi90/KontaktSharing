@@ -190,4 +190,6 @@ public interface KontaktSharingAdministration extends RemoteService {
 
 	public Kontaktliste getKontaktlistenWithUserinformation();
 	
+	public void setCurrentNutzerId(int id);
+	
 }

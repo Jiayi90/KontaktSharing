@@ -67,4 +67,6 @@ public interface KontaktSharingAdministrationAsync {
 	void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte,
 			AsyncCallback<Void> callback);
 
+	void setCurrentNutzerId(int id, AsyncCallback<Void> callback);
+
 }

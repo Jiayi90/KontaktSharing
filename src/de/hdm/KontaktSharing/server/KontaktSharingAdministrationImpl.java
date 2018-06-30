@@ -72,6 +72,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 */
 	
 	private ListenstrukturMapper listenstrukturMapper = null;
+	
+	private int currentUserId = 1;
 
 	public KontaktSharingAdministrationImpl() throws IllegalArgumentException {
 
@@ -420,11 +422,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	@Override
 	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws SQLException {
-		return this.kontaktMapper.findAllByNutzerId(1);
-	}
-	
-	private Integer getLoggedInNutzerId() {
-		return this.getLoggedInNutzer().map(nutzer -> nutzer.getId()).orElse(new Integer(0));
+		return this.kontaktMapper.findAllByNutzerId(this.currentUserId);
 	}
 
 	private Optional<Nutzer> getLoggedInNutzer() {
@@ -611,6 +609,11 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 				e.printStackTrace();
 			}
 		});
+	}
+
+	@Override
+	public void setCurrentNutzerId(int id) {
+		this.currentUserId = id;
 	}
 
 }

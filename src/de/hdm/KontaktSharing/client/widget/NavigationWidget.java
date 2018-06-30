@@ -41,15 +41,22 @@ public class NavigationWidget extends VerticalPanel{
 	
 	private NavigationWidget(Panel container, CommonPage contentPanel) {
 		this.getElement().setId("navigator");
+		
 		final Button contact = new Button("Kontakt", new ClickDisplayContactCallback());
 		contact.getElement().setClassName("navi-button");
+		
 		final Button contactList = new Button("Kontaktliste", new ClickDisplayContactListCallback());
 		contactList.getElement().setClassName("navi-button");
+		
 		final SimplePanel panel = new SimplePanel();
 		panel.getElement().setId("expander");
+		
+		final DebugWidget debug = new DebugWidget();
+		
 		this.add(contact);
 		this.add(contactList);
 		this.add(panel);
+		this.add(debug);
 	}
 	
 	class ClickDisplayContactCallback implements ClickHandler {
