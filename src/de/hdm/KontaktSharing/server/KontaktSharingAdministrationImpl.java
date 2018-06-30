@@ -90,10 +90,10 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	}
 
-	public Nutzer createNutzer(String email) throws IllegalArgumentException, SQLException {
+	public Nutzer createNutzer(String mail) throws IllegalArgumentException, SQLException {
 
 		Nutzer n = new Nutzer();
-		n.setEmail(email);
+		n.setEmail(mail);
 		return this.nutzerMapper.insert(n);
 
 	}
@@ -451,7 +451,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 //	}
 
 	@Override
-	public Nutzer getNutzerByEmail(String email) throws IllegalArgumentException {
+	public Nutzer getNutzerByEmail(String mail) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -539,6 +539,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	public Nutzer checkNutzer(String email) {
 		// TODO Auto-generated method stub
 		return null;
+		}
+		
 	}
 
-}
+

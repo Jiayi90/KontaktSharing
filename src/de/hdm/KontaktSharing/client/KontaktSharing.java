@@ -48,8 +48,8 @@ public class KontaktSharing implements EntryPoint {
 	
 	private TextBox textBox = new TextBox();
 	private Button suchenButton = new Button("Detailsuche");
-	private Button logoutButton = new Button("Ausloggen");
-	private Button loginButton = new Button("LOGIN");
+	private Button logoutButton = new Button("Logout");
+	private Button loginButton = new Button("Login");
 
 	@Override
 	public void onModuleLoad() {
@@ -150,7 +150,7 @@ public class KontaktSharing implements EntryPoint {
 
 	class CreateNutzerDialogBox extends DialogBox {
 		private Label frage = new Label(
-				"Sie haben noch keinen Nutzer auf der KontaktSharing Plattform. Moechten Sie einen neuen Nutzer anlegen?");
+				"Du bist noch kein Nutzer auf der Kontakt-Sharing Plattform?");
 		private Button ja = new Button("Ja");
 		private Button nein = new Button("Nein");
 		private String googleMail = "";
@@ -176,7 +176,7 @@ public class KontaktSharing implements EntryPoint {
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				Window.alert("Dein Nutzer-Account wurde erfolgreich angelegt");
+				Window.alert("Nun bist du ein Nutzer auf der Kontakt-Sharing Plattform");
 				Cookies.setCookie("email", result.getEmail());
 				Cookies.setCookie("id", result.getId() + "");
 				loadKontaktSharing();

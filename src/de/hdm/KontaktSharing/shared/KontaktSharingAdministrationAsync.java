@@ -45,11 +45,11 @@ public interface KontaktSharingAdministrationAsync {
 
 	void getKontaktOf(Kontaktliste kl, AsyncCallback<ArrayList<Kontakt>> callback);
 
-	void getNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
+	void getNutzerByEmail(String mail, AsyncCallback<Nutzer> callback);
 
 	void getNutzer(AsyncCallback<Nutzer> callback);
 	
-	void checkNutzer(String email, AsyncCallback<Nutzer> callback);
+	void checkNutzer(String mail, AsyncCallback<Nutzer> callback);
 	
 
 }
