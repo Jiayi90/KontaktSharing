@@ -26,6 +26,7 @@ public abstract class CommonMapper<T> {
 	 * @param sqlStatement
 	 * @return null
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
 	protected T findObject(String sqlStatement) throws SQLException {
 		Connection con = DBConnection.connection();

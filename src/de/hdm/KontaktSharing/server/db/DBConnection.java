@@ -2,6 +2,7 @@ package de.hdm.KontaktSharing.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -43,8 +44,9 @@ public class DBConnection {
      * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
      * Software neu komilieren zu müssen.
      */
-    private static String googleUrl = "jdbc:google:mysql://bankproject-154007:bankproject/bankproject?user=demo&password=demo";
-    private static String localUrl = "jdbc:mysql://localhost:3306/kontaktsharing?user=root";
+    private static String googleUrl = "jdbc:google:mysql://itprojektss18-208711:kontaktsharing1/kontaktsharing?user=root&password=password";
+    private static String localUrl = "jdbc:mysql://173.194.105.215:3306/kontaktsharing?user=root&password=password";
+    
 
     /**
      * Diese statische Methode kann aufgrufen werden durch
@@ -74,15 +76,26 @@ public class DBConnection {
         // Wenn es bisher keine Conncetion zur DB gab, ...
         if (con == null) {
             String url = null;
-            try {
                 if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
                     // Load the class that provides the new
                     // "jdbc:google:mysql://" prefix.
-                    Class.forName("com.mysql.jdbc.GoogleDriver");
+                    try {
+						Class.forName("com.mysql.jdbc.GoogleDriver");
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException("Eins");
+					}
                     url = googleUrl;
                 } else {
                     // Local MySQL instance to use during development.
-                    Class.forName("com.mysql.jdbc.Driver");
+                    try {
+						Class.forName("com.mysql.jdbc.Driver");
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException("zwei");
+					}
                     url = localUrl;
                 }
                 /*
@@ -93,12 +106,14 @@ public class DBConnection {
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
-                con = DriverManager.getConnection(url);
-            } catch (Exception e) {
-                con = null;
-                e.printStackTrace();
-                throw new RuntimeException(e.getMessage());
-            }
+                try {
+					con = DriverManager.getConnection(url);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+
         }
 
         // Zurückgegeben der Verbindung

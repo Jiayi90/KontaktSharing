@@ -173,5 +173,5 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 */
 	public Nutzer checkNutzer(String email) ;
 	
-	
+	public Nutzer getNutzerByMailOrCreate(String email) throws Exception;
 }

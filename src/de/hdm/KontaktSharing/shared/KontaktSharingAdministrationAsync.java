@@ -50,6 +50,8 @@ public interface KontaktSharingAdministrationAsync {
 	void getNutzer(AsyncCallback<Nutzer> callback);
 	
 	void checkNutzer(String mail, AsyncCallback<Nutzer> callback);
+
+	void getNutzerByMailOrCreate(String email, AsyncCallback<Nutzer> callback);
 	
 
 }

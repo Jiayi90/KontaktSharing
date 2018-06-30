@@ -14,7 +14,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -29,10 +28,6 @@ import de.hdm.KontaktSharing.shared.LoginService;
 import de.hdm.KontaktSharing.shared.LoginServiceAsync;
 import de.hdm.KontaktSharing.shared.bo.*;
 import de.hdm.KontaktSharing.shared.report.AllKontaktReport;
-
-
-
-
 //@author samina
 
 public class KontaktSharing implements EntryPoint {
@@ -117,7 +112,7 @@ public class KontaktSharing implements EntryPoint {
 		public void onSuccess(LoginInfo result) {
 			loginInfo = result;
 			if (loginInfo.isLoggedIn()) {
-				administration.checkNutzer(loginInfo.getEmailAddress(), new FindNutzerCallback());
+				administration.getNutzerByMailOrCreate(loginInfo.getEmailAddress(), new FindNutzerCallback());
 
 			} else {
 				loadLogin();
@@ -130,20 +125,15 @@ public class KontaktSharing implements EntryPoint {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Login-Fehler!!: " + caught.getMessage());
+			Window.alert(caught.toString());
+			
 		}
 
 		@Override
-		public void onSuccess(Nutzer result) {
-			if (result != null) {
-				Cookies.setCookie("email", result.getEmail());
-				Cookies.setCookie("id", result.getId() + "");
-				loadKontaktSharing();
-			} else {
-				CreateNutzerDialogBox dialogbox = new CreateNutzerDialogBox(loginInfo.getEmailAddress());
-				dialogbox.center();
-
-			}
+		public void onSuccess(Nutzer nutzer) {
+			Cookies.setCookie("email", nutzer.getEmail());
+			Cookies.setCookie("id", nutzer.getId()+ "");
+			
 		}
 
 	}
@@ -151,18 +141,18 @@ public class KontaktSharing implements EntryPoint {
 	class CreateNutzerDialogBox extends DialogBox {
 		private Label frage = new Label(
 				"Du bist noch kein Nutzer auf der Kontakt-Sharing Plattform?");
-		private Button ja = new Button("Ja");
 		private Button nein = new Button("Nein");
+		private Button ja = new Button("Ja");
 		private String googleMail = "";
 		private VerticalPanel vpanel = new VerticalPanel();
 
 		public CreateNutzerDialogBox(String mail) {
 			googleMail = mail;
-			ja.addClickHandler(new CreateNutzerClickHandler());
-			nein.addClickHandler(new DontCreateNutzerClickHandler());
+			nein.addClickHandler(new CreateNutzerClickHandler());
+			ja.addClickHandler(new DontCreateNutzerClickHandler());
 			vpanel.add(frage);
-			vpanel.add(ja);
 			vpanel.add(nein);
+			vpanel.add(ja);
 			this.add(vpanel);
 
 		}

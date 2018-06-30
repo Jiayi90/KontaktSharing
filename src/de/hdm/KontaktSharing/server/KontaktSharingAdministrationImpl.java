@@ -540,6 +540,20 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		// TODO Auto-generated method stub
 		return null;
 		}
+
+	@Override
+	public Nutzer getNutzerByMailOrCreate(String email) throws Exception {
+		Nutzer nutzer = this.nutzerMapper.findByMail(email);
+		if(nutzer != null) {
+			return nutzer;
+		} else {
+			Nutzer newNutzer = new Nutzer();
+			newNutzer.setEmail(email);
+			this.nutzerMapper.insert(newNutzer).getId();
+			
+			return this.nutzerMapper.findByMail(email);
+		}
+	}
 		
 	}
 
