@@ -212,4 +212,10 @@ implements ReportGenerator {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Nutzer getNutzerByMail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -66,6 +66,9 @@ public interface ReportGenerator extends RemoteService {
 
 
 	void init();
+
+
+	Nutzer getNutzerByMail(String email);
 	  
 }  
 

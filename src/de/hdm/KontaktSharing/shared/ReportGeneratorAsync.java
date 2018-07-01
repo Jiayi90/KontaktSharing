@@ -22,4 +22,7 @@ public interface ReportGeneratorAsync {
 
 	void createShareKontaktByNutzer(Nutzer n, Kontakt k, AsyncCallback<ShareKontaktByNutzer> callback);
 	void createAllKontaktReport(Kontakt k, AsyncCallback<AllKontaktByNutzerReport> callback);
+	
+	void getNutzerByMail(String email, AsyncCallback<Nutzer> callback);
+
 }
