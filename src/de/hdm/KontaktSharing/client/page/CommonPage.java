@@ -16,7 +16,7 @@ public abstract class CommonPage extends VerticalPanel {
 		kontaktSharingAdmin = ClientsideSettings.getKontaktSharingAdministration();
 		page = this;
 		/*
-		 * Bevor wir unsere eigene Formatierung veranslassen, überlassen wir es der
+		 * Bevor wir unsere eigene Formatierung veranslassen, ï¿½berlassen wir es der
 		 * Superklasse eine Initialisierung vorzunehmen.
 		 */
 		super.onLoad();
@@ -24,15 +24,15 @@ public abstract class CommonPage extends VerticalPanel {
 		/*
 		 * Als erstes geben wir stets die Headline des Showcase aus. Da
 		 * getHeadlineText() als abstrakte Methode bzw. als Einschubmethode realisiert
-		 * wird, obliegt es den Subklassen, für eine Ausgestaltung also Implementierung
+		 * wird, obliegt es den Subklassen, fï¿½r eine Ausgestaltung also Implementierung
 		 * zu sorgen.
 		 */
 		this.add(this.createHeadline(getHeadlineText()));
 
 		/*
-		 * Wenn alles vorbereitet ist, stoßen wir die run()-Methode an. Auch run() ist
+		 * Wenn alles vorbereitet ist, stoï¿½en wir die run()-Methode an. Auch run() ist
 		 * als abstrakte Methode bzw. als Einschubmethode realisiert. Auch hier ist es
-		 * Aufgabe der Subklassen, für deren Implementierung zu sorgen.
+		 * Aufgabe der Subklassen, fï¿½r deren Implementierung zu sorgen.
 		 */
 		this.run();
 	}

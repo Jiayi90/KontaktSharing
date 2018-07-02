@@ -13,7 +13,7 @@ public class DebugWidget extends ListBox {
 		this.addItem("1", "1");
 		this.addItem("2", "2");
 		this.addItem("3", "3");
-		DebugWidget box = this;
+		final DebugWidget box = this;
 		
 		this.addChangeHandler(new ChangeHandler() {
 

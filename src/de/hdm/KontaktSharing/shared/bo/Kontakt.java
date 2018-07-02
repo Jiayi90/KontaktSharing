@@ -84,12 +84,13 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 	}
 	
 	public String getName() {
-		return eigenschaftauspraegung
-				.stream()
-				.filter(eigenschaft -> eigenschaft.getIdEigenschaft() == 1)
-				.map(eigenschaft -> eigenschaft.getText())
-				.findFirst()
-				.orElse(null);
+		for(int i = 0; i<eigenschaftauspraegung.size(); i++) {
+			Eigenschaftauspraegung auspraegung = eigenschaftauspraegung.get(i);
+			if(auspraegung.getIdEigenschaft() == 1) {
+				return auspraegung.getText();
+			}
+		}
+		return null;
 	}
 
 	public void setEigenschaftauspraegung(Vector<Eigenschaftauspraegung> eigenschaftauspraegung) {

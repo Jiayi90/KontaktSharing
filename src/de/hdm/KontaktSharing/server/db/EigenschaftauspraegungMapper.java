@@ -92,7 +92,7 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	}
 
 	public Eigenschaftauspraegung insert(Eigenschaftauspraegung ea) throws SQLException {
-		return this.insert("INSERT INTO Eigenschaftauspraegung (Text, Zahl, Datum, Eigenschaft_idEigenschaft, Kontakt_idKontakt) VALUES (%s, %s, %s, %s, %s)", ea.getText(), ea.getZahl(), toSqlDate(ea.getDatum()), ea.getIdEigenschaft(), ea.getIdKontakt());
+		return this.insert("INSERT INTO Eigenschaftauspraegung (Text, Zahl, Datum, Eigenschaft_idEigenschaft, Kontakt_idKontakt) VALUES (%s, %s, %s, %s, %s)", ea.getText(), ea.getZahlAsString(), toSqlDate(ea.getDatum()), ea.getIdEigenschaftAsString(), ea.getIdKontaktAsString());
 	}
 
 	/**
@@ -108,8 +108,8 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Text='%s' WHERE idEigenschaftauspraegung='%s';", ea.getText(), String.valueOf(ea.getId())));	
 		} else if(ea.getDatum() != null) {
 			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Datum='%s WHERE idEigenschaftauspraegung=%s;", ea.getDatum().toString(), ea.getId()));
-		} else if(ea.getZahl() != null) {
-			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Zahl=%s WHERE idEigenschaftauspraegung=%s;", ea.getZahl(), ea.getId()));
+		} else if(ea.getZahlAsString() != null) {
+			this.excecute(String.format("UPDATE eigenschaftauspraegung SET Zahl=%s WHERE idEigenschaftauspraegung=%s;", ea.getZahlAsString(), ea.getId()));
 		}
 		return this.findByKey(ea.getId());
 	}

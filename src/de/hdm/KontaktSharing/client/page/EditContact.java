@@ -1,7 +1,7 @@
 package de.hdm.KontaktSharing.client.page;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -48,7 +48,7 @@ public class EditContact extends CommonPage {
 			}
 
 			@Override
-			public void onSuccess(Vector<Eigenschaft> eigenschaften) {
+			public void onSuccess(final Vector<Eigenschaft> eigenschaften) {
 				ClientsideSettings.getKontaktSharingAdministration().getAllEigenschaftauspraegungByKontakt(kontakt, new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
 
 					@Override
@@ -59,14 +59,20 @@ public class EditContact extends CommonPage {
 
 					@Override
 					public void onSuccess(Vector<Eigenschaftauspraegung> eigenschaftauspraegung) {
-						eigenschaften.stream().forEach(eigenschaft -> {
+						for(final Eigenschaft eigenschaft: eigenschaften) {
 							int row = table.getRowCount();
 							table.setText(row, 0, eigenschaft.getBezeichnung());
-							List<Eigenschaftauspraegung> currentAuspraegung = eigenschaftauspraegung.stream().filter(ausp -> ausp.getIdEigenschaft() == eigenschaft.getId()).collect(Collectors.toList());
 							
+							List<Eigenschaftauspraegung> currentAuspraegung = new ArrayList<Eigenschaftauspraegung>();
+							for(Eigenschaftauspraegung ausp: eigenschaftauspraegung) {
+								if(ausp.getIdEigenschaft() == eigenschaft.getId()) {
+									currentAuspraegung.add(ausp);
+								}
+							}
+
 							 
 							for(int i = 0; i < currentAuspraegung.size(); i++) {
-								Eigenschaftauspraegung auspraegung = currentAuspraegung.get(i);
+								final Eigenschaftauspraegung auspraegung = currentAuspraegung.get(i);
 								table.setText(row, 1, auspraegung.getValue(eigenschaft.getTyp()));					
 								
 								SmallButton deleteButton = new SmallButton("icons/delete.png");
@@ -112,8 +118,7 @@ public class EditContact extends CommonPage {
 								});
 								table.setWidget(row, 3, createButton);
 							}
-							
-						});
+						}
 					}
 				});
 			}	
@@ -151,4 +156,3 @@ class ReloadPageWithResponse implements AsyncCallback<Eigenschaftauspraegung>{
 		
 	}
 }
-

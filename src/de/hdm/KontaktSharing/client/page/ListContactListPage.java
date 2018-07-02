@@ -48,7 +48,7 @@ public class ListContactListPage extends CommonPage {
 			table.setText(0, 2, "Name");
 			table.setText(0, 3, "Anzahl");
 			
-			result.stream().forEach(liste -> {
+			for(final Kontaktliste liste: result) {
 				int row = table.getRowCount();
 				
 				SmallButton deleteButton = new SmallButton("icons/delete.png");
@@ -68,7 +68,8 @@ public class ListContactListPage extends CommonPage {
 				
 				table.setText(row, 2, liste.getKontaktlistenname());
 				table.setText(row, 3, "" + liste.getKontakte().size());
-			});
+			}
+
 			page.add(table);
 		}
 		
@@ -95,7 +96,7 @@ public class ListContactListPage extends CommonPage {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Beim löschen ist ein Fehler aufgetretten");
+						Window.alert("Beim lï¿½schen ist ein Fehler aufgetretten");
 					}
 
 					@Override

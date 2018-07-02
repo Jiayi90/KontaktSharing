@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -52,7 +53,8 @@ public abstract class CommonMapper<T> {
 	protected T insert(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
-		stmt.executeUpdate(parseQueryString(sqlStatement, args), Statement.RETURN_GENERATED_KEYS);
+		String parsedSql = parseQueryString(sqlStatement, args);
+		stmt.executeUpdate(parsedSql, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = stmt.getGeneratedKeys();
 		if(rs.next()) {
 			int id = rs.getInt(1);
@@ -81,7 +83,11 @@ public abstract class CommonMapper<T> {
 	}
 	
 	private String parseQueryString(String sqlStatement, Object ... args) {
-		List<String> list = Arrays.stream(args).map(arg -> (arg == null) ? "null" : "'" + arg + "'").collect(Collectors.toList());
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < args.length; i++) {
+			String val = (args[i] == null) ? "null" : "'" + String.valueOf(args[i]) + "'";
+			list.add(val);
+		}
 		return String.format(sqlStatement, list.toArray());
 	}
 

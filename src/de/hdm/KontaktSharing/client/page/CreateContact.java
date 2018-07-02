@@ -55,7 +55,9 @@ public class CreateContact extends CommonPage {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> eigenschaften) {
-			eigenschaften.stream().forEach(eigenschaft -> createRow(eigenschaft));
+			for(Eigenschaft eigenschaft: eigenschaften) {
+				createRow(eigenschaft);
+			}
 		}
 
 		private void createRow(Eigenschaft eigenschaft) {
@@ -175,7 +177,7 @@ public class CreateContact extends CommonPage {
 				}
 			}
 			
-			Vector<Eigenschaftauspraegung> auspraegungen = new Vector<Eigenschaftauspraegung>();
+			final Vector<Eigenschaftauspraegung> auspraegungen = new Vector<Eigenschaftauspraegung>();
 			for(Map.Entry<Integer, Eigenschaft> current :eigenschaften.entrySet()) {
 				int fromRow = current.getKey();
 				Eigenschaft eigenschaft = current.getValue();
@@ -209,7 +211,13 @@ public class CreateContact extends CommonPage {
 			    	auspraegungen.add(eigausp);
 			    }
 			}
-			if(auspraegungen.stream().filter(auspraegung -> auspraegung.getIdEigenschaft() == 1).findFirst().isPresent()) {
+			boolean isPresent = false;
+			for(Eigenschaftauspraegung auspraegung: auspraegungen) {
+				if(auspraegung.getIdEigenschaft() == 1) {
+					isPresent = true;
+				}
+			}
+			if(isPresent) {
 				Kontakt kontakt = new Kontakt();
 				kontakt.setIdNutzer(1);
 				ClientsideSettings.getKontaktSharingAdministration().createKontakt(kontakt, new AsyncCallback<Kontakt>() {
@@ -222,7 +230,9 @@ public class CreateContact extends CommonPage {
 
 					@Override
 					public void onSuccess(Kontakt newKontakt) {
-						auspraegungen.stream().forEach(auspraegung -> auspraegung.setIdKontakt(newKontakt.getId()));
+						for(Eigenschaftauspraegung auspraegung: auspraegungen) {
+							auspraegung.setIdKontakt(newKontakt.getId());
+						}
 						ClientsideSettings.getKontaktSharingAdministration().createEigenschaftauspraegungen(auspraegungen, new KontaktCreated());	
 					}
 				});	

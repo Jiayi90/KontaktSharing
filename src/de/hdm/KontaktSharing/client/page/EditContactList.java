@@ -1,5 +1,6 @@
 package de.hdm.KontaktSharing.client.page;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -43,7 +44,7 @@ public class EditContactList extends CommonPage {
 		table.setWidget(0, 1, listNameWidget);
 		page.add(table);
 		
-		FlexTable panel = new FlexTable();
+		final FlexTable panel = new FlexTable();
 		this.add(panel);
 		
 		this.kontaktSharingAdmin.getAllKontaktWithNameByLoggedInNutzer(new AsyncCallback<Vector<Kontakt>>() {
@@ -56,14 +57,19 @@ public class EditContactList extends CommonPage {
 
 			@Override
 			public void onSuccess(Vector<Kontakt> konakte) {
-				konakte.stream().forEach(kontakt -> {
+				for(Kontakt kontakt: konakte) {
 					CheckBox checkBox = new CheckBox(kontakt.getName());
 					checkBox.getElement().setAttribute("data-idKontakt", String.valueOf(kontakt.getId()));
-					boolean select = liste.getKontakte().stream().filter(usedKontakt -> usedKontakt.getId() == kontakt.getId()).findFirst().isPresent();
+					boolean select = false;
+					for(Kontakt usedKontakt: liste.getKontakte()) {
+						if(usedKontakt.getId() == kontakt.getId()) {
+							select = true;
+						}
+					}
 					checkBox.setValue(select);
 					panel.setWidget(panel.getRowCount(), 0, checkBox);
 					checkBoxKontakte.add(checkBox);
-				});
+				}
 			}
 		});
 		
@@ -74,11 +80,15 @@ public class EditContactList extends CommonPage {
 		saveButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				List<Integer> ids = checkBoxKontakte.stream()
-				.filter(box -> box.getValue())
-				.map(box -> box.getElement().getAttribute("data-idKontakt"))
-				.map(id -> Integer.parseInt(id))
-				.collect(Collectors.toList());
+				List<Integer> ids = new ArrayList<Integer>();
+				
+				for(int i = 0; i < checkBoxKontakte.size(); i ++) {
+					CheckBox box = checkBoxKontakte.get(i);
+					if(box.getValue()) {
+						Integer id = Integer.parseInt(box.getElement().getAttribute("data-idKontakt"));
+						ids.add(id);
+					}
+				}	
 				String name = listNameWidget.getValue();
 				page.kontaktSharingAdmin.updateKontaktlisteForLoggedinNutzer(liste.getId(), name, ids, new AsyncCallback<Void>() {
 

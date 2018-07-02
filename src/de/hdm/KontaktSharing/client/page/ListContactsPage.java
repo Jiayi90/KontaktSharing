@@ -72,9 +72,9 @@ public class ListContactsPage extends CommonPage {
 		}
 	}
 	
-	private void createContactRow(Kontakt kontakt, FlexTable table) {
-		ListContactsPage page = this;
-		int row = table.getRowCount();
+	private void createContactRow(final Kontakt kontakt, final FlexTable table) {
+		final ListContactsPage page = this;
+		final int row = table.getRowCount();
 		
 		this.kontaktSharingAdmin.getAllEigenschaftauspraegungByKontakt(kontakt, new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
 			@Override
@@ -85,7 +85,7 @@ public class ListContactsPage extends CommonPage {
 
 			@Override
 			public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-				String name = findEigenschaftauspraegungById(result, 1).getText();
+				final String name = findEigenschaftauspraegungById(result, 1).getText();
 				SmallButton editButton = new SmallButton("icons/edit.png");
 				editButton.addClickHandler(new ClickHandler() {
 
@@ -101,18 +101,18 @@ public class ListContactsPage extends CommonPage {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						boolean delete = Window.confirm("Soll der Kontakt " + name + " gelöscht werden? Diese Aktion ist nicht rückgängig zu machen");
+						boolean delete = Window.confirm("Soll der Kontakt " + name + " gelï¿½scht werden? Diese Aktion ist nicht rï¿½ckgï¿½ngig zu machen");
 						if(delete) {
 							ClientsideSettings.getKontaktSharingAdministration().delete(kontakt, new AsyncCallback<Void>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									Window.alert("Beim löschen ist ein Fehler aufgetretten");
+									Window.alert("Beim lï¿½schen ist ein Fehler aufgetretten");
 								}
 
 								@Override
 								public void onSuccess(Void result) {
-									Window.alert("User mit id " + kontakt.getId() + " und seine Eigenschaftsausprägungen wurde gelöscht");
+									Window.alert("User mit id " + kontakt.getId() + " und seine Eigenschaftsausprï¿½gungen wurde gelï¿½scht");
 									table.removeAllRows();
 									ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByLoggedInNutzer(new GetAllKontaktByNutzerCallback(page));
 								}
@@ -133,7 +133,12 @@ public class ListContactsPage extends CommonPage {
 	}
 	
 	private Eigenschaftauspraegung findEigenschaftauspraegungById(Vector<Eigenschaftauspraegung> auspraegungen, int id) {
-		return auspraegungen.stream().filter(auspraegung -> auspraegung.getIdEigenschaft() == id).findFirst().orElse(null);
+		for(Eigenschaftauspraegung auspraegung: auspraegungen) {
+			if (auspraegung.getIdEigenschaft() == id) {
+				return auspraegung;
+			}
+		}
+		return null;
 	}
 	
 	private void createContaktTable(Vector<Kontakt> contacts) {
@@ -142,7 +147,9 @@ public class ListContactsPage extends CommonPage {
 		table.setText(0, 2, "Name");
 		table.setText(0, 3, "Erzeugt am");
 		table.setText(0, 4, "Modifiziert am");
-		contacts.stream().forEach(kontakt -> createContactRow(kontakt, table));
+		for(Kontakt kontakt: contacts) {
+			createContactRow(kontakt, table);
+		}
 		this.add(table);
 	}
 	

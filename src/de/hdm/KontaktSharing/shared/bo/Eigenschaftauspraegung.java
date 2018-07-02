@@ -55,6 +55,10 @@ public class Eigenschaftauspraegung extends BusinessObject {
 	public Integer getZahl() {
 		return this.zahl;
 	}
+	
+	public String getZahlAsString() {
+		return String.valueOf(this.zahl);
+	}
 
 	/**
 	 * Auslesen vom Datum
@@ -88,6 +92,10 @@ public class Eigenschaftauspraegung extends BusinessObject {
 	public int getIdEigenschaft() {
 		return idEigenschaft;
 	}
+	
+	public String getIdEigenschaftAsString() {
+		return String.valueOf(this.idEigenschaft);
+	}
 
 	public void setIdEigenschaft(int idEigenschaft) {
 		this.idEigenschaft = idEigenschaft;
@@ -95,6 +103,10 @@ public class Eigenschaftauspraegung extends BusinessObject {
 
 	public int getIdKontakt() {
 		return idKontakt;
+	}
+	
+	public String getIdKontaktAsString() {
+		return String.valueOf(this.idKontakt);
 	}
 
 	public void setIdKontakt(int idKontakt) {

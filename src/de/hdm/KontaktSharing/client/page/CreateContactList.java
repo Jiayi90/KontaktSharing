@@ -1,9 +1,8 @@
 package de.hdm.KontaktSharing.client.page;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -24,14 +23,14 @@ public class CreateContactList extends CommonPage {
 
 	@Override
 	protected void run() {
-		TextBox listNameWidget = new TextBox();
-		Vector<CheckBox> checkBoxKontakte = new Vector<CheckBox>();
+		final TextBox listNameWidget = new TextBox();
+		final Vector<CheckBox> checkBoxKontakte = new Vector<CheckBox>();
 		
 		FlexTable table = new FlexTable();
 		table.setText(0, 0, "Name der Liste");
 		table.setWidget(0, 1, listNameWidget);
 		this.add(table);
-		FlexTable panel = new FlexTable();
+		final FlexTable panel = new FlexTable();
 		this.add(panel);
 		this.kontaktSharingAdmin.getAllKontaktWithNameByLoggedInNutzer(new AsyncCallback<Vector<Kontakt>>() {
 
@@ -43,23 +42,27 @@ public class CreateContactList extends CommonPage {
 
 			@Override
 			public void onSuccess(Vector<Kontakt> konakte) {
-				konakte.stream().forEach(kontakt -> {
+				for(Kontakt kontakt: konakte) {
 					CheckBox checkBox = new CheckBox(kontakt.getName());
 					checkBox.getElement().setAttribute("data-idKontakt", String.valueOf(kontakt.getId()));
 					panel.setWidget(panel.getRowCount(), 0, checkBox);
 					checkBoxKontakte.add(checkBox);
-				});
+				}
 			}
 		});
 		Button saveButton = new Button("Neue Kontaktliste erstellen");
 		saveButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				List<Integer> ids = checkBoxKontakte.stream()
-				.filter(box -> box.getValue())
-				.map(box -> box.getElement().getAttribute("data-idKontakt"))
-				.map(id -> Integer.parseInt(id))
-				.collect(Collectors.toList());
+				List<Integer> ids = new ArrayList<Integer>();
+				
+				for(int i = 0; i < checkBoxKontakte.size(); i ++) {
+					CheckBox box = checkBoxKontakte.get(i);
+					if(box.getValue()) {
+						Integer id = Integer.parseInt(box.getElement().getAttribute("data-idKontakt"));
+						ids.add(id);
+					}
+				}
 				String name = listNameWidget.getValue();
 				page.kontaktSharingAdmin.createKontaktlisteForLoggedinNutzer(name, ids, new AsyncCallback<Void>() {
 

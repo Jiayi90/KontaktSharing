@@ -27,7 +27,7 @@ public class DemoPage extends CommonPage {
 		}
 	}
 
-	class LoginCallback implements AsyncCallback<Nutzer> {
+	public class LoginCallback implements AsyncCallback<Nutzer> {
 		@Override
 		public void onFailure(Throwable caught) {
 			text.setText("Error loggin in");
@@ -46,23 +46,23 @@ public class DemoPage extends CommonPage {
 
 	@Override
 	protected void run() {
-		final LoginServiceAsync loginService = ClientsideSettings.getLoginService();
-		Button login = new Button("Loginn");
-		Button logout = new Button("Logout");
-
-		login.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loginService.login("max.muster@example.com", "", new LoginCallback());
-			}
-		});
-		logout.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loginService.logout(new LogoutCallback());
-			}
-		});
-		text = new Label("unknown");
-		this.add(text);
-		this.add(login);
-		this.add(logout);
+//		final LoginServiceAsync loginService = ClientsideSettings.getLoginService();
+//		Button login = new Button("Loginn");
+//		Button logout = new Button("Logout");
+//
+//		login.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//		//		loginService.login("max.muster@example.com", "", new LoginCallback());
+//			}
+//		});
+//		logout.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//			//	loginService.logout(new LogoutCallback());
+//			}
+//		});
+//		text = new Label("unknown");
+//		this.add(text);
+//		this.add(login);
+//		this.add(logout);
 	}
 }
