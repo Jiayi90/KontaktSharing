@@ -25,9 +25,9 @@ public class NavigationWidget extends VerticalPanel{
 	private static NavigationWidget singelton;
 	private static Panel container;
 	private static CommonPage contentPanel;
-	
-	public static NavigationWidget getNavigationWidget(Panel newContainer, CommonPage newContentPanel) {
-		singelton = new NavigationWidget(container, contentPanel);
+
+	public static NavigationWidget getNavigationWidget(Panel newContainer, CommonPage newContentPanel, boolean show) {
+		singelton = new NavigationWidget(container, contentPanel, show);
 		container = newContainer;
 		contentPanel = newContentPanel;
 		return singelton;
@@ -39,25 +39,28 @@ public class NavigationWidget extends VerticalPanel{
 		container.add(newContentPanel);
 	}
 	
-	private NavigationWidget(Panel container, CommonPage contentPanel) {
+	private NavigationWidget(Panel container, CommonPage contentPanel, boolean show) {
 		this.getElement().setId("navigator");
-		
-		final Button contact = new Button("Kontakt", new ClickDisplayContactCallback());
-		contact.getElement().setClassName("navi-button");
-		
-		final Button contactList = new Button("Kontaktliste", new ClickDisplayContactListCallback());
-		contactList.getElement().setClassName("navi-button");
+		if(show) {
+			
+			final Button contact = new Button("Kontakt", new ClickDisplayContactCallback());
+			contact.getElement().setClassName("navi-button");
+			
+			final Button contactList = new Button("Kontaktliste", new ClickDisplayContactListCallback());
+			contactList.getElement().setClassName("navi-button");
+			
+			this.add(contact);
+			this.add(contactList);
+			
+		}
 		
 		final SimplePanel panel = new SimplePanel();
 		panel.getElement().setId("expander");
 		
-		final DebugWidget debug = new DebugWidget();
-		
-		this.add(contact);
-		this.add(contactList);
+
 		this.add(panel);
-		this.add(debug);
 	}
+
 	
 	class ClickDisplayContactCallback implements ClickHandler {
 		@Override

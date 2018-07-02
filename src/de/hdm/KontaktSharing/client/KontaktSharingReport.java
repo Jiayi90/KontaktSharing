@@ -11,14 +11,29 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.hdm.KontaktSharing.client.LoginInfo;
+import de.hdm.KontaktSharing.client.KontaktSharing.CreateNutzerDialogBox;
+import de.hdm.KontaktSharing.client.KontaktSharing.FindNutzerCallback;
+import de.hdm.KontaktSharing.client.KontaktSharing.loginButtonClickHandler;
+import de.hdm.KontaktSharing.client.page.*;
+
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+import de.hdm.KontaktSharing.client.widget.*;
 import de.hdm.KontaktSharing.shared.*;
 import de.hdm.KontaktSharing.shared.bo.*;
+import de.hdm.KontaktSharing.shared.report.AllKontaktReport;
 
 /*
  * Entrypoint der Klasse KontaktSharingReport
