@@ -1,65 +1,51 @@
 package de.hdm.KontaktSharing.server;
 
-import java.sql.SQLException;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import de.hdm.KontaktSharing.client.LoginInfo;
+import de.hdm.KontaktSharing.shared.LoginService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.KontaktSharing.server.db.NutzerMapper;
-import de.hdm.KontaktSharing.shared.LoginService;
-import de.hdm.KontaktSharing.shared.bo.Nutzer;
-import de.hdm.KontaktSharing.shared.exception.InvalidLoginException;
-
-@SuppressWarnings("serial")
 public class LoginServiceImpl extends RemoteServiceServlet implements LoginService {
-	private NutzerMapper nutzerMapper;
-	@Override
-	public void init() throws IllegalArgumentException {
-		this.nutzerMapper = NutzerMapper.nutzerMapper();
-	}
 
-	@Override
-	public void logout() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	}
+	public LoginInfo login(String requestUri) {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
 
-	@Override
-	public Nutzer login(String mail, String password) throws IllegalArgumentException, SQLException, InvalidLoginException {
-		Nutzer nutzer = this.nutzerMapper.findByMail(mail);
-		if(nutzer == null) {
-			throw new InvalidLoginException();
-		}
-		this.storeUserInSession(nutzer);
-		return nutzer;
-	}
-	
-	@Override
-	public Nutzer getCurrentUser() {
-		Nutzer nutzer = null;
-		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-		HttpSession session = httpServletRequest.getSession();
-		Object userObj = session.getAttribute("user");
-		if (userObj != null && userObj instanceof Nutzer) {
-			nutzer = (Nutzer) userObj;
-		}
-		return nutzer;
-	}	
-	
-    public void storeUserInSession(Nutzer nutzer)
-    {
-        HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-        HttpSession session = httpServletRequest.getSession(true);
-        session.setAttribute("nutzer", nutzer);
-    }
- 
-    public void deleteUserFromSession()
-    {
-        HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-        HttpSession session = httpServletRequest.getSession();
-        session.removeAttribute("nutzer");
-    }
+		LoginInfo loginInfo = new LoginInfo();
+		
+		
 
+			if (user != null) {
+				loginInfo.setLoggedIn(true);
+				loginInfo.setEmailAddress(user.getEmail());
+				loginInfo.setNickname(user.getNickname());
+				loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
+			} else {
+				loginInfo.setLoggedIn(false);
+				loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
+			}
+			
+			return loginInfo;
+	  }
 }
+	
+
+//		} catch (Exception e) {
+			
+//			System.out.println("##################### " + requestUri); 
+//			loginInfo.setLoggedIn(false);
+//			loginInfo.setLoginUrl(requestUri);
+
+//			loginInfo.setLoggedIn(true);
+//            loginInfo.setEmailAddress("dummy@hdm-stuttgart.de");
+//            loginInfo.setNickname("Dummy");
+		

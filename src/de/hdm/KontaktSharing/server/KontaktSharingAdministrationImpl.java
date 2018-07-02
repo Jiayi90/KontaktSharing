@@ -23,7 +23,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Referenz auf das zugehörige Nutzer-Objekt.
 	 */
 
-	private Nutzer nutzer = null;
+	private Nutzer getEigenschaftOfnutzer = null;
 
 	/**
 	 * Referenz auf den NutzerMapper, der Nutzerobjekte mit der Datenbank abgleicht.
@@ -101,10 +101,10 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	}
 
-	public Nutzer createNutzer(String email) throws IllegalArgumentException, SQLException {
+	public Nutzer createNutzer(String mail) throws IllegalArgumentException, SQLException {
 
 		Nutzer n = new Nutzer();
-		n.setEmail(email);
+		n.setEmail(mail);
 		return this.nutzerMapper.insert(n);
 
 	}
@@ -185,7 +185,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Auslesen aller Eigenschaftauspraegungen
 	 * @throws SQLException 
 	 */
-
+	
 	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegung() throws IllegalArgumentException, SQLException {
 		return this.eigenschaftauspraegungMapper.findAll();
 
@@ -417,7 +417,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	@Override
 	public void setNutzer(Nutzer n) {
-		this.nutzer = n;
+//		this.nutzer = n;
 	}
 
 	@Override
@@ -426,7 +426,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Nutzer getNutzerByEmail(String email) throws IllegalArgumentException {
+	public Nutzer getNutzerByEmail(String mail) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -439,6 +439,12 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	@Override
 	public void update(Kontakt k) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		try {
+			kontaktMapper.update(k);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -482,13 +488,13 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public ArrayList<Eigenschaft> getEigenschaftOf(Kontakt k) throws IllegalArgumentException {
+	public List<Eigenschaftauspraegung> getEigenschaftOf(Kontakt k) throws IllegalArgumentException, SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.eigenschaftauspraegungMapper.findAll();
 	}
 
 	@Override
-	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaft e)
+	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaftauspraegung e)
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
@@ -607,4 +613,26 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.currentUserId = id;
 	}
 
+	public Nutzer checkNutzer(String email) {
+		// TODO Auto-generated method stub
+		return null;
+		}
+
+	@Override
+	public Nutzer getNutzerByMailOrCreate(String email) throws Exception {
+		Nutzer nutzer = this.nutzerMapper.findByMail(email);
+		if(nutzer != null) {
+			return nutzer;
+		} else {
+			Nutzer newNutzer = new Nutzer();
+			newNutzer.setEmail(email);
+			this.nutzerMapper.insert(newNutzer).getId();
+			
+			return this.nutzerMapper.findByMail(email);
+		}
+	}
+
 }
+
+
+

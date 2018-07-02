@@ -2,6 +2,7 @@ package de.hdm.KontaktSharing.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -15,10 +16,10 @@ import com.google.appengine.api.utils.SystemProperty;
  * fest vorgegebene Datenbank zugegriffen werden.
  * <p>
  * In der Praxis kommen die meisten Anwendungen mit einer einzigen Datenbank
- * aus. Eine flexiblere Variante für mehrere gleichzeitige
- * Datenbank-Verbindungen wäre sicherlich leistungsfähiger. Dies würde
- * allerdings den Rahmen dieses Projekts sprengen bzw. die Software unnötig
- * verkomplizieren, da dies für diesen Anwendungsfall nicht erforderlich ist.
+ * aus. Eine flexiblere Variante fï¿½r mehrere gleichzeitige
+ * Datenbank-Verbindungen wï¿½re sicherlich leistungsfï¿½higer. Dies wï¿½rde
+ * allerdings den Rahmen dieses Projekts sprengen bzw. die Software unnï¿½tig
+ * verkomplizieren, da dies fï¿½r diesen Anwendungsfall nicht erforderlich ist.
  * 
  * @author Thies
  */
@@ -30,7 +31,7 @@ public class DBConnection {
      * von einem sogenannten <b>Singleton</b>.
      * <p>
      * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-     * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
+     * fï¿½r sï¿½mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
      * speichert die einzige Instanz dieser Klasse.
      * 
      */
@@ -38,18 +39,18 @@ public class DBConnection {
 
     /**
      * Die URL, mit deren Hilfe die Datenbank angesprochen wird. In einer
-     * professionellen Applikation würde diese Zeichenkette aus einer
-     * Konfigurationsdatei eingelesen oder über einen Parameter von außen
-     * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
-     * Software neu komilieren zu müssen.
+     * professionellen Applikation wï¿½rde diese Zeichenkette aus einer
+     * Konfigurationsdatei eingelesen oder ï¿½ber einen Parameter von auï¿½en
+     * mitgegeben, um bei einer Verï¿½nderung dieser URL nicht die gesamte
+     * Software neu komilieren zu mï¿½ssen.
      */
-    private static String googleUrl = "jdbc:google:mysql://bankproject-154007:bankproject/bankproject?user=demo&password=demo";
+    private static String googleUrl = "jdbc:google:mysql://bankproject-154007:bankproject/bankproject?user=root&password=password";
     private static String localUrl = "jdbc:mysql://localhost:3306/kontaktsharing?user=root&password=password";
 
     /**
      * Diese statische Methode kann aufgrufen werden durch
      * <code>DBConnection.connection()</code>. Sie stellt die
-     * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
+     * Singleton-Eigenschaft sicher, indem Sie dafï¿½r sorgt, dass nur eine
      * einzige Instanz von <code>DBConnection</code> existiert.
      * <p>
      * 
@@ -60,11 +61,11 @@ public class DBConnection {
      * 
      * <b>Nachteil:</b> Bei Zusammenbruch der Verbindung zur Datenbank - dies
      * kann z.B. durch ein unbeabsichtigtes Herunterfahren der Datenbank
-     * ausgelöst werden - wird keine neue Verbindung aufgebaut, so dass die in
+     * ausgelï¿½st werden - wird keine neue Verbindung aufgebaut, so dass die in
      * einem solchen Fall die gesamte Software neu zu starten ist. In einer
-     * robusten Lösung würde man hier die Klasse dahingehend modifizieren, dass
-     * bei einer nicht mehr funktionsfähigen Verbindung stets versucht würde,
-     * eine neue Verbindung aufzubauen. Dies würde allerdings ebenfalls den
+     * robusten Lï¿½sung wï¿½rde man hier die Klasse dahingehend modifizieren, dass
+     * bei einer nicht mehr funktionsfï¿½higen Verbindung stets versucht wï¿½rde,
+     * eine neue Verbindung aufzubauen. Dies wï¿½rde allerdings ebenfalls den
      * Rahmen dieses Projekts sprengen.
      * 
      * @return DAS <code>DBConncetion</code>-Objekt.
@@ -74,15 +75,26 @@ public class DBConnection {
         // Wenn es bisher keine Conncetion zur DB gab, ...
         if (con == null) {
             String url = null;
-            try {
                 if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
                     // Load the class that provides the new
                     // "jdbc:google:mysql://" prefix.
-                    Class.forName("com.mysql.jdbc.GoogleDriver");
+                    try {
+						Class.forName("com.mysql.jdbc.GoogleDriver");
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException("Eins");
+					}
                     url = googleUrl;
                 } else {
                     // Local MySQL instance to use during development.
-                    Class.forName("com.mysql.jdbc.Driver");
+                    try {
+						Class.forName("com.mysql.jdbc.Driver");
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException("zwei");
+					}
                     url = localUrl;
                 }
                 /*
@@ -93,15 +105,17 @@ public class DBConnection {
                  * Diese Verbindung wird dann in der statischen Variable con
                  * abgespeichert und fortan verwendet.
                  */
-                con = DriverManager.getConnection(url);
-            } catch (Exception e) {
-                con = null;
-                e.printStackTrace();
-                throw new RuntimeException(e.getMessage());
-            }
+                try {
+					con = DriverManager.getConnection(url);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+
         }
 
-        // Zurückgegeben der Verbindung
+        // Zurï¿½ckgegeben der Verbindung
         return con;
     }
 

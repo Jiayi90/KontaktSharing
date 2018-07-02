@@ -2,10 +2,8 @@ package de.hdm.KontaktSharing.shared;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.hdm.KontaktSharing.shared.bo.Nutzer;
+import de.hdm.KontaktSharing.client.LoginInfo;
 
 public interface LoginServiceAsync {
-	void login(String mail, String password, AsyncCallback<Nutzer> callback);
-	void logout(AsyncCallback<Void> callback);
-	void getCurrentUser(AsyncCallback<Nutzer> callback);
+  public void login(String requestUri, AsyncCallback<LoginInfo> async);
 }

@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	version="2.5"
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>KontaktSharing.html</welcome-file>
+	</welcome-file-list>
+	
 	<!-- Servlets -->
+	
+	
+	<servlet>
+		<servlet-name>loginService</servlet-name>
+		<servlet-class>de.hdm.KontaktSharing.server.LoginServiceImpl</servlet-class>
+	</servlet>
+	
 	<servlet>
 		<servlet-name>kontaktSharingAdministrationServlet</servlet-name>
 		<servlet-class>de.hdm.KontaktSharing.server.KontaktSharingAdministrationImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
+		<servlet-name>loginService</servlet-name>
+		<url-pattern>/KontaktSharing/login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
 		<servlet-name>kontaktSharingAdministrationServlet</servlet-name>
 		<url-pattern>/KontaktSharing/administrationService</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>loginService</servlet-name>
-		<servlet-class>de.hdm.KontaktSharing.server.LoginServiceImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>loginService</servlet-name>
-		<url-pattern>/KontaktSharing/loginService</url-pattern>
-	</servlet-mapping>
-
-	<!-- Default page to serve -->
-	<welcome-file-list>
-		<welcome-file>KontaktSharing.html</welcome-file>
-	</welcome-file-list>
 
 
 </web-app>

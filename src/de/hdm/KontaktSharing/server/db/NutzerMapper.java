@@ -103,6 +103,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	public void delete(Nutzer n) throws SQLException {
 		this.excecute("DELETE FROM nutzer " + "WHERE idNutzer=" + n.getId());
 	}
+	
 
 	@Override
 	protected Nutzer createFromResultSet(ResultSet rs) throws SQLException {

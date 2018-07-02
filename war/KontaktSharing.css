@@ -1,12 +1,15 @@
 #navigator .gwt-Hyperlink a{
 	font-size: 2em;
+	font-family: 'Ubuntu', sans-serif;
 	color: #333333;
 	padding-top:0.5em;
 }
 
 #header {
-	background-color:  #88fc86;
+	background-image: url("/bilder/ks.jpg");
 	width:100%;
+	
+	
 }
 
 #header h1 {
@@ -29,6 +32,7 @@
 
 
 body, html {
+	
 	padding: 0 !important;
 	margin: 0 !important;
 	min-height: 100vh;

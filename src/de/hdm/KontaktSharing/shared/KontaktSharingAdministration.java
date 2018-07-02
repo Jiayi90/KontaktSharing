@@ -8,6 +8,7 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
@@ -154,9 +155,10 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * Auslesen sämtlicher Eigenschaften aus einem Kontakt
 	 * @param Kontakt k
 	 * @return Eine Liste aller Eigenschaften aus dem Kontakt
+	 * @throws SQLException 
 	 */
 	
-	public ArrayList<Eigenschaft> getEigenschaftOf(Kontakt k) throws IllegalArgumentException;
+	public List<Eigenschaftauspraegung> getEigenschaftOf(Kontakt k) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * Auslesen sämtlicher Eigenschaftauspraegungen aus einer Eigenschaft
@@ -164,7 +166,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * @return Eine Liste aller Eigenschaftauspraegungen aus einer Eigenschaft
 	 */
 	
-	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaft e) throws IllegalArgumentException;
+	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaftauspraegung e) throws IllegalArgumentException;
 
 	/**
 	 * Auslesen des Nutzers
@@ -172,7 +174,6 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 */
 	
 	public Nutzer getNutzer() throws IllegalArgumentException;
-	
 	
 	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException, Exception;
 	
@@ -192,4 +193,12 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public void setCurrentNutzerId(int id);
 	
+	/**
+	 * Prüfen des Nutzers
+	 * @param email
+	 * @return Nutzer
+	 */
+	public Nutzer checkNutzer(String email) ;
+	
+	public Nutzer getNutzerByMailOrCreate(String email) throws Exception;
 }

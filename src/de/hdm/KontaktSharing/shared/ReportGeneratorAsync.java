@@ -16,10 +16,13 @@ import de.hdm.KontaktSharing.shared.report.*;
 
 public interface ReportGeneratorAsync {
 	void init(AsyncCallback<Void> callback);
-	void createAllKontaktByNutzer(Nutzer n, Eigenschaft e, AsyncCallback<AllKontaktByNutzer> callback);
+	void createAllKontaktByNutzer(Nutzer n, Eigenschaft e, AsyncCallback<AllKontaktByNutzerReport> callback);
 	
 	void createSelectedEigenschaftauspraegungByNutzer(Nutzer n, Eigenschaftauspraegung ea, AsyncCallback<SelectedEigenschaftauspraegungByNutzer> callback);
 
 	void createShareKontaktByNutzer(Nutzer n, Kontakt k, AsyncCallback<ShareKontaktByNutzer> callback);
-	void createAllKontaktReport(Kontakt k, AsyncCallback<AllKontaktReport> callback);
+	void createAllKontaktReport(Kontakt k, AsyncCallback<AllKontaktByNutzerReport> callback);
+	
+	void getNutzerByMail(String email, AsyncCallback<Nutzer> callback);
+
 }

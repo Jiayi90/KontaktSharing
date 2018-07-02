@@ -82,7 +82,7 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	/**
 	 * Auslesen aller Eigenschaftsausprägung.
 	 * 
-	 * @return Ein Vektor mit Eigenschaftsausprägung-Objekten, die sämtliche
+	 * @return Ein ArrayList mit Eigenschaftsausprägung-Objekten, die sämtliche
 	 *         Eigenschaftauspraegungen repräsentieren. Bei evtl. Exceptions wird ein
 	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
 	 * @throws SQLException 

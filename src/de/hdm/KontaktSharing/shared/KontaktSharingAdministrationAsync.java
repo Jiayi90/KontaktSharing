@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.hdm.KontaktSharing.shared.bo.*;
 
 public interface KontaktSharingAdministrationAsync {
@@ -38,13 +39,14 @@ public interface KontaktSharingAdministrationAsync {
 
 	void update(Kontakt k, AsyncCallback<Void> callback);
 
-	void getEigenschaftauspraegungOf(Eigenschaft e, AsyncCallback<ArrayList<Eigenschaftauspraegung>> callback);
+	void getEigenschaftauspraegungOf(Eigenschaftauspraegung e,
+			AsyncCallback<ArrayList<Eigenschaftauspraegung>> callback);
 
-	void getEigenschaftOf(Kontakt k, AsyncCallback<ArrayList<Eigenschaft>> callback);
+	void getEigenschaftOf(Kontakt k, AsyncCallback<List<Eigenschaftauspraegung>> callback);
 
 	void getKontaktOf(Kontaktliste kl, AsyncCallback<List<Kontakt>> callback);
 
-	void getNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
+	void getNutzerByEmail(String mail, AsyncCallback<Nutzer> callback);
 
 	void getNutzer(AsyncCallback<Nutzer> callback);
 	
@@ -68,5 +70,9 @@ public interface KontaktSharingAdministrationAsync {
 			AsyncCallback<Void> callback);
 
 	void setCurrentNutzerId(int id, AsyncCallback<Void> callback);
+
+	void checkNutzer(String mail, AsyncCallback<Nutzer> callback);
+
+	void getNutzerByMailOrCreate(String email, AsyncCallback<Nutzer> callback);
 
 }
