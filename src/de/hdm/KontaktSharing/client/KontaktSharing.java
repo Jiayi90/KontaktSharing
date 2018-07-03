@@ -34,7 +34,7 @@ import de.hdm.KontaktSharing.shared.report.AllKontaktReport;
 public class KontaktSharing implements EntryPoint {
 	
 
-
+	
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginMessage = new Label("Bitte logge dich mit dem Google Account ein");

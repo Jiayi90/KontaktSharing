@@ -11,8 +11,8 @@ public class ContentWidget extends VerticalPanel {
 	private FlexTable ft1 = new FlexTable();
 	private HTML html1 = new HTML(
 			"<article> <h2>System um Kontakte zu teilen</h2> " + "<section>" + "<h3>Teilbare Kontakt</h3> " + "<p>"
-					+ "Um was geht es konkret? </br>" + "Dieses System ermöglicht das Teilen</br>"
-					+ "der eigenen Kontakte und/oder deren Eigenschaftsausprägungen,</br>" + "von Kontaktlisten</br> "
+					+ "Um was geht es konkret? </br>" + "Dieses System ermoeglicht das Teilen</br>"
+					+ "der eigenen Kontakte und/oder deren Eigenschaftsauspraegungen,</br>" + "von Kontaktlisten</br> "
 					+ "<p>" + " </p>" + "	</section>" + "</article>");
 
 	public ContentWidget(final Nutzer nutzer) {

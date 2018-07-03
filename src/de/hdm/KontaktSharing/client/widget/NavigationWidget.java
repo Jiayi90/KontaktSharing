@@ -3,11 +3,13 @@ package de.hdm.KontaktSharing.client.widget;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import de.hdm.KontaktSharing.client.KontaktSharingReport;
 import de.hdm.KontaktSharing.client.page.CommonPage;
 import de.hdm.KontaktSharing.client.page.ListContactListPage;
 import de.hdm.KontaktSharing.client.page.ListContactsPage;
@@ -30,6 +32,8 @@ public class NavigationWidget extends VerticalPanel{
 		return singelton;
 	}
 	
+	
+	
 	public static void navigateTo(CommonPage newContentPanel) {
 		container.remove(contentPanel);
 		contentPanel = newContentPanel;
@@ -46,8 +50,12 @@ public class NavigationWidget extends VerticalPanel{
 			final Button contactList = new Button("Kontaktliste", new ClickDisplayContactListCallback());
 			contactList.getElement().setClassName("navi-button");
 			
+			final Button report = new Button("Report", new ClickDisplayReportCallback());
+			report.getElement().setClassName("navi-button");
+			
 			this.add(contact);
 			this.add(contactList);
+			this.add(report);
 			
 		}
 		
@@ -72,6 +80,21 @@ public class NavigationWidget extends VerticalPanel{
 		public void onClick(ClickEvent event) {
 			NavigationWidget.navigateTo(new ListContactListPage());
 		}
+		
+	}
+	
+	class ClickDisplayReportCallback implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			NavigationWidget.navigateTo(new KontaktSharingReport());
+			
+		}
+		
+	}
+
+	public static void navigateTo(KontaktSharingReport kontaktSharingReport) {
+		// TODO Auto-generated method stub
 		
 	}
 }

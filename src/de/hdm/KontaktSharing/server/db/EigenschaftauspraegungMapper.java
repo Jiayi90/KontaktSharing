@@ -85,11 +85,11 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	 * @throws SQLException 
 	 */
 	public Vector<Eigenschaftauspraegung> findAll() throws SQLException {
-		return this.findVector("SELECT idEigenschaftauspraegung, Eigenschaft_idEigenschaft, Kontakt_idKontakt, Text, Zahl, Datum FROM Eigenschaftauspraegung");
+		return this.findVector("SELECT idEigenschaftauspraegung, Eigenschaft_idEigenschaft, Kontakt_idKontakt, Text, Zahl, Datum FROM eigenschaftauspraegung");
 	}
 
 	public Eigenschaftauspraegung insert(Eigenschaftauspraegung ea) throws SQLException {
-		return this.insert("INSERT INTO Eigenschaftauspraegung (Text, Zahl, Datum, Eigenschaft_idEigenschaft, Kontakt_idKontakt) VALUES (%s, %s, %s, %s, %s)", ea.getText(), ea.getZahlAsString(), toSqlDate(ea.getDatum()), ea.getIdEigenschaftAsString(), ea.getIdKontaktAsString());
+		return this.insert("INSERT INTO eigenschaftauspraegung (Text, Zahl, Datum, Eigenschaft_idEigenschaft, Kontakt_idKontakt) VALUES (%s, %s, %s, %s, %s)", ea.getText(), ea.getZahlAsString(), toSqlDate(ea.getDatum()), ea.getIdEigenschaftAsString(), ea.getIdKontaktAsString());
 	}
 
 	/**

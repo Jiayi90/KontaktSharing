@@ -65,7 +65,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 */
 
 	public Kontakt findByKey(int id) throws SQLException {
-		return this.findObject("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt "
+		return this.findObject("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM kontakt "
 					+ "WHERE idKontakt=" + id);
 	}
 
@@ -78,7 +78,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException 
 	 */
 	public Vector<Kontakt> findAll() throws SQLException {
-		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt ORDER BY idKontakt");
+		return this.findVector("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM kontakt ORDER BY idKontakt");
 	}
 	/**
 	 * Diese Methode liefert alle Kontakte, die eine Nutzer erstellt hat
@@ -87,7 +87,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException
 	 */
 	public Vector<Kontakt> findAllByNutzerId(int id) throws SQLException {
-		return this.findVector("SELECT idKontakt, erzeugungsdatum, modifikationsdatum, nutzer_idNutzer FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
+		return this.findVector("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
 	}
 	
 	public Vector<Kontakt> findAllByKontaktlistId(int id) throws SQLException {
@@ -101,7 +101,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 * @throws SQLException
 	 */
 	public Kontakt insert(Kontakt k) throws SQLException {
-		String sql = String.format("INSERT INTO kontakt (erzeugungsdatum, modifikationsdatum, nutzer_idNutzer) VALUES "
+		String sql = String.format("INSERT INTO kontakt (Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer) VALUES "
 				+ "('%s', '%s', %o)", toSqlDate(k.getErzeugungsdatum()), toSqlDate(k.getModifikationsdatum()), k.getIdNutzer());
 		return this.insert(sql);
 
@@ -122,8 +122,8 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 */
 	public Kontakt update(Kontakt k) throws SQLException {
 		this.excecute(String.format("UPDATE kontakt SET "
-				+ "erzeugungsdatum='%erzeugungsdatum', "
-				+ "modifikationsdatum='%modifikationsdatum', "
+				+ "Erzeugungsdatum='%Erzeugungsdatum', "
+				+ "Modifikationsdatum='%Modifikationsdatum', "
 				+ "nutzer_idNutzer='%idNutzer' "
 				+ "WHERE idKontakt='%idKontakt'", k.getErzeugungsdatum(), k.getModifikationsdatum(),  k.getId()));
 		return k;
@@ -145,8 +145,8 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	protected Kontakt createFromResultSet(ResultSet rs) throws SQLException {
 		Kontakt kontakt = new Kontakt();
 		kontakt.setId((rs.getInt("idKontakt")));;
-		kontakt.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
-		kontakt.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+		kontakt.setErzeugungsdatum(rs.getDate("Erzeugungsdatum"));
+		kontakt.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		kontakt.setIdNutzer(rs.getInt("nutzer_idNutzer"));
 		return kontakt;
 	}

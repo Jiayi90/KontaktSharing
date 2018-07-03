@@ -76,7 +76,7 @@ public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 	}
 
 	public Eigenschaft insert(Eigenschaft e) throws SQLException {
-		return this.insert("INSERT INTO Eigenschaft (Bezeichnung, Typ, mehrfach) " + 
+		return this.insert("INSERT INTO eigenschaft (Bezeichnung, Typ, mehrfach) " + 
 				"VALUES (" + e.getBezeichnung() + ","+ e.getTyp() + ","+ e.isMehrfach() +")");
 	}
 

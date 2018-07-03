@@ -1,6 +1,7 @@
 package de.hdm.KontaktSharing.client.page;
 
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -11,6 +12,7 @@ import de.hdm.KontaktSharing.shared.KontaktSharingAdministrationAsync;
 public abstract class CommonPage extends VerticalPanel {
 	KontaktSharingAdministrationAsync kontaktSharingAdmin;
 	CommonPage page;
+	
 
 	@Override
 	public void onLoad() {

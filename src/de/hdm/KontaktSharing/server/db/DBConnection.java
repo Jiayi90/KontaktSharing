@@ -45,7 +45,7 @@ public class DBConnection {
      * Software neu komilieren zu m�ssen.
      */
     private static String googleUrl = "jdbc:google:mysql://itprojektss18-208711:kontaktsharing1/kontaktsharing?user=root&password=password";
-    private static String localUrl = "jdbc:mysql://173.194.105.215:3306/kontaktsharing?user=root&password=password";
+    private static String localUrl = "jdbc:mysql://localhost:3306/kontaktsharing?user=sam&password=sam";
 
     /**
      * Diese statische Methode kann aufgrufen werden durch

@@ -56,7 +56,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	 * @throws SQLException
 	 */
 	public Nutzer findByKey(int id) throws SQLException {
-		return this.findObject("SELECT idNutzer, email FROM nutzer " + "WHERE idNutzer=" + id);
+		return this.findObject("SELECT idNutzer, Email FROM nutzer " + "WHERE idNutzer=" + id);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	 * @throws SQLException 
 	 */
 	public Vector<Nutzer> findAll() throws SQLException {
-		return this.findVector("SELECT idNutzer, email FROM nutzer");
+		return this.findVector("SELECT idNutzer, Email FROM nutzer");
 	}
 	
 	
@@ -77,7 +77,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	}
 
 	public Nutzer insert(Nutzer n) throws SQLException {
-		return this.insert("INSERT INTO nutzer ( email) " + "VALUES ('" + n.getEmail() + "')");
+		return this.insert("INSERT INTO nutzer ( Email) " + "VALUES ('" + n.getEmail() + "')");
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	 * @throws SQLException 
 	 */
 	public Nutzer update(Nutzer n) throws SQLException {
-		this.excecute("UPDATE nutzer SET email ='" + n.getEmail() + " WHERE idNutzer = '" + n.getId() + "';");
+		this.excecute("UPDATE nutzer SET Email ='" + n.getEmail() + " WHERE idNutzer = '" + n.getId() + "';");
 		return n;
 	}
 
