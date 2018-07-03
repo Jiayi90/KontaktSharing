@@ -134,16 +134,12 @@ public class KontaktSharing implements EntryPoint {
 
 		@Override
 		public void onSuccess(Nutzer nutzer) {
-			if (nutzer != null) {
 			Cookies.setCookie("email", nutzer.getEmail());
 			Cookies.setCookie("id", nutzer.getId()+ "");
+			
+			showPage(new ListContactsPage(), true);
 
-			Cookies.setCookie("signout", loginInfo.getLogoutUrl());
-			loadKontaktSharing();
-		} else {
-			CreateNutzerDialogBox dialogbox = new CreateNutzerDialogBox(loginInfo.getEmailAddress());
-			dialogbox.center();
-		}
+			
 
 			
 		}
