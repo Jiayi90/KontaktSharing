@@ -5,6 +5,5 @@
   <entry-point class='de.hdm.KontaktSharing.client.KontaktSharingReport'/>
   <source path='client'/>
   <source path='shared'/>
-  <add-linker name="xsiframe"/>
 </module>
 
