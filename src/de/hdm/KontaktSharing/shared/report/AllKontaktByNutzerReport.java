@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Vector;
 
+import de.hdm.KontaktSharing.client.ClientsideSettings;
+import de.hdm.KontaktSharing.shared.ReportGeneratorAsync;
+
 /**
  * Report, der alle Kontakte des Nutzers darstellt.
  * Die Klasse traegt keine weiteren Attribute- und Methoden-Implementierungen,
@@ -17,6 +20,8 @@ import java.util.Vector;
 public class AllKontaktByNutzerReport extends CompositeReport implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
+	
 
 	public String getTitle() {
 		// TODO Auto-generated method stub

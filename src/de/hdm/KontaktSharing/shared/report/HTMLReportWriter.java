@@ -167,7 +167,7 @@ public class HTMLReportWriter extends ReportWriter {
 	}
 
 	@Override
-	public void process(ShareKontaktByNutzer r) {
+	public void process(ShareKontaktByNutzerReport r) {
 		// Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
 		this.resetReportText();
 
@@ -218,7 +218,7 @@ public class HTMLReportWriter extends ReportWriter {
 
 
 	@Override
-	public void process(SelectedEigenschaftauspraegungByNutzer r) {
+	public void process(SelectedEigenschaftauspraegungByNutzerReport r) {
 		// Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
 		this.resetReportText();
 

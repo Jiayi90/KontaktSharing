@@ -134,10 +134,17 @@ public class KontaktSharing implements EntryPoint {
 
 		@Override
 		public void onSuccess(Nutzer nutzer) {
+			if (nutzer != null) {
 			Cookies.setCookie("email", nutzer.getEmail());
 			Cookies.setCookie("id", nutzer.getId()+ "");
-			
-			showPage(new ListContactsPage(), true);
+
+			Cookies.setCookie("signout", loginInfo.getLogoutUrl());
+			loadKontaktSharing();
+		} else {
+			CreateNutzerDialogBox dialogbox = new CreateNutzerDialogBox(loginInfo.getEmailAddress());
+			dialogbox.center();
+		}
+
 			
 		}
 
@@ -148,13 +155,15 @@ public class KontaktSharing implements EntryPoint {
 				"Du bist noch kein Nutzer auf der Kontakt-Sharing Plattform?");
 		private Button nein = new Button("Nein");
 		private Button ja = new Button("Ja");
-		private String googleMail = "";
+		private String googleMail1 = "";
 		private VerticalPanel vpanel = new VerticalPanel();
+		
+		private String googleMail = "";
 
 		public CreateNutzerDialogBox(String mail) {
-			googleMail = mail;
-			nein.addClickHandler(new CreateNutzerClickHandler());
-			ja.addClickHandler(new DontCreateNutzerClickHandler());
+			googleMail1 = mail;
+			ja.addClickHandler(new CreateNutzerClickHandler());
+			nein.addClickHandler(new DontCreateNutzerClickHandler());
 			vpanel.add(frage);
 			vpanel.add(nein);
 			vpanel.add(ja);
@@ -172,6 +181,7 @@ public class KontaktSharing implements EntryPoint {
 			@Override
 			public void onSuccess(Nutzer result) {
 				Window.alert("Nun bist du ein Nutzer auf der Kontakt-Sharing Plattform");
+				Cookies.setCookie("signout", loginInfo.getLogoutUrl());
 				Cookies.setCookie("email", result.getEmail());
 				Cookies.setCookie("id", result.getId() + "");
 				loadKontaktSharing();
@@ -184,7 +194,7 @@ public class KontaktSharing implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				administration.checkNutzer(googleMail, new CreateNutzerCallback());
+				administration.checkNutzer(googleMail1, new CreateNutzerCallback());
 
 			}
 

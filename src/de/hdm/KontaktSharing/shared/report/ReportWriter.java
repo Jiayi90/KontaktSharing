@@ -43,7 +43,7 @@ public abstract class ReportWriter {
 	   * @param r der zu übersetzende Report
 	   */
 	
-	public abstract void process(ShareKontaktByNutzer r); 
+	public abstract void process(ShareKontaktByNutzerReport r); 
 		
 	
 	/**
@@ -52,7 +52,7 @@ public abstract class ReportWriter {
 	   * 
 	   * @param r der zu übersetzende Report
 	   */
-	public abstract void process(SelectedEigenschaftauspraegungByNutzer r);
+	public abstract void process(SelectedEigenschaftauspraegungByNutzerReport r);
 
 
 }

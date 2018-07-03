@@ -106,13 +106,13 @@ public class PlainTextReportWriter extends ReportWriter {
 	  }
 
 	@Override
-	public void process(ShareKontaktByNutzer r) {
+	public void process(ShareKontaktByNutzerReport r) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void process(SelectedEigenschaftauspraegungByNutzer r) {
+	public void process(SelectedEigenschaftauspraegungByNutzerReport r) {
 		// TODO Auto-generated method stub
 		
 	}

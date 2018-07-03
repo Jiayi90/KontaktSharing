@@ -206,20 +206,20 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public AllKontaktByNutzerReport createAllKontaktByNutzer(Nutzer n, Eigenschaft e) throws IllegalArgumentException {
+	public AllKontaktByNutzerReport createAllKontaktByNutzer(Nutzer n) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public SelectedEigenschaftauspraegungByNutzer createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
+	public SelectedEigenschaftauspraegungByNutzerReport createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
 			Eigenschaftauspraegung ea) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ShareKontaktByNutzer createShareKontaktByNutzer(Nutzer n, Kontakt k) throws IllegalArgumentException {
+	public ShareKontaktByNutzerReport createShareKontaktByNutzer(Nutzer n, Kontakt k) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
