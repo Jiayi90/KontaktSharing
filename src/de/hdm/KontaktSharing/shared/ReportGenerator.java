@@ -9,8 +9,8 @@ import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
 import de.hdm.KontaktSharing.shared.report.AllKontaktByNutzerReport;
-import de.hdm.KontaktSharing.shared.report.SelectedEigenschaftauspraegungByNutzer;
-import de.hdm.KontaktSharing.shared.report.ShareKontaktByNutzer;
+import de.hdm.KontaktSharing.shared.report.SelectedEigenschaftauspraegungByNutzerReport;
+import de.hdm.KontaktSharing.shared.report.ShareKontaktByNutzerReport;
 
 /**
  * <p>
@@ -52,17 +52,17 @@ public interface ReportGenerator extends RemoteService {
 	   * @throws IllegalArgumentException
 	   */
 	  public abstract AllKontaktByNutzerReport createAllKontaktByNutzer(
-	      Nutzer n, Eigenschaft e) throws IllegalArgumentException;
+	      Nutzer n) throws IllegalArgumentException;
 
 
 	AllKontaktByNutzerReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException;
 
 
-	SelectedEigenschaftauspraegungByNutzer createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
+	SelectedEigenschaftauspraegungByNutzerReport createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
 			Eigenschaftauspraegung ea);
 
 
-	ShareKontaktByNutzer createShareKontaktByNutzer(Nutzer n, Kontakt k);
+	ShareKontaktByNutzerReport createShareKontaktByNutzer(Nutzer n, Kontakt k);
 
 
 	void init();
