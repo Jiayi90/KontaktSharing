@@ -58,15 +58,15 @@ public interface KontaktSharingAdministrationAsync {
 
 	void getAllKontaktlisten(AsyncCallback<Vector<Kontaktliste>> callback);
 	
-	void getAllKontaktlistenWithUserCount(AsyncCallback<Vector<Kontaktliste>> callback);
+	void getAllKontaktlistenWithUserCountForNutzer(int idNutzer, AsyncCallback<Vector<Kontaktliste>> callback);
 	
-	void getKontaktlistenWithUserinformation(AsyncCallback<Kontaktliste> callback);
+	void getKontaktlistenWithUserinformationForNutzer(int idNutzer, AsyncCallback<Kontaktliste> callback);
 
 	void getAllKontaktWithNameByNutzer(int id, AsyncCallback<Vector<Kontakt>> callback);
 
-	void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte, AsyncCallback<Void> callback);
+	void createKontaktlisteForNutzer(int idNutzer, String name, List<Integer> idsKontakte, AsyncCallback<Void> callback);
 
-	void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte,
+	void updateKontaktliste(int id, String name, List<Integer> idsKontakte,
 			AsyncCallback<Void> callback);
 
 	void setCurrentNutzerId(int id, AsyncCallback<Void> callback);

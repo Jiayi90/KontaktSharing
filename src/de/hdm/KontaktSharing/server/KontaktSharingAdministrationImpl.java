@@ -554,9 +554,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte)
+	public void createKontaktlisteForNutzer(int idNutzer, String name, List<Integer> idsKontakte)
 			throws IllegalArgumentException, Exception {
-		Kontaktliste kl = this.kontaktlisteMapper.insert(name, 1);
+		Kontaktliste kl = this.kontaktlisteMapper.insert(name, idNutzer);
 		for(Integer id: idsKontakte) {
 			try {
 				listenstrukturMapper.insert(kl.getId(), id);
@@ -569,8 +569,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Vector<Kontaktliste> getAllKontaktlistenWithUserCount() throws IllegalArgumentException, Exception {
-		Vector<Kontaktliste> listen = this.getAllKontaktlisten();
+	public Vector<Kontaktliste>  getAllKontaktlistenWithUserCountForNutzer(int idNutzer) throws IllegalArgumentException, Exception {
+		Vector<Kontaktliste> listen = this.kontaktlisteMapper.findAllByNutzer(idNutzer);
 		for(Kontaktliste liste: listen) {
 			List<Kontakt> kontakte;
 			try {
@@ -588,13 +588,13 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Kontaktliste getKontaktlistenWithUserinformation() {
+	public Kontaktliste getKontaktlistenWithUserinformationForNutzer(int idNutzer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte)
+	public void updateKontaktliste(int id, String name, List<Integer> idsKontakte)
 			throws IllegalArgumentException, Exception {
 		this.kontaktlisteMapper.updateName(id, name);
 		this.listenstrukturMapper.delete(id);

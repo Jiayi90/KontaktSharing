@@ -64,7 +64,7 @@ public class CreateContactList extends CommonPage {
 					}
 				}
 				String name = listNameWidget.getValue();
-				page.kontaktSharingAdmin.createKontaktlisteForLoggedinNutzer(name, ids, new AsyncCallback<Void>() {
+				page.kontaktSharingAdmin.createKontaktlisteForNutzer(getLoggedInId(), name, ids, new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

@@ -90,7 +90,7 @@ public class EditContactList extends CommonPage {
 					}
 				}	
 				String name = listNameWidget.getValue();
-				page.kontaktSharingAdmin.updateKontaktlisteForLoggedinNutzer(liste.getId(), name, ids, new AsyncCallback<Void>() {
+				page.kontaktSharingAdmin.updateKontaktliste(liste.getId(), name, ids, new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
