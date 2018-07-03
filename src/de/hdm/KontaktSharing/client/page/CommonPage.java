@@ -1,5 +1,6 @@
 package de.hdm.KontaktSharing.client.page;
 
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -35,6 +36,10 @@ public abstract class CommonPage extends VerticalPanel {
 		 * Aufgabe der Subklassen, f�r deren Implementierung zu sorgen.
 		 */
 		this.run();
+	}
+	
+	public int getLoggedInId() {
+		return Integer.parseInt(Cookies.getCookie("id"));
 	}
 
 	protected HTML createHeadline(String text) {

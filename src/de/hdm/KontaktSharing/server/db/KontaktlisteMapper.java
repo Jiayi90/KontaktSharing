@@ -60,6 +60,10 @@ public class KontaktlisteMapper extends CommonMapper<Kontaktliste>  {
 	public Vector<Kontaktliste> findAll() throws SQLException {
 		return this.findVector("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste");
 	}
+	
+	public Vector<Kontaktliste> findAllByNutzer(int idNutzer) throws SQLException {
+		return this.findVector("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste WHERE nutzer_idNutzer=" + idNutzer);
+	}
 
 	public Kontaktliste insert(String name, int idNutzer) throws SQLException {
 		return this.insert("INSERT INTO kontaktliste (Kontaktlistenname, nutzer_idNutzer) VALUES (%s, %s)", name, idNutzer);

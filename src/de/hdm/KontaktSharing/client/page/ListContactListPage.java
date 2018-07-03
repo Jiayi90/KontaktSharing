@@ -30,7 +30,7 @@ public class ListContactListPage extends CommonPage {
 		createContactButton.addClickHandler(new CreateContactListButtonClickHandler());
 		this.add(createContactButton);
 		
-		this.kontaktSharingAdmin.getAllKontaktlistenWithUserCount(new RenderTable());
+		this.kontaktSharingAdmin.getAllKontaktlistenWithUserCountForNutzer(getLoggedInId(), new RenderTable());
 	}
 	
 	class RenderTable implements AsyncCallback<Vector<Kontaktliste>> {
@@ -103,7 +103,7 @@ public class ListContactListPage extends CommonPage {
 					public void onSuccess(Void result) {
 						Window.alert("Liste mit id " + liste.getId() + " wurde geloescht");
 						table.removeAllRows();
-						page.kontaktSharingAdmin.getAllKontaktlistenWithUserCount(new RenderTable());
+						page.kontaktSharingAdmin.getAllKontaktlistenWithUserCountForNutzer(getLoggedInId(), new RenderTable());
 					}
 				});
 			}

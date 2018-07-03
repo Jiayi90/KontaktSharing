@@ -47,7 +47,7 @@ public class EditContactList extends CommonPage {
 		final FlexTable panel = new FlexTable();
 		this.add(panel);
 		
-		this.kontaktSharingAdmin.getAllKontaktWithNameByLoggedInNutzer(new AsyncCallback<Vector<Kontakt>>() {
+		this.kontaktSharingAdmin.getAllKontaktWithNameByNutzer(getLoggedInId(), new AsyncCallback<Vector<Kontakt>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -90,7 +90,7 @@ public class EditContactList extends CommonPage {
 					}
 				}	
 				String name = listNameWidget.getValue();
-				page.kontaktSharingAdmin.updateKontaktlisteForLoggedinNutzer(liste.getId(), name, ids, new AsyncCallback<Void>() {
+				page.kontaktSharingAdmin.updateKontaktliste(liste.getId(), name, ids, new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

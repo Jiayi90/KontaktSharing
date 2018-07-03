@@ -32,7 +32,7 @@ public class ListContactsPage extends CommonPage {
 		createContactButton.addClickHandler(new CreateContactButtonClickHandler());
 		this.add(createContactButton);
 		ClientsideSettings.getKontaktSharingAdministration().init(new InitCallback());
-		ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByLoggedInNutzer(new GetAllKontaktByNutzerCallback(this));
+		ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(this));
 	}
 	
 	class CreateContactButtonClickHandler implements ClickHandler {
@@ -114,7 +114,7 @@ public class ListContactsPage extends CommonPage {
 								public void onSuccess(Void result) {
 									Window.alert("User mit id " + kontakt.getId() + " und seine Eigenschaftsauspr�gungen wurde gel�scht");
 									table.removeAllRows();
-									ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByLoggedInNutzer(new GetAllKontaktByNutzerCallback(page));
+									ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(page));
 								}
 							});
 						}

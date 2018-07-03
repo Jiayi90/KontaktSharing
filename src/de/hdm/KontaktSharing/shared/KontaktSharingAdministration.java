@@ -20,9 +20,9 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public void init() throws IllegalArgumentException;
 	
-	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws IllegalArgumentException, Exception;
+	public Vector<Kontakt> getAllKontaktByNutzer(int id) throws IllegalArgumentException, Exception;
 	
-	public Vector<Kontakt> getAllKontaktWithNameByLoggedInNutzer() throws IllegalArgumentException, Exception;
+	public Vector<Kontakt> getAllKontaktWithNameByNutzer(int id) throws IllegalArgumentException, Exception;
 
 	/**
 	 * Ein Nutzer anlegen
@@ -183,13 +183,13 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public Vector<Kontaktliste> getAllKontaktlisten() throws IllegalArgumentException, Exception;
 	
-	public void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte) throws IllegalArgumentException, Exception;
+	public void createKontaktlisteForNutzer(int idNutzer, String name, List<Integer> idsKontakte) throws IllegalArgumentException, Exception;
 	
-	public void updateKontaktlisteForLoggedinNutzer(int id, String name, List<Integer> idsKontakte) throws IllegalArgumentException, Exception;
+	public void updateKontaktliste(int id, String name, List<Integer> idsKontakte) throws IllegalArgumentException, Exception;
 
-	public Vector<Kontaktliste> getAllKontaktlistenWithUserCount() throws IllegalArgumentException, Exception;
+	public Vector<Kontaktliste> getAllKontaktlistenWithUserCountForNutzer(int idNutzer) throws IllegalArgumentException, Exception;
 
-	public Kontaktliste getKontaktlistenWithUserinformation();
+	public Kontaktliste getKontaktlistenWithUserinformationForNutzer(int idNutzer) throws IllegalArgumentException, Exception;;
 	
 	public void setCurrentNutzerId(int id);
 	

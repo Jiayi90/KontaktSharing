@@ -32,7 +32,7 @@ public class CreateContactList extends CommonPage {
 		this.add(table);
 		final FlexTable panel = new FlexTable();
 		this.add(panel);
-		this.kontaktSharingAdmin.getAllKontaktWithNameByLoggedInNutzer(new AsyncCallback<Vector<Kontakt>>() {
+		this.kontaktSharingAdmin.getAllKontaktWithNameByNutzer(getLoggedInId(), new AsyncCallback<Vector<Kontakt>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -64,7 +64,7 @@ public class CreateContactList extends CommonPage {
 					}
 				}
 				String name = listNameWidget.getValue();
-				page.kontaktSharingAdmin.createKontaktlisteForLoggedinNutzer(name, ids, new AsyncCallback<Void>() {
+				page.kontaktSharingAdmin.createKontaktlisteForNutzer(getLoggedInId(), name, ids, new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
