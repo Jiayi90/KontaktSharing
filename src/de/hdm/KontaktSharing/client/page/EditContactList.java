@@ -3,8 +3,6 @@ package de.hdm.KontaktSharing.client.page;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -12,7 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;

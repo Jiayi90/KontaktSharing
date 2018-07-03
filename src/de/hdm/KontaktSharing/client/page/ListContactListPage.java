@@ -10,8 +10,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 
-import de.hdm.KontaktSharing.client.ClientsideSettings;
-import de.hdm.KontaktSharing.client.page.ListContactsPage.GetAllKontaktByNutzerCallback;
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
 import de.hdm.KontaktSharing.client.widget.SmallButton;
 import de.hdm.KontaktSharing.shared.bo.Kontaktliste;

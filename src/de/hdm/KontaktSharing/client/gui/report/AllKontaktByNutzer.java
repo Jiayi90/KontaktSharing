@@ -1,21 +1,9 @@
 package de.hdm.KontaktSharing.client.gui.report;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
-import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.cell.client.Cell.Context;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,11 +11,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.ListDataProvider;
-
 import de.hdm.KontaktSharing.client.ClientsideSettings;
 import de.hdm.KontaktSharing.shared.ReportGeneratorAsync;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
