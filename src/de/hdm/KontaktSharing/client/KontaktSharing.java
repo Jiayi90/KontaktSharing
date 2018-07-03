@@ -14,6 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -31,6 +32,8 @@ import de.hdm.KontaktSharing.shared.report.AllKontaktReport;
 //@author samina
 
 public class KontaktSharing implements EntryPoint {
+	
+
 
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
@@ -45,6 +48,8 @@ public class KontaktSharing implements EntryPoint {
 	private Button suchenButton = new Button("Detailsuche");
 	private Button logoutButton = new Button("Logout");
 	private Button loginButton = new Button("Login");
+	
+
 
 	@Override
 	public void onModuleLoad() {
@@ -55,20 +60,27 @@ public class KontaktSharing implements EntryPoint {
 	}
 	
 	private void loadLogin() {
-		CommonPage contentPanel = new EmptyPage("Login");
+		//CommonPage contentPanel = new EmptyPage("Login");
 		
+		
+		loginPanel.add(new HTML ("<p>Herzlich Willkommen auf der Kontakt-Sharing Plattform!</p> "
+		+ "<p>Diese Plattform bietet dir das Anlegen, Bearbeiten, Loeschen und Teilen</p>" +
+		"<p>von Kontakten, Kontaktlisten und Eigenschaften an.</p> "));
 		loginButton.addClickHandler(new loginButtonClickHandler());
 		loginButton.setStylePrimaryName("loginButton");
 		loginPanel.setStylePrimaryName("loginPanel");
 		loginMessage.setStylePrimaryName("landingPageLoginMessage");
 		loginPanel.add(loginMessage);
 		loginPanel.add(loginButton);
-		contentPanel.add(loginPanel);
+		//contentPanel.add(loginPanel);
+		RootPanel.get("content").add(loginPanel);
 		
-		this.showPage(contentPanel, false);
+	//	this.showPage(contentPanel, false);
 	}
 	
 	private void loadKontaktSharing() {
+		
+		RootPanel.get("content").clear();
 		textBox.addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
@@ -209,6 +221,7 @@ public class KontaktSharing implements EntryPoint {
 		}
 	}
 	private void showPage(CommonPage contentPanel, boolean showMenu) {
+
 		VerticalPanel rootPanel = new VerticalPanel();
 		
 		HorizontalPanel mainPanel = new HorizontalPanel();
