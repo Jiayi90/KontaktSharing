@@ -3,8 +3,6 @@ package de.hdm.KontaktSharing.client;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.hdm.KontaktSharing.shared.CommonSettings;
 import de.hdm.KontaktSharing.shared.KontaktSharingAdministration;
 import de.hdm.KontaktSharing.shared.KontaktSharingAdministrationAsync;

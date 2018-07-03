@@ -1,9 +1,7 @@
 package de.hdm.KontaktSharing.shared.bo;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Vector;
-import java.sql.ResultSet;
 
 /**
  * Realisierung eines exemplarischen Kunden.

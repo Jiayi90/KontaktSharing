@@ -2,8 +2,6 @@ package de.hdm.KontaktSharing.shared.report;
 
 import java.util.Vector;
 
-import de.hdm.KontaktSharing.shared.report.*;
-
 /**
  * <p>
  * Ein einfacher Report, der neben den Informationen der Superklasse <code>

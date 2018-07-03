@@ -1,12 +1,8 @@
 package de.hdm.KontaktSharing.shared.bo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.NumberFormat;
-import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Realisierung einer Eigenschaftauspr�gung. Eine Eigenschaftsauspr�gung

@@ -1,10 +1,7 @@
 package de.hdm.KontaktSharing.server.report;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

@@ -1,8 +1,5 @@
 package de.hdm.KontaktSharing.shared.bo;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  * Realisierung eines exemplarischen Nutzers. 
  * 

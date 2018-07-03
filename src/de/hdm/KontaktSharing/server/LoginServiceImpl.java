@@ -6,7 +6,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 import de.hdm.KontaktSharing.client.LoginInfo;
 import de.hdm.KontaktSharing.shared.LoginService;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class LoginServiceImpl extends RemoteServiceServlet implements LoginService {
