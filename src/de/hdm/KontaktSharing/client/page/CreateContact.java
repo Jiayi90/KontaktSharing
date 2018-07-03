@@ -219,7 +219,7 @@ public class CreateContact extends CommonPage {
 			}
 			if(isPresent) {
 				Kontakt kontakt = new Kontakt();
-				kontakt.setIdNutzer(1);
+				kontakt.setIdNutzer(getLoggedInId());
 				ClientsideSettings.getKontaktSharingAdministration().createKontakt(kontakt, new AsyncCallback<Kontakt>() {
 
 					@Override

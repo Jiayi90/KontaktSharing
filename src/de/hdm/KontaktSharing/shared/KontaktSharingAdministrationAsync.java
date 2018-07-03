@@ -13,7 +13,7 @@ public interface KontaktSharingAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 	
-	void getAllKontaktByLoggedInNutzer(AsyncCallback<Vector<Kontakt>> callback);
+	void getAllKontaktByNutzer(int id, AsyncCallback<Vector<Kontakt>> callback);
 
 	void createKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 
@@ -62,7 +62,7 @@ public interface KontaktSharingAdministrationAsync {
 	
 	void getKontaktlistenWithUserinformation(AsyncCallback<Kontaktliste> callback);
 
-	void getAllKontaktWithNameByLoggedInNutzer(AsyncCallback<Vector<Kontakt>> callback);
+	void getAllKontaktWithNameByNutzer(int id, AsyncCallback<Vector<Kontakt>> callback);
 
 	void createKontaktlisteForLoggedinNutzer(String name, List<Integer> idsKontakte, AsyncCallback<Void> callback);
 

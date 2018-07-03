@@ -421,8 +421,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws SQLException {
-		return this.kontaktMapper.findAllByNutzerId(this.currentUserId);
+	public Vector<Kontakt> getAllKontaktByNutzer(int id) throws SQLException {
+		return this.kontaktMapper.findAllByNutzerId(id);
 	}
 
 	@Override
@@ -536,8 +536,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Vector<Kontakt> getAllKontaktWithNameByLoggedInNutzer() throws IllegalArgumentException, Exception {
-		Vector<Kontakt> kontakte = this.getAllKontaktByLoggedInNutzer();
+	public Vector<Kontakt> getAllKontaktWithNameByNutzer(int id) throws IllegalArgumentException, Exception {
+		Vector<Kontakt> kontakte = this.getAllKontaktByNutzer(id);
 		
 		for(Kontakt kontakt: kontakte) {
 			try {

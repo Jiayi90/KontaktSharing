@@ -20,9 +20,9 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public void init() throws IllegalArgumentException;
 	
-	public Vector<Kontakt> getAllKontaktByLoggedInNutzer() throws IllegalArgumentException, Exception;
+	public Vector<Kontakt> getAllKontaktByNutzer(int id) throws IllegalArgumentException, Exception;
 	
-	public Vector<Kontakt> getAllKontaktWithNameByLoggedInNutzer() throws IllegalArgumentException, Exception;
+	public Vector<Kontakt> getAllKontaktWithNameByNutzer(int id) throws IllegalArgumentException, Exception;
 
 	/**
 	 * Ein Nutzer anlegen
