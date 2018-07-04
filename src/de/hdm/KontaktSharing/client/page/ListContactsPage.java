@@ -101,18 +101,18 @@ public class ListContactsPage extends CommonPage {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						boolean delete = Window.confirm("Soll der Kontakt " + name + " gel�scht werden? Diese Aktion ist nicht r�ckg�ngig zu machen");
+						boolean delete = Window.confirm("Soll der Kontakt " + name + " geloescht werden? Diese Aktion ist nicht rueckgaengig zu machen");
 						if(delete) {
 							ClientsideSettings.getKontaktSharingAdministration().delete(kontakt, new AsyncCallback<Void>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									Window.alert("Beim l�schen ist ein Fehler aufgetretten");
+									Window.alert("Beim loeschen ist ein Fehler aufgetretten");
 								}
 
 								@Override
 								public void onSuccess(Void result) {
-									Window.alert("User mit id " + kontakt.getId() + " und seine Eigenschaftsauspr�gungen wurde gel�scht");
+									Window.alert("User mit id " + kontakt.getId() + " und seine Eigenschaftsauspraegungen wurde geloescht");
 									table.removeAllRows();
 									ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(page));
 								}

@@ -45,10 +45,9 @@ public class KontaktSharing implements EntryPoint {
 			.getKontaktSharingAdministration();
 	
 	private TextBox textBox = new TextBox();
-	private Button suchenButton = new Button("Detailsuche");
 	private Button logoutButton = new Button("Logout");
 	private Button loginButton = new Button("Login");
-	
+	Nutzer nu = new Nutzer();	
 
 
 	@Override
@@ -93,18 +92,8 @@ public class KontaktSharing implements EntryPoint {
 				}
 			}
 		});
+	
 		
-		
-		AllKontaktReport kontaktView = new AllKontaktReport();
-
-		// AUFRUF DES BAUMS
-//		CustomTreeModel ctm = new CustomTreeModel();
-//		RootPanel.get("leftmenutree").clear();
-//		RootPanel.get("leftmenutree").add(ctm);
-//
-//		signOutLink.setHref(loginInfo.getLogoutUrl());
-//
-//		Menubar mb = new Menubar();
 	}
 	class loginButtonClickHandler implements ClickHandler {
 
@@ -146,6 +135,7 @@ public class KontaktSharing implements EntryPoint {
 
 		@Override
 		public void onSuccess(Nutzer nutzer) {
+			nu = nutzer;
 			Cookies.setCookie("email", nutzer.getEmail());
 			Cookies.setCookie("id", nutzer.getId()+ "");
 			

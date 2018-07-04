@@ -21,6 +21,18 @@
 		<servlet-name>kontaktSharingAdministrationServlet</servlet-name>
 		<servlet-class>de.hdm.KontaktSharing.server.KontaktSharingAdministrationImpl</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>reportServlet</servlet-name>
+		<servlet-class>de.hdm.KontaktSharing.server.report.ReportGeneratorImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>reportServlet</servlet-name>
+		<url-pattern>/KontaktSharingReport/reportgenerator</url-pattern>
+	</servlet-mapping>
+	
+	
 
 	<servlet-mapping>
 		<servlet-name>loginService</servlet-name>
@@ -31,6 +43,11 @@
 		<servlet-name>kontaktSharingAdministrationServlet</servlet-name>
 		<url-pattern>/KontaktSharing/administrationService</url-pattern>
 	</servlet-mapping>
+	
+	
+	
+	
+
 
 
 </web-app>

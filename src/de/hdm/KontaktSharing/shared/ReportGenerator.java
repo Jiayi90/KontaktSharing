@@ -52,22 +52,19 @@ public interface ReportGenerator extends RemoteService {
 	   */
 	  public abstract AllKontaktByNutzerReport createAllKontaktByNutzer(
 	      Nutzer n) throws IllegalArgumentException;
+	  
+	  
+
+	public AllKontaktByNutzerReport createAllKontaktReport(Nutzer nutzer) throws IllegalArgumentException;
 
 
-	AllKontaktByNutzerReport createAllKontaktReport(Kontakt k) throws IllegalArgumentException;
-
-
-	SelectedEigenschaftauspraegungByNutzerReport createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
+	public SelectedEigenschaftauspraegungByNutzerReport createSelectedEigenschaftauspraegungByNutzer(Nutzer n,
 			Eigenschaftauspraegung ea);
 
 
-	ShareKontaktByNutzerReport createShareKontaktByNutzer(Nutzer n, Kontakt k);
+	public ShareKontaktByNutzerReport createShareKontaktByNutzer(Nutzer n, Kontakt k);
 
 
-	void init();
-
-
-	Nutzer getNutzerByMail(String email);
 	  
 }  
 

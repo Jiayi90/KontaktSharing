@@ -17,34 +17,9 @@ import de.hdm.KontaktSharing.shared.ReportGeneratorAsync;
  * @author Thies, Tran
  */
 
-public class AllKontaktByNutzerReport extends CompositeReport implements Serializable{
+public class AllKontaktByNutzerReport extends SimpleReport implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	
 
-	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Paragraph getHeaderData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Paragraph getImprint() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Date getCreated() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Vector<Row> getRows() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

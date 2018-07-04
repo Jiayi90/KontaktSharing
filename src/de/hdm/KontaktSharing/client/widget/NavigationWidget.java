@@ -1,11 +1,16 @@
 package de.hdm.KontaktSharing.client.widget;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -24,6 +29,8 @@ public class NavigationWidget extends VerticalPanel{
 	private static NavigationWidget singelton;
 	private static Panel container;
 	private static CommonPage contentPanel;
+	
+	private Anchor reportLink = new Anchor();
 
 	public static NavigationWidget getNavigationWidget(Panel newContainer, CommonPage newContentPanel, boolean show) {
 		singelton = new NavigationWidget(container, contentPanel, show);
@@ -52,6 +59,7 @@ public class NavigationWidget extends VerticalPanel{
 			
 			final Button report = new Button("Report", new ClickDisplayReportCallback());
 			report.getElement().setClassName("navi-button");
+		
 			
 			this.add(contact);
 			this.add(contactList);
@@ -87,14 +95,16 @@ public class NavigationWidget extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			NavigationWidget.navigateTo(new KontaktSharingReport());
+	
+			reportLink.setHref(GWT.getHostPageBaseURL() + "KontaktSharingReport.html");
+			Window.open(reportLink.getHref(), "_self", "");
 			
 		}
 		
 	}
 
 	public static void navigateTo(KontaktSharingReport kontaktSharingReport) {
-		// TODO Auto-generated method stub
+		kontaktSharingReport.onModuleLoad();
 		
 	}
 }

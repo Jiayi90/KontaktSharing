@@ -94,7 +94,7 @@ public class ListContactListPage extends CommonPage {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Beim l�schen ist ein Fehler aufgetretten");
+						Window.alert("Beim loeschen ist ein Fehler aufgetretten");
 					}
 
 					@Override
