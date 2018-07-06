@@ -96,5 +96,9 @@ public class ListenstrukturMapper extends CommonMapper<ListenStruktur> {
 	public void delete(int id) throws SQLException {
 		this.excecute("DELETE FROM listenstruktur WHERE Kontaktliste_idKontaktliste=%s", id);
 	}
+	
+	public void deleteByKontaktId(int id) throws SQLException {
+		this.excecute("DELETE FROM listenstruktur WHERE Kontakt_idKontakt=%s", id);
+	}
 
 }

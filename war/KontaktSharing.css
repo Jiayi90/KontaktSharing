@@ -50,15 +50,20 @@ body, html {
 
 #content {
 	margin:1em;
+	width: 100%;
+	padding-right: 32px;
 }
 
 #kontakt-list {
 	border-collapse: collapse;
+	width: 100%;
 }
 
 
 #kontakt-list tr:first-child td {
-	background-color: #ceffce;
+	background-color: #da78ab;
+	color:white;
+	font-weight: bold;
 }
 
 #kontakt-list td {
@@ -87,10 +92,6 @@ a {
 	color: #008CBA;	
 }
 
-div {	
-	border: 1px solid gray;	
-	padding: 8px;	
-}
 
 h1 {	
 	text-align: center;	
@@ -102,3 +103,81 @@ h1 {
 		rgb(255, 45, 149) 0px 0px 50px, rgb(255, 45, 149) 0px 0px 75px;	
 	
  } 
+ 
+ #main {
+ 	width: 100%
+ }
+ 
+#main > tbody > tr:first-child >  td:first-child {
+ 	width: 180px
+ }
+ 
+ table#content td:nth-child(1), table#content td:nth-child(2) {
+ 	width:38px
+ }
+ 
+ .smallButton img {
+ 	margin: 4px;
+ 	height: 32px;
+ }
+ 
+body, table td, select, button {
+ 	font-size: inherit !important;
+ }
+ 
+ .name-label {
+	font-weight: bold;
+	cursor: pointer;
+ }
+ 
+ .name-label:hover {
+	color:#737373;
+ }
+ 
+ table.one-line td {
+ 	white-space: nowrap;
+ }
+ 
+ table.detail-kontakt td {
+ 	padding: 0px 12px 8px 0px;
+ }
+ 
+  table.detail-kontakt > tbody > tr > td:nth-child(1) {
+ 	border-right: 2px solid #da78ab;
+ 	font-weight: bold;
+ 	vertical-align:top;
+ }
+ 
+   table.detail-kontakt > tbody > tr > td:nth-child(2) {
+ 	padding-left: 8px;
+ }
+ 
+ .navibutton td{
+ 	vertical-align: middle !important;;
+ }
+ 
+ .navibutton {
+ 	cursor: pointer;
+ }
+ 
+ .detail-table tr td:nth-child(1){
+ 	font-weight: bold;
+ }
+ 
+ .edit-list {
+ 	width: 100%;
+ }
+ 
+ input[type=checkbox] {
+    zoom: 1.5;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+.scroll-panel {
+    height: calc(100vh - 300px);
+    overflow: auto;
+}
+}

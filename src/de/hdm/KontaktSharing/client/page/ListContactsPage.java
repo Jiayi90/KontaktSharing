@@ -9,7 +9,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import de.hdm.KontaktSharing.client.ClientsideSettings;
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
@@ -121,10 +123,22 @@ public class ListContactsPage extends CommonPage {
 					}
 					
 				});
+				
+				Label nameLabel = new Label(name);
+				nameLabel.getElement().setAttribute("class", "name-label");
+				nameLabel.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						NavigationWidget.navigateTo(new DetailKontakt(kontakt));
+						
+					}
+					
+				});
 				table.insertRow(row);
 				table.setWidget(row, 0, editButton);
 				table.setWidget(row, 1, deleteButton);
-				table.setText(row, 2, name);
+				table.setWidget(row, 2, nameLabel);
 				table.setText(row, 3, kontakt.getErzeugungsdatum().toString());
 				table.setText(row, 4, kontakt.getModifikationsdatum().toString());
 			}
@@ -150,7 +164,13 @@ public class ListContactsPage extends CommonPage {
 		for(Kontakt kontakt: contacts) {
 			createContactRow(kontakt, table);
 		}
-		this.add(table);
+		
+		SimplePanel panel = new SimplePanel();
+		
+		panel.getElement().setClassName("scroll-panel");
+		
+		this.add(panel);
+		panel.add(table);
 	}
 	
 	class GetAllKontaktByNutzerCallback implements AsyncCallback<Vector<Kontakt>> {
