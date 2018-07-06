@@ -1,5 +1,6 @@
 package de.hdm.KontaktSharing.shared.bo;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
@@ -8,7 +9,7 @@ import java.util.Vector;
  * 
  */
 
-public class Kontakt extends BusinessObject implements TeilbaresObjekt {
+public class Kontakt extends BusinessObject implements TeilbaresObjekt, Comparator<Kontakt> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -93,6 +94,11 @@ public class Kontakt extends BusinessObject implements TeilbaresObjekt {
 
 	public void setEigenschaftauspraegung(Vector<Eigenschaftauspraegung> eigenschaftauspraegung) {
 		this.eigenschaftauspraegung = eigenschaftauspraegung;
+	}
+
+	@Override
+	public int compare(Kontakt arg0, Kontakt arg1) {
+		return arg0.getName().toLowerCase().compareTo(arg1.getName().toLowerCase());
 	}
 	
 	

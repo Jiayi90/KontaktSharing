@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
 import de.hdm.KontaktSharing.client.widget.SmallButton;
@@ -41,6 +42,10 @@ public class ListContactListPage extends CommonPage {
 
 		@Override
 		public void onSuccess(Vector<Kontaktliste> result) {
+			SimplePanel panel = new SimplePanel();
+			
+			panel.getElement().setClassName("scroll-panel");
+			
 			table = new FlexTable();
 			table.getElement().setId("kontakt-list");
 			table.setText(0, 2, "Name");
@@ -68,7 +73,10 @@ public class ListContactListPage extends CommonPage {
 				table.setText(row, 3, "" + liste.getKontakte().size());
 			}
 
-			page.add(table);
+
+			
+			panel.add(table);
+			page.add(panel);
 		}
 		
 	}

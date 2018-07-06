@@ -39,9 +39,11 @@ public class EditContactList extends CommonPage {
 		listNameWidget.setValue(liste.getKontaktlistenname());
 		table.setText(0, 0, "Name");
 		table.setWidget(0, 1, listNameWidget);
+		table.getElement().setClassName("edit-list");
 		page.add(table);
 		
 		final FlexTable panel = new FlexTable();
+		panel.getElement().setClassName("edit-list");
 		this.add(panel);
 		
 		this.kontaktSharingAdmin.getAllKontaktWithNameByNutzer(getLoggedInId(), new AsyncCallback<Vector<Kontakt>>() {

@@ -2,6 +2,8 @@ package de.hdm.KontaktSharing.server;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -356,6 +358,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	@Override
 	public void delete(Kontakt kontakt) throws IllegalArgumentException, SQLException {
+		this.listenstrukturMapper.deleteByKontaktId(kontakt.getId());
 		this.eigenschaftauspraegungMapper.deleteByKontaktId(kontakt);
 		this.kontaktMapper.delete(kontakt);
 	}
@@ -546,6 +549,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 				e.printStackTrace();
 			}
 		}
+		Collections.sort(kontakte,new Kontakt());
 		return kontakte;
 	}
 
