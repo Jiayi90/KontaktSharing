@@ -59,7 +59,7 @@ public class KontaktSharing implements EntryPoint {
 	}
 	
 	private void loadLogin() {
-		//CommonPage contentPanel = new EmptyPage("Login");
+		CommonPage contentPanel = new EmptyPage("Login");
 		
 		
 		loginPanel.add(new HTML ("<p>Herzlich Willkommen auf der Kontakt-Sharing Plattform!</p> "
@@ -71,10 +71,9 @@ public class KontaktSharing implements EntryPoint {
 		loginMessage.setStylePrimaryName("landingPageLoginMessage");
 		loginPanel.add(loginMessage);
 		loginPanel.add(loginButton);
-		//contentPanel.add(loginPanel);
-		RootPanel.get("content").add(loginPanel);
+		contentPanel.add(loginPanel);
 		
-	//	this.showPage(contentPanel, false);
+		this.showPage(contentPanel, false);
 	}
 	
 	private void loadKontaktSharing() {

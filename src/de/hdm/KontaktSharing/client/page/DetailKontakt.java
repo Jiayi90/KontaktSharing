@@ -20,15 +20,26 @@ import de.hdm.KontaktSharing.client.widget.SmallButton;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaft;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
+import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 
 public class DetailKontakt extends CommonPage {
 	
 	Kontakt kontakt;
 	String kontaktName = "";
+	Kontaktliste liste;
 	
 	public DetailKontakt(Kontakt kontakt) {
 		this.kontakt = kontakt;
-		
+		createBackButton();
+	}
+	
+	public DetailKontakt(Kontakt kontakt, Kontaktliste liste) {
+		this.liste = liste;
+		this.kontakt = kontakt;
+		createBackButton();
+	}
+	
+	private void createBackButton() {
 		FocusPanel wrapper = new FocusPanel();
 		
 		HorizontalPanel panel = new HorizontalPanel();
@@ -43,7 +54,12 @@ public class DetailKontakt extends CommonPage {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				NavigationWidget.navigateTo(new ListContactsPage());
+				if(liste != null) {
+					NavigationWidget.navigateTo(new DetailKontaktliste(liste));
+				} else {
+					NavigationWidget.navigateTo(new ListContactsPage());
+				}
+				
 			}
 			
 		});

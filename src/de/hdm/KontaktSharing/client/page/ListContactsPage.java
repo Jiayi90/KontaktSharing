@@ -138,9 +138,9 @@ public class ListContactsPage extends CommonPage {
 				table.insertRow(row);
 				table.setWidget(row, 0, editButton);
 				table.setWidget(row, 1, deleteButton);
-				table.setWidget(row, 2, nameLabel);
-				table.setText(row, 3, kontakt.getErzeugungsdatum().toString());
-				table.setText(row, 4, kontakt.getModifikationsdatum().toString());
+				table.setWidget(row, 3, nameLabel);
+				table.setText(row, 4, kontakt.getErzeugungsdatum().toString());
+				table.setText(row, 5, kontakt.getModifikationsdatum().toString());
 			}
 			
 		});
@@ -157,10 +157,11 @@ public class ListContactsPage extends CommonPage {
 	
 	private void createContaktTable(Vector<Kontakt> contacts) {
 		FlexTable table = new FlexTable();
+		table.getElement().setClassName("list");
 		table.getElement().setId("kontakt-list");
-		table.setText(0, 2, "Name");
-		table.setText(0, 3, "Erzeugt am");
-		table.setText(0, 4, "Modifiziert am");
+		table.setText(0, 3, "Name");
+		table.setText(0, 4, "Erzeugt am");
+		table.setText(0, 5, "Modifiziert am");
 		for(Kontakt kontakt: contacts) {
 			createContactRow(kontakt, table);
 		}

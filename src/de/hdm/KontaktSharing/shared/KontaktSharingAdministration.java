@@ -14,6 +14,8 @@ import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
+import de.hdm.KontaktSharing.shared.bo.Teilhaberschaft;
+import de.hdm.KontaktSharing.shared.bo.TeilhaberschaftKontaktliste;
 
 @RemoteServiceRelativePath("administrationService")
 public interface KontaktSharingAdministration extends RemoteService {
@@ -189,7 +191,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 
 	public Vector<Kontaktliste> getAllKontaktlistenWithUserCountForNutzer(int idNutzer) throws IllegalArgumentException, Exception;
 
-	public Kontaktliste getKontaktlistenWithUserinformationForNutzer(int idNutzer) throws IllegalArgumentException, Exception;;
+	public Kontaktliste getKontaktlisteWithUserinformation(int idKontaktliste) throws IllegalArgumentException, Exception;
 	
 	public void setCurrentNutzerId(int id);
 	
@@ -201,4 +203,16 @@ public interface KontaktSharingAdministration extends RemoteService {
 	public Nutzer checkNutzer(String email) ;
 	
 	public Nutzer getNutzerByMailOrCreate(String email) throws Exception;
+	
+	public void shareListe(int idNutzer,int idListe, List<String> mails) throws Exception;
+	
+	public Vector<TeilhaberschaftKontaktliste> getSharedKontaktlistenForUser(int idNutzer) throws Exception;
+	
+	public Vector<Nutzer> getAllNutzerWithoutCurrent(int idNutzer) throws Exception; 
+	
+	public Vector<Nutzer> getAllNutzerInTeilhaberschaft(int idTeilhaberschaft) throws Exception;
+	
+	public void deleteTeilhaberschaft(int idTeilhaberschaft) throws Exception;
+	
+	public void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails) throws Exception;
 }

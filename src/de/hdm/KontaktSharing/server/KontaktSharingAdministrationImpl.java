@@ -71,6 +71,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	
 	private ListenstrukturMapper listenstrukturMapper = null;
 	
+	private TeilhaberschaftNutzerMapper teilhaberschaftNutzerMapper = null;
+	private TeilbaresObjektMapper teilbaresObjektMapper = null;
+	
 	private int currentUserId = 1;
 
 	public KontaktSharingAdministrationImpl() throws IllegalArgumentException {
@@ -96,6 +99,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.kontaktMapper = KontaktMapper.kontaktMapper();
 		this.teilhaberschaftMapper = TeilhaberschaftMapper.teilhaberschaftMapper();
 		this.listenstrukturMapper = ListenstrukturMapper.listenstrukturMapper();
+		this.teilhaberschaftMapper = TeilhaberschaftMapper.teilhaberschaftMapper();
+		this.teilhaberschaftNutzerMapper = TeilhaberschaftNutzerMapper.teilhaberschaftNutzerMapper();
+		this.teilbaresObjektMapper = TeilbaresObjektMapper.teilbaresObjektMapper();
 
 	}
 
@@ -363,7 +369,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.kontaktMapper.delete(kontakt);
 	}
 
-	public Teilhaberschaft createTeilhaberschaft() throws IllegalArgumentException {
+	public Teilhaberschaft createTeilhaberschaft() throws IllegalArgumentException, Exception {
 
 		Teilhaberschaft t = new Teilhaberschaft();
 
@@ -383,7 +389,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Auslesen einer Teilhaberschaft anhand seiner ID
 	 */
 
-	public Teilhaberschaft getTeilhaberschaftById(int id) throws IllegalArgumentException {
+	public Teilhaberschaft getTeilhaberschaftById(int id) throws IllegalArgumentException, Exception {
 		return this.teilhaberschaftMapper.findByKey(id);
 	}
 
@@ -391,7 +397,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Auslesen aller Teilhaberschaft
 	 */
 
-	public Vector<Teilhaberschaft> getAllTeilhaberschaft() throws IllegalArgumentException {
+	public Vector<Teilhaberschaft> getAllTeilhaberschaft() throws IllegalArgumentException, Exception {
 		return this.teilhaberschaftMapper.findAll();
 
 	}
@@ -400,7 +406,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Speichern einer Teilhaberschaft
 	 */
 
-	public void save(Teilhaberschaft t) throws IllegalArgumentException {
+	public void save(Teilhaberschaft t) throws IllegalArgumentException, Exception {
 		teilhaberschaftMapper.update(t);
 	}
 
@@ -408,7 +414,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 * Löschen einer Teilhaberschaft
 	 */
 
-	public void delete(Teilhaberschaft t) throws IllegalArgumentException {
+	public void delete(Teilhaberschaft t) throws IllegalArgumentException, Exception {
 
 		this.teilhaberschaftMapper.delete(t);
 
@@ -573,24 +579,26 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		Vector<Kontaktliste> listen = this.kontaktlisteMapper.findAllByNutzer(idNutzer);
 		for(Kontaktliste liste: listen) {
 			List<Kontakt> kontakte;
-			try {
-				kontakte = this.getKontaktOf(liste);
-				liste.setKontakte(kontakte);
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			kontakte = this.getKontaktOf(liste);
+			liste.setKontakte(kontakte);
+			Integer id = this.teilbaresObjektMapper.findIdFromListe(liste.getId());
+			liste.setTeilhaberschaftId(id);
 		}
 		return listen;
 	}
 
 	@Override
-	public Kontaktliste getKontaktlistenWithUserinformationForNutzer(int idNutzer) {
-		// TODO Auto-generated method stub
-		return null;
+	public Kontaktliste getKontaktlisteWithUserinformation(int idKontaktliste) throws Exception {
+		Kontaktliste liste = this.kontaktlisteMapper.findByKey(idKontaktliste);
+		
+		Vector<Kontakt> kontakte = this.kontaktMapper.findAllByKontaktlistId(idKontaktliste);
+		for(Kontakt kontakt: kontakte) {
+			Vector<Eigenschaftauspraegung> auspraegung = this.eigenschaftauspraegungMapper.findAllByIdKontakt(kontakt.getId());
+			kontakt.setEigenschaftauspraegung(auspraegung);
+		}
+		liste.setKontakte(kontakte);
+		
+		return liste;
 	}
 
 	@Override
@@ -631,6 +639,103 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			return this.nutzerMapper.findByMail(email);
 		}
 	}
+
+	@Override
+	public void shareListe(int idNutzer,int idListe, List<String> mails) throws Exception {
+		Teilhaberschaft th = new Teilhaberschaft();
+		th.setIdNutzer(idNutzer);
+		th = this.teilhaberschaftMapper.insert(th);
+		
+		this.teilbaresObjektMapper.insertKontaktliste(idListe, th.getId());
+		
+		for(String mail: mails) {
+			Nutzer nutzer = this.nutzerMapper.findByMail(mail);
+			TeilhaberschaftNutzer thn = new TeilhaberschaftNutzer();
+			thn.setIdNutzer(nutzer.getId());
+			thn.setIdTeilhaberschaft(th.getId());
+			this.teilhaberschaftNutzerMapper.insert(thn);
+		}
+	}
+
+	@Override
+	public Vector<TeilhaberschaftKontaktliste> getSharedKontaktlistenForUser(int idNutzer) throws Exception {
+		Vector<TeilhaberschaftKontaktliste> thkls = new Vector<TeilhaberschaftKontaktliste>();
+		
+		Vector<TeilhaberschaftNutzer> thns = this.teilhaberschaftNutzerMapper.findAllByNutzer(idNutzer);
+		for(TeilhaberschaftNutzer thn: thns) {
+			Vector<TeilbaresObjekt> tos = this.teilbaresObjektMapper.findAllKontaktlisteByTeilhaberschaft(thn.getIdTeilhaberschaft());
+			Vector<Teilhaberschaft> ths = getTeilhaberschaftenFromTeilbaresObject(tos);
+			for(Teilhaberschaft th: ths) {
+				TeilhaberschaftKontaktliste thkl = new TeilhaberschaftKontaktliste(th);
+				Kontaktliste liste = filterKontaktlisteWithUserinformationByTeilhaberschaft(th.getId(), tos);
+				thkl.setListe(liste);
+				thkls.add(thkl);
+			}
+		}
+		return thkls;
+	}
+	
+	private Vector<Teilhaberschaft> getTeilhaberschaftenFromTeilbaresObject(Vector<TeilbaresObjekt> tos) throws Exception {
+		Vector<Teilhaberschaft> ths = new Vector<Teilhaberschaft>();
+		for(TeilbaresObjekt to: tos) {
+			int idTeilhaberschaft = to.getIdTeilhaberschaft();
+			Teilhaberschaft th = this.teilhaberschaftMapper.findByKey(idTeilhaberschaft);
+			ths.add(th);
+		}
+		
+		return ths;
+	}
+	
+	private Kontaktliste filterKontaktlisteWithUserinformationByTeilhaberschaft(int idTeilhaberschaft, Vector<TeilbaresObjekt> tos) throws Exception {
+		for(TeilbaresObjekt to: tos) {
+			if(to.getIdTeilhaberschaft() == idTeilhaberschaft) {
+				return this.getKontaktlisteWithUserinformation(to.getIdKontaktliste());
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Vector<Nutzer> getAllNutzerWithoutCurrent(int idNutzer) throws Exception {
+		Vector<Nutzer> allNutzer = new Vector<Nutzer>();
+		for(Nutzer nutzer: this.nutzerMapper.findAll()) {
+			if(nutzer.getId() != idNutzer) {
+				allNutzer.add(nutzer);
+			}
+		}
+		return allNutzer;
+	}
+
+	@Override
+	public Vector<Nutzer> getAllNutzerInTeilhaberschaft(int idTeilhaberschaft) throws Exception {
+		Vector<Nutzer> allNutzer = new Vector<Nutzer>();
+		Vector<TeilhaberschaftNutzer> thns = this.teilhaberschaftNutzerMapper.findAllTeilhaberschaft(idTeilhaberschaft);
+		for(TeilhaberschaftNutzer thn: thns) {
+			Nutzer nutzer = this.getNutzerById(thn.getIdNutzer());
+			allNutzer.add(nutzer);
+		}
+		return allNutzer;
+	}
+
+	@Override
+	public void deleteTeilhaberschaft(int idTeilhaberschaft) throws Exception {
+		this.teilbaresObjektMapper.deleteForTeilhaberschaft(idTeilhaberschaft);
+		this.teilhaberschaftNutzerMapper.deleteByTeilhaberschaft(idTeilhaberschaft);
+		this.teilhaberschaftMapper.delete(idTeilhaberschaft);
+	}
+
+	@Override
+	public void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails) throws Exception {
+		this.teilhaberschaftNutzerMapper.deleteByTeilhaberschaft(idTeilhaberschaft);
+		for(String mail: mails) {
+			Nutzer nutzer = this.nutzerMapper.findByMail(mail);
+			TeilhaberschaftNutzer thn = new TeilhaberschaftNutzer();
+			thn.setIdNutzer(nutzer.getId());
+			thn.setIdTeilhaberschaft(idTeilhaberschaft);
+			this.teilhaberschaftNutzerMapper.insert(thn);
+		}
+	}
+	
 
 }
 

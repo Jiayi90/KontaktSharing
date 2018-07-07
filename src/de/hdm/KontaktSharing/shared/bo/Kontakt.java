@@ -9,7 +9,7 @@ import java.util.Vector;
  * 
  */
 
-public class Kontakt extends BusinessObject implements TeilbaresObjekt, Comparator<Kontakt> {
+public class Kontakt extends BusinessObject implements Comparator<Kontakt> {
 
 	private static final long serialVersionUID = 1L;
 

@@ -27,6 +27,10 @@
 	width: 100%;
 }
 
+.full-width {
+	width: 100%;
+}
+
 body, html {
 	padding: 0 !important;
 	margin: 0 !important;
@@ -112,7 +116,7 @@ h1 {
  	width: 180px
  }
  
- table#content td:nth-child(1), table#content td:nth-child(2) {
+ table.list td:nth-child(1), table.list td:nth-child(2), table.list td:nth-child(3) {
  	width:38px
  }
  
@@ -180,4 +184,33 @@ body {
     height: calc(100vh - 300px);
     overflow: auto;
 }
+
+.name-input {
+	height: 32px;
+}
+
+.input-flex {
+	width:100%
+}
+
+.input-flex td:nth-child(2) {
+	width: 150px;
+}
+
+.input-flex td:nth-child(2) button {
+    height: 32px;
+    margin-left: 10px;
+}
+
+.list-view {
+	width:100%;
+}
+
+.list-view tr{
+	font-size:1.5em;
+	cursor: pointer;
+}
+
+.list-view tr:nth-child(odd){
+	background: #fdd0e8;
 }

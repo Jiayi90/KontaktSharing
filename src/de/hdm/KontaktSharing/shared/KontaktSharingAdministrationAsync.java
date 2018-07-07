@@ -60,7 +60,7 @@ public interface KontaktSharingAdministrationAsync {
 	
 	void getAllKontaktlistenWithUserCountForNutzer(int idNutzer, AsyncCallback<Vector<Kontaktliste>> callback);
 	
-	void getKontaktlistenWithUserinformationForNutzer(int idNutzer, AsyncCallback<Kontaktliste> callback);
+	void getKontaktlisteWithUserinformation(int idKontaktliste, AsyncCallback<Kontaktliste> callback);
 
 	void getAllKontaktWithNameByNutzer(int id, AsyncCallback<Vector<Kontakt>> callback);
 
@@ -74,5 +74,19 @@ public interface KontaktSharingAdministrationAsync {
 	void checkNutzer(String mail, AsyncCallback<Nutzer> callback);
 
 	void getNutzerByMailOrCreate(String email, AsyncCallback<Nutzer> callback);
+	
+	void shareListe(int idNutzer,int idListe, List<String> mails, AsyncCallback<Void> callback);
+	
+	void getSharedKontaktlistenForUser(int idNutzer, AsyncCallback<Vector<TeilhaberschaftKontaktliste>> callback);
+	
+	void getAllNutzerWithoutCurrent(int idNutzer, AsyncCallback<Vector<Nutzer>> callback);
+	
+	void getAllNutzerInTeilhaberschaft(int idTeilhaberschaft, AsyncCallback<Vector<Nutzer>> callback);
+	
+	void deleteTeilhaberschaft(int idTeilhaberschaft, AsyncCallback<Void> callback);
+	
+	void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails, AsyncCallback<Void> callback);
+	
 
+	
 }
