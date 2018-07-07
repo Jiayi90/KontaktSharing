@@ -6,10 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import de.hdm.KontaktSharing.shared.bo.Nutzer;
 import de.hdm.KontaktSharing.shared.bo.Teilhaberschaft;
 
 
-public class TeilhaberschaftMapper {
+public class TeilhaberschaftMapper extends CommonMapper<Teilhaberschaft> {
 
 	/**
 	 * Die Klasse TeilhaberschaftMapper wird nur einmal instantiiert. Man spricht
@@ -54,35 +55,8 @@ public class TeilhaberschaftMapper {
 		return teilhaberschaftMapper;
 	}
 	
-	public Teilhaberschaft findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT idTeilhaberschaft FROM teilhaberschaft "
-					+ "WHERE idTeilhaberschaft=" + id);
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben werden.
-			 * Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// neue Teilhaberschaft wird ausgegeben
-				return new Teilhaberschaft(rs);
-			}
-		}
-
-		catch (SQLException e2) {
-			e2.printStackTrace();
-			// Teilhaberschaft gefunden, aber zuordnung zum BO resultiert in einem Fehler
-			return null;
-		}
-		// Kein Teilhaberschaft gefunden dann null
-		return null;
+	public Teilhaberschaft findByKey(int id) throws SQLException {
+		return this.findObject("SELECT idTeilhaberschaft, Name, Nutzer_idNutzer FROM teilhaberschaft WHERE idTeilhaberschaft=%s", id);
 	}
 
 	/**
@@ -91,51 +65,15 @@ public class TeilhaberschaftMapper {
 	 * @return Ein Vektor mit Teilhaberschaft-Objekten, die sämtliche Teilhaberschaften
 	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter oder
 	 *         ggf. auch leerer Vetor zurückgeliefert.
+	 * @throws SQLException 
 	 */
-	public Vector<Teilhaberschaft> findAll() {
-		Connection con = DBConnection.connection();
-
-		// Ergebnisvektor vorbereiten
-		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(
-					"SELECT idTeilhaberschaft FROM teilhaberschaft");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
-			while (rs.next()) {
-				Teilhaberschaft th = new Teilhaberschaft(rs);
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.addElement(th);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
+	public Vector<Teilhaberschaft> findAll() throws SQLException {
+		return this.findVector("SELECT idTeilhaberschaft, Name ,Nutzer_idNutzer FROM teilhaberschaft");
 	}
 
 
-	public Teilhaberschaft insert(Teilhaberschaft th) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			
-			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO teilhaberschaft (idTeilhaberschaft) "
-						+ "VALUES (" + th.getId() +  ")");
-			
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		return th;
+	public Teilhaberschaft insert(Teilhaberschaft th) throws SQLException {
+		return this.insert("INSERT INTO teilhaberschaft (Name, Nutzer_idNutzer) VALUES (%s, %s)", th.getName(), th.getIdNutzer());
 	}
 
 	/**
@@ -144,20 +82,10 @@ public class TeilhaberschaftMapper {
 	 * @param th
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
+	 * @throws SQLException 
 	 */
-	public Teilhaberschaft update(Teilhaberschaft th) {
-		Connection con = DBConnection.connection();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("UPDATE teilhaberschaft;");
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Um Analogie zu insert(Teilhaberschaft th) zu wahren, geben wir th zurück
+	public Teilhaberschaft update(Teilhaberschaft th) throws SQLException {
+		this.excecute("UPDATE teilhaberschaft SET Name ='" + th.getName() + " WHERE idNutzer = '" + th.getId());
 		return th;
 	}
 
@@ -166,18 +94,23 @@ public class TeilhaberschaftMapper {
 	 * 
 	 * @param th
 	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException 
 	 */
-	public void delete(Teilhaberschaft th) {
-		Connection con = DBConnection.connection();
+	public void delete(Teilhaberschaft th) throws SQLException {
+		this.delete(th.getId());
+	}
+	
+	public void delete(int id) throws SQLException {
+		this.excecute("DELETE FROM teilhaberschaft WHERE idTeilhaberschaft=" + id);
+	}
 
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE idTeilhaberschaft=" + th.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+	@Override
+	protected Teilhaberschaft createFromResultSet(ResultSet rs) throws SQLException {
+		Teilhaberschaft th = new Teilhaberschaft();
+		th.setId(rs.getInt("idTeilhaberschaft"));
+		th.setName(rs.getString("Name"));
+		th.setIdNutzer(rs.getInt("Nutzer_idNutzer"));
+		return th;
 	}
 
 }

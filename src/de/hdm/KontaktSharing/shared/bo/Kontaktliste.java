@@ -7,7 +7,7 @@ import java.util.List;
  * 
  */
 
-public class Kontaktliste extends BusinessObject implements TeilbaresObjekt{
+public class Kontaktliste extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,6 +25,11 @@ public class Kontaktliste extends BusinessObject implements TeilbaresObjekt{
 	 * Die Id des Nutzers, der die Liste erstellt hat
 	 */
 	private int nutzerId;
+	
+	private boolean wasShared;
+	
+	
+	private Integer teilhaberschaftId;
 
 	/**
 	 * No-Argument Constructor
@@ -69,6 +74,27 @@ public class Kontaktliste extends BusinessObject implements TeilbaresObjekt{
 
 	public void setNutzerId(int nutzerId) {
 		this.nutzerId = nutzerId;
+	}
+
+	public boolean isWasShared() {
+		return wasShared;
+	}
+
+	public void setWasShared(boolean wasShared) {
+		this.wasShared = wasShared;
+	}
+
+	public boolean isShared() {
+		return teilhaberschaftId != null;
+	}
+
+
+	public Integer getTeilhaberschaftId() {
+		return teilhaberschaftId;
+	}
+
+	public void setTeilhaberschaftId(Integer teilhaberschaftId) {
+		this.teilhaberschaftId = teilhaberschaftId;
 	}
 
 	

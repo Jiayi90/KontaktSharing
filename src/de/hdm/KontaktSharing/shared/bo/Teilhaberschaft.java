@@ -11,6 +11,9 @@ import java.sql.SQLException;
 public class Teilhaberschaft extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
+	
+	private String name;
+	private int idNutzer;
 
 	/**
 	 * No Argument Constructor
@@ -18,15 +21,23 @@ public class Teilhaberschaft extends BusinessObject {
 	public Teilhaberschaft() {
 		super();
 	}
-	
-	/**
-	 * Falls Fehler beim erstellen einer Teilhaberschaft auftritt, wird eine Exception geworfen
-	 * @param rs
-	 * @throws SQLException
-	 */
-	public Teilhaberschaft(ResultSet rs) throws SQLException {
-		super(rs.getInt("idTeilhaberschaft"));
-		
+
+	public String getName() {
+		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getIdNutzer() {
+		return idNutzer;
+	}
+
+	public void setIdNutzer(int idNutzer) {
+		this.idNutzer = idNutzer;
+	}
+	
+	
 
 }
