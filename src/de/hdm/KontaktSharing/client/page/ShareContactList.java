@@ -20,12 +20,13 @@ public class ShareContactList extends CommonPage implements ChooseUserPage{
 	ShareContactList(Kontaktliste liste) {
 		this.liste = liste;		
 	}
+	
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Kontaktliste teilen";
 	}
-
+	
 	@Override
 	protected void run() {
 		final ShareContactList page = this;
@@ -44,6 +45,7 @@ public class ShareContactList extends CommonPage implements ChooseUserPage{
 		});
 		
 	}
+	
 	@Override
 	public void confirmMailEvent(List<String> mails) {
 		

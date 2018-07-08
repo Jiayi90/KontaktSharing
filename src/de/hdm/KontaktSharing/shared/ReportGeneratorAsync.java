@@ -16,15 +16,35 @@ import de.hdm.KontaktSharing.shared.report.*;
 
 public interface ReportGeneratorAsync {
 
+	/**
+	 * Alle Kontakte des Nutzers anlegen
+	 * @param n
+	 * @param callback
+	 */
 	void createAllKontaktByNutzer(Nutzer n, AsyncCallback<AllKontaktByNutzerReport> callback);
 
-	
-	
-	void createSelectedEigenschaftauspraegungByNutzer(Nutzer n, Eigenschaftauspraegung ea, AsyncCallback<SelectedEigenschaftauspraegungByNutzerReport> callback);
+	/**
+	 * ausgewaehlte Eigenschaftsauspraegungen des Nutzers anlegen
+	 * @param n
+	 * @param ea
+	 * @param callback
+	 */
+	void createSelectedEigenschaftauspraegungByNutzer(Nutzer n, Eigenschaftauspraegung ea,
+			AsyncCallback<SelectedEigenschaftauspraegungByNutzerReport> callback);
 
+	/**
+	 * geteilte Kontakte vom Nutzer anlegen
+	 * @param n
+	 * @param k
+	 * @param callback
+	 */
 	void createShareKontaktByNutzer(Nutzer n, Kontakt k, AsyncCallback<ShareKontaktByNutzerReport> callback);
-	void createAllKontaktReport(Nutzer n, AsyncCallback<AllKontaktByNutzerReport> callback);
 
-	
+	/**
+	 * alle Kontakte im Report anlegen
+	 * @param n
+	 * @param callback
+	 */
+	void createAllKontaktReport(Nutzer n, AsyncCallback<AllKontaktByNutzerReport> callback);
 
 }

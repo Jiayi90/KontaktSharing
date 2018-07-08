@@ -21,19 +21,31 @@ public class Teilhaberschaft extends BusinessObject {
 	public Teilhaberschaft() {
 		super();
 	}
-
+	/**
+	 * auslesen von name
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * setzen von name
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	/**
+	 * auslesen von Nutzerid
+	 * @return idNutzer
+	 */
 	public int getIdNutzer() {
 		return idNutzer;
 	}
-
+	/**
+	 * setzen von Nutzerid
+	 * @param idNutzer
+	 */
 	public void setIdNutzer(int idNutzer) {
 		this.idNutzer = idNutzer;
 	}

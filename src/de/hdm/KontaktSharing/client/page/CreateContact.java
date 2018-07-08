@@ -24,7 +24,6 @@ import de.hdm.KontaktSharing.shared.bo.Typ;
 
 public class CreateContact extends CommonPage {
 
-
 	@Override
 	protected String getHeadlineText() {
 		return "Neuer Kontakt erstellen";
@@ -33,7 +32,8 @@ public class CreateContact extends CommonPage {
 	@Override
 	protected void run() {
 		FlexTable table = new FlexTable();
-		table.getElement().setClassName("detail-table");;
+		table.getElement().setClassName("detail-table");
+		;
 		ClientsideSettings.getKontaktSharingAdministration().getAllEigenschaft(new RenderForm(table));
 		this.add(table);
 		Button saveButton = new Button("Neuen Kontakt erstellen");
@@ -41,6 +41,7 @@ public class CreateContact extends CommonPage {
 		this.add(saveButton);
 	}
 
+	
 	class RenderForm implements AsyncCallback<Vector<Eigenschaft>> {
 		FlexTable table;
 
@@ -56,11 +57,15 @@ public class CreateContact extends CommonPage {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> eigenschaften) {
-			for(Eigenschaft eigenschaft: eigenschaften) {
+			for (Eigenschaft eigenschaft : eigenschaften) {
 				createRow(eigenschaft);
 			}
 		}
 
+		/**
+		 * 
+		 * @param eigenschaft
+		 */
 		private void createRow(Eigenschaft eigenschaft) {
 			if (eigenschaft.isMehrfach()) {
 				createMultipleRow(eigenschaft);
@@ -68,26 +73,39 @@ public class CreateContact extends CommonPage {
 				createSimpleRow(eigenschaft);
 			}
 		}
-
+		
+		/**
+		 * 
+		 * @param eigenschaft
+		 */
 		private void createSimpleRow(Eigenschaft eigenschaft) {
 			int row = table.getRowCount();
 			table.setText(row, 0, eigenschaft.getBezeichnung());
-			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschaftid", String.valueOf(eigenschaft.getId()));
-			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschafttyp", String.valueOf(eigenschaft.getTyp()));
+			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschaftid",
+					String.valueOf(eigenschaft.getId()));
+			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschafttyp",
+					String.valueOf(eigenschaft.getTyp()));
 			table.setWidget(row, 1, getWidgetForTyp(eigenschaft.getTyp()));
 		}
 
+		/**
+		 * 
+		 * @param eigenschaft
+		 */
 		private void createMultipleRow(Eigenschaft eigenschaft) {
 			int row = table.getRowCount();
 			table.setText(row, 0, eigenschaft.getBezeichnung());
-			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschaftid", String.valueOf(eigenschaft.getId()));
-			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschafttyp", String.valueOf(eigenschaft.getTyp()));
+			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschaftid",
+					String.valueOf(eigenschaft.getId()));
+			table.getCellFormatter().getElement(row, 0).setAttribute("data-eigenschafttyp",
+					String.valueOf(eigenschaft.getTyp()));
 			table.setWidget(row, 1, getWidgetForTyp(eigenschaft.getTyp()));
 			SmallButton addButton = new SmallButton("icons/plus-small.png");
 			addButton.addClickHandler(new AddMultiple(table, eigenschaft));
 			table.setWidget(row, 2, addButton);
 		}
 
+		
 		class AddMultiple implements ClickHandler {
 			private FlexTable table;
 			private Eigenschaft eigenschaft;
@@ -114,7 +132,10 @@ public class CreateContact extends CommonPage {
 				}
 				insertRow(table.getRowCount());
 			}
-
+			/**
+			 * 
+			 * @param row
+			 */
 			private void insertRow(int row) {
 				table.setWidget(row, 1, getWidgetForTyp(eigenschaft.getTyp()));
 				SmallButton removeButton = new SmallButton("icons/minus-small.png");
@@ -127,19 +148,24 @@ public class CreateContact extends CommonPage {
 		class RemoveMultiple implements ClickHandler {
 			FlexTable table;
 			SmallButton button;
+
 			RemoveMultiple(FlexTable table, SmallButton button) {
 				this.table = table;
 				this.button = button;
 			}
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				int index = this.table.getCellForEvent(event).getRowIndex();
 				table.removeRow(index);
 			}
-			
-		}
 
+		}
+		/**
+		 * 
+		 * @param typ
+		 * @return typ
+		 */
 		private Widget getWidgetForTyp(Typ typ) {
 			if (typ == Typ.STRING) {
 				return new TextBox();
@@ -154,21 +180,21 @@ public class CreateContact extends CommonPage {
 
 	}
 	
-	
 	class SaveEigenschaftenauspraegung implements ClickHandler {
 		FlexTable table;
+
 		SaveEigenschaftenauspraegung(FlexTable table) {
 			this.table = table;
 		}
 
 		@Override
 		public void onClick(ClickEvent event) {
-			NavigableMap<Integer, Eigenschaft> eigenschaften= new TreeMap<Integer, Eigenschaft>();
-			for(int row = 0; row < table.getRowCount(); row ++) {
-				for(int col = 0; col < table.getCellCount(row); col++) {
+			NavigableMap<Integer, Eigenschaft> eigenschaften = new TreeMap<Integer, Eigenschaft>();
+			for (int row = 0; row < table.getRowCount(); row++) {
+				for (int col = 0; col < table.getCellCount(row); col++) {
 					String idRaw = table.getCellFormatter().getElement(row, 0).getAttribute("data-eigenschaftid");
 					String typRaw = table.getCellFormatter().getElement(row, 0).getAttribute("data-eigenschafttyp");
-					if(idRaw != null && !idRaw.isEmpty()) {
+					if (idRaw != null && !idRaw.isEmpty()) {
 						int id = Integer.parseInt(idRaw);
 						Eigenschaft eigenschaft = new Eigenschaft();
 						eigenschaft.setId(id);
@@ -177,78 +203,82 @@ public class CreateContact extends CommonPage {
 					}
 				}
 			}
-			
+
 			final Vector<Eigenschaftauspraegung> auspraegungen = new Vector<Eigenschaftauspraegung>();
-			for(Map.Entry<Integer, Eigenschaft> current :eigenschaften.entrySet()) {
+			for (Map.Entry<Integer, Eigenschaft> current : eigenschaften.entrySet()) {
 				int fromRow = current.getKey();
 				Eigenschaft eigenschaft = current.getValue();
-			    Map.Entry<Integer, Eigenschaft> next = eigenschaften.higherEntry(current.getKey());
-			    
-			    int toRow = (next == null) ? table.getRowCount() : next.getKey();
-			    
-			    for(int row = fromRow; row < toRow; row ++) {
-			    	Widget widget = table.getWidget(row, 1);
-			    	Typ typ = eigenschaft.getTyp();
+				Map.Entry<Integer, Eigenschaft> next = eigenschaften.higherEntry(current.getKey());
+
+				int toRow = (next == null) ? table.getRowCount() : next.getKey();
+
+				for (int row = fromRow; row < toRow; row++) {
+					Widget widget = table.getWidget(row, 1);
+					Typ typ = eigenschaft.getTyp();
 					Eigenschaftauspraegung eigausp = new Eigenschaftauspraegung();
 					eigausp.setIdEigenschaft(eigenschaft.getId());
-			    	if(typ == Typ.DATE) {
-			    		String value = ((TextBox) widget).getValue();		    			
-			    		if(value == null || value.isEmpty())
-			    			continue;
-			    		DateTimeFormat simpleDateFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
-	
+					if (typ == Typ.DATE) {
+						String value = ((TextBox) widget).getValue();
+						if (value == null || value.isEmpty())
+							continue;
+						DateTimeFormat simpleDateFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
+
 						eigausp.setDatum(simpleDateFormat.parse(value));
-			    	} else if (typ == Typ.INT) {
-			    		String value = ((TextBox) widget).getValue();
-			    		if(value == null || value.isEmpty())
-			    			continue;
-			    		eigausp.setZahl(Integer.valueOf(value));
-			    	} else {
-			    		String value = ((TextBox) widget).getValue();
-			    		if(value == null || value.isEmpty())
-			    			continue;
-			    		eigausp.setText(value);
-			    	}
-			    	auspraegungen.add(eigausp);
-			    }
+					} else if (typ == Typ.INT) {
+						String value = ((TextBox) widget).getValue();
+						if (value == null || value.isEmpty())
+							continue;
+						eigausp.setZahl(Integer.valueOf(value));
+					} else {
+						String value = ((TextBox) widget).getValue();
+						if (value == null || value.isEmpty())
+							continue;
+						eigausp.setText(value);
+					}
+					auspraegungen.add(eigausp);
+				}
 			}
 			boolean isPresent = false;
-			for(Eigenschaftauspraegung auspraegung: auspraegungen) {
-				if(auspraegung.getIdEigenschaft() == 1) {
+			for (Eigenschaftauspraegung auspraegung : auspraegungen) {
+				if (auspraegung.getIdEigenschaft() == 1) {
 					isPresent = true;
 				}
 			}
-			if(isPresent) {
+			if (isPresent) {
 				Kontakt kontakt = new Kontakt();
 				kontakt.setIdNutzer(getLoggedInId());
-				ClientsideSettings.getKontaktSharingAdministration().createKontakt(kontakt, new AsyncCallback<Kontakt>() {
+				ClientsideSettings.getKontaktSharingAdministration().createKontakt(kontakt,
+						new AsyncCallback<Kontakt>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
 
-					@Override
-					public void onSuccess(Kontakt newKontakt) {
-						for(Eigenschaftauspraegung auspraegung: auspraegungen) {
-							auspraegung.setIdKontakt(newKontakt.getId());
-						}
-						ClientsideSettings.getKontaktSharingAdministration().createEigenschaftauspraegungen(auspraegungen, new KontaktCreated());	
-					}
-				});	
+							}
+
+							@Override
+							public void onSuccess(Kontakt newKontakt) {
+								for (Eigenschaftauspraegung auspraegung : auspraegungen) {
+									auspraegung.setIdKontakt(newKontakt.getId());
+								}
+								ClientsideSettings.getKontaktSharingAdministration()
+										.createEigenschaftauspraegungen(auspraegungen, new KontaktCreated());
+							}
+						});
 			} else {
 				Window.alert("Bitte geben Sie dem Kontakt einen Name");
 			}
-		} 
+		}
 	}
 }
+
+
 class KontaktCreated implements AsyncCallback<Void> {
 
 	@Override
 	public void onFailure(Throwable caught) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

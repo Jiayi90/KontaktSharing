@@ -24,6 +24,7 @@ public class ListContactListPage extends CommonPage {
 	Vector<TeilhaberschaftKontaktliste> sharedListen = new Vector<TeilhaberschaftKontaktliste>();
 	SimplePanel panel = new SimplePanel();
 
+	
 	@Override
 	protected String getHeadlineText() {
 		return "Kontaktlisten";
@@ -70,7 +71,7 @@ public class ListContactListPage extends CommonPage {
 
 	}
 	
-
+	
 	private void renderTable() {
 		panel.clear();
 
@@ -166,7 +167,7 @@ public class ListContactListPage extends CommonPage {
 		panel.add(table);
 		page.add(panel);
 	}
-
+	
 	class CreateContactListButtonClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {

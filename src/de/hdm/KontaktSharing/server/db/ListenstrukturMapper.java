@@ -57,8 +57,8 @@ public class ListenstrukturMapper extends CommonMapper<ListenStruktur> {
 	 * wird genau ein Objekt zur�ckgegeben.
 	 * 
 	 * @param id
-	 *            Primärschlüsselattribut (->DB)
-	 * @return Kontakt-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 *           PK-Attribut (->DB)
+	 * @return Kontakt-Objekt, das dem uebergebenen Schluessel entspricht, null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 * @throws SQLException 
 	 */
@@ -70,33 +70,59 @@ public class ListenstrukturMapper extends CommonMapper<ListenStruktur> {
 		list.setIdKontaktliste(rs.getInt("Kontakt_idKontakt"));
 		return list;
 	}
-
+	/**
+	 * Listenstruktur anhand der id auslesen
+	 */
 	@Override
 	public ListenStruktur findByKey(int id) throws SQLException {
 		return null;
 	}
-
+	/**
+	 * alle Listenstrukturen auslesen
+	 */
 	@Override
 	public Vector<ListenStruktur> findAll() throws SQLException {
 		return this.findVector("SELECT Kontaktliste_idKontaktliste, Kontakt_idKontakt FROM listenstruktur");
 	}
-	
+	/**
+	 * Listenstruktur anhand der KontaktlisteenId auslesen
+	 * @param id
+	 * @return id
+	 * @throws SQLException
+	 */
 	public Vector<ListenStruktur> findByKontaktlistId(int id) throws SQLException {
 		return this.findVector("SELECT Kontaktliste_idKontaktliste, Kontakt_idKontakt FROM listenstruktur WHERE Kontaktliste_idKontaktliste=%s", id);
 	}
-	
+	/**
+	 * Datensatz in Kontaktlistenid einfuegen
+	 * @param idKontaktliste
+	 * @param idKontakt
+	 * @throws SQLException
+	 */
 	public void insert(int idKontaktliste, int idKontakt) throws SQLException {
 		this.excecute("INSERT INTO listenstruktur (Kontaktliste_idKontaktliste, Kontakt_idKontakt) VALUES (%s, %s)", idKontaktliste, idKontakt);
 	}
-	
+	/**
+	 * Kontaktliste loeschen
+	 * @param kl
+	 * @throws SQLException
+	 */
 	public void delete(Kontaktliste kl) throws SQLException {
 		this.delete(kl.getId());
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @throws SQLException
+	 */
 	public void delete(int id) throws SQLException {
 		this.excecute("DELETE FROM listenstruktur WHERE Kontaktliste_idKontaktliste=%s", id);
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @throws SQLException
+	 */
 	public void deleteByKontaktId(int id) throws SQLException {
 		this.excecute("DELETE FROM listenstruktur WHERE Kontakt_idKontakt=%s", id);
 	}

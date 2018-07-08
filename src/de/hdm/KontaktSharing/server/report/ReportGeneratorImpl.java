@@ -18,7 +18,7 @@ import de.hdm.KontaktSharing.shared.report.*;
 /**
  * Implementierung des <code>ReportGenerator</code>-Interface. Die technische
  * Realisierung bzgl. <code>RemoteServiceServlet</code> bzw. GWT RPC erfolgt
- * analog zu {@KontaktSharingAdministrationImpl}. Für Details zu GWT RPC siehe
+ * analog zu {@KontaktSharingAdministrationImpl}. Fuer Details zu GWT RPC siehe
  * dort.
  * 
  * @see ReportGenerator

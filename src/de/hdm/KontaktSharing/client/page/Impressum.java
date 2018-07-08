@@ -20,7 +20,7 @@ public class Impressum extends VerticalPanel {
 					+ "ien Stuttgart. <br> <br><A HREF=\"https://www.hdm-stuttgart.de/"
 					+ "impressum\"TARGET=\"_blank\">Impressum der Hochschule</A>" + "</div>");
 	
-
+	
 	protected void run() {
 		ft1.setWidget(0, 0, an1);
 		ft1.setWidget(0, 0, html1);

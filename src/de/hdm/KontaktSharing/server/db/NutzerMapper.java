@@ -62,20 +62,31 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	/**
 	 * Auslesen aller Nutzer.
 	 *
-	 * @return Ein Vektor mit Nutzer-Objekten, die s�mtliche Nutzer repr�sentieren.
+	 * @return Ein Vektor mit Nutzer-Objekten, die saemtlicher Nutzer repraesentiert.
 	 *         Bei evtl. Exceptions wird ein partiell gef�llter oder ggf. auch
-	 *         leerer Vetor zur�ckgeliefert.
+	 *         leerer Vetor zurueckgeliefert.
 	 * @throws SQLException 
 	 */
 	public Vector<Nutzer> findAll() throws SQLException {
 		return this.findVector("SELECT idNutzer, Email FROM nutzer");
 	}
 	
+	/**
+	 * Gibt Nutzer anhand der Email aus
+	 * @param mail
+	 * @return mail
+	 * @throws SQLException
+	 */
 	
 	public Nutzer findByMail(String mail) throws SQLException {
 		return this.findObject("SELECT idNutzer, Email FROM nutzer WHERE Email='" + mail +"'");
 	}
-
+	/**
+	 * Fuegt Datensatz in Nutzer ein
+	 * @param n
+	 * @return
+	 * @throws SQLException
+	 */
 	public Nutzer insert(Nutzer n) throws SQLException {
 		return this.insert("INSERT INTO nutzer ( Email) " + "VALUES ('" + n.getEmail() + "')");
 	}
@@ -94,7 +105,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	}
 
 	/**
-	 * L�schen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
+	 * Loeschen der Daten eines <code>Nutzers</code>-Objekts aus der Datenbank.
 	 * 
 	 * @param n
 	 *            das aus der DB zu l�schende "Objekt"
@@ -103,6 +114,7 @@ public class NutzerMapper extends CommonMapper<Nutzer> {
 	public void delete(Nutzer n) throws SQLException {
 		this.excecute("DELETE FROM nutzer " + "WHERE idNutzer=" + n.getId());
 	}
+	
 	
 
 	@Override

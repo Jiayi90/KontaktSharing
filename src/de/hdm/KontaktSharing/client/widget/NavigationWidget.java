@@ -40,13 +40,21 @@ public class NavigationWidget extends VerticalPanel{
 	}
 	
 	
-	
+	/**
+	 * Navigation zur CommonPage navigieren
+	 * @param newContentPanel
+	 */
 	public static void navigateTo(CommonPage newContentPanel) {
 		container.remove(contentPanel);
 		contentPanel = newContentPanel;
 		container.add(newContentPanel);
 	}
-	
+	/**
+	 * NaviWidget definieren
+	 * @param container
+	 * @param contentPanel
+	 * @param show
+	 */
 	private NavigationWidget(Panel container, CommonPage contentPanel, boolean show) {
 		this.getElement().setId("navigator");
 		if(show) {
@@ -102,7 +110,10 @@ public class NavigationWidget extends VerticalPanel{
 		}
 		
 	}
-
+	/**
+	 * zum Report navigieren
+	 * @param kontaktSharingReport
+	 */
 	public static void navigateTo(KontaktSharingReport kontaktSharingReport) {
 		kontaktSharingReport.onModuleLoad();
 		

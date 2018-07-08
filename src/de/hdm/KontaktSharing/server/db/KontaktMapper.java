@@ -24,7 +24,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	private static KontaktMapper kontaktMapper = null;
 
 	/**
-	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+	 * Geschuetzter Konstruktor - verhindert die Moeglichkeit, mit <code>new</code>
 	 * neue Instanzen dieser Klasse zu erzeugen.
 	 */
 
@@ -34,7 +34,7 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch
 	 * <code>KontaktMapper.kontaktMapper()</code>. Sie stellt die
-	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Singleton-Eigenschaft sicher, indem Sie dafuer sorgt, dass nur eine einzige
 	 * Instanz von <code>KontaktMapper</code> existiert.
 	 * <p>
 	 * 
@@ -55,10 +55,10 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 
 	/**
 	 * Suchen eines Kontakts mit vorgegebener Kontaktid. Da diese eindeutig ist,
-	 * wird genau ein Objekt zur�ckgegeben.
+	 * wird genau ein Objekt zurueckgegeben.
 	 * 
 	 * @param id
-	 *            Primärschlüsselattribut (->DB)
+	 *            PK-Attribut (->DB)
 	 * @return Kontakt-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 * @throws SQLException 
@@ -90,12 +90,18 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 		return this.findVector("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM kontakt WHERE nutzer_idNutzer=" + id +" ORDER BY idKontakt");
 	}
 	
+	/**
+	 * Gibt alle Kontakte einer Kontaktliste aus
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public Vector<Kontakt> findAllByKontaktlistId(int id) throws SQLException {
 		return this.findVector("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM kontakt INNER JOIN listenstruktur WHERE kontakt.idKontakt=listenstruktur.Kontakt_idKontakt AND listenstruktur.Kontaktliste_idKontaktliste=%s", id);
 	}
 	
 	/**
-	 * Einfügen eines Kontaktes in der DB
+	 * Einfuegen eines Kontaktes in der DB
 	 * @param k
 	 * @return k, der Kotakt wird ausgegeben der in der DB reingeschrieben worden ist
 	 * @throws SQLException
@@ -108,6 +114,11 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 
 	}
 	
+	/**
+	 * Umwandlung eines Datentypen
+	 * @param date
+	 * @return date
+	 */
 	private String toSqlDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);
@@ -131,17 +142,19 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Kontakte</code>-Objekts aus der Datenbank.
+	 * Loeschen der Daten eines <code>Kontakte</code>-Objekts aus der Datenbank.
 	 * 
 	 * @param k
-	 *            das aus der DB zu löschende "Objekt"
+	 *            das aus der DB zu loeschende "Objekt"
 	 * @throws SQLException 
 	 */
 	public void delete(Kontakt k) throws SQLException {
 		this.excecute("DELETE FROM kontakt WHERE idKontakt=" + k.getId());
 	}
 	
-	
+	/**
+	 * Erzeuge Kontakt
+	 */
 	@Override
 	protected Kontakt createFromResultSet(ResultSet rs) throws SQLException {
 		Kontakt kontakt = new Kontakt();
