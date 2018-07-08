@@ -15,15 +15,18 @@ import com.google.gwt.user.client.ui.Label;
 import de.hdm.KontaktSharing.client.widget.ChooseUserWidget;
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
 import de.hdm.KontaktSharing.client.widget.SmallButton;
+import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
 
 public class EditShareContactList extends CommonPage {
 	
 	int idTh;
 	ChooseUserWidget userWidget;
+	Kontaktliste liste;
 
-	public EditShareContactList(int idTh) {
+	public EditShareContactList(int idTh, Kontaktliste liste) {
 		this.idTh = idTh;
+		this.liste = liste;
 		FocusPanel wrapper = new FocusPanel();
 
 		HorizontalPanel panel = new HorizontalPanel();
@@ -48,7 +51,7 @@ public class EditShareContactList extends CommonPage {
 
 	@Override
 	protected String getHeadlineText() {
-		return "Teilhaberschaft bearbeiten";
+		return "Teilhaberschaft '"+liste.getKontaktlistenname()+"' bearbeiten";
 	}
 
 	@Override
@@ -108,6 +111,7 @@ public class EditShareContactList extends CommonPage {
 						hPanel.add(share);
 						hPanel.add(new Label("Teilen"));
 						add(hPanel);
+					
 						
 						userWidget = new ChooseUserWidget(allNutzer, sharedNutzer); 
 						add(userWidget);

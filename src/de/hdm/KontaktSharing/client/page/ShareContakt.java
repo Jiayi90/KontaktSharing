@@ -54,7 +54,7 @@ public class ShareContakt extends CommonPage {
 
 	@Override
 	protected String getHeadlineText() {
-		return "Kontakt teilen";
+		return "Kontakt '"+ kontakt.getName() +"' teilen";
 	}
 
 	@Override

@@ -26,10 +26,6 @@ public class EditContact extends CommonPage {
 
 	public EditContact(Kontakt kontakt) {
 		this.kontakt = kontakt;
-	}
-
-	@Override
-	protected String getHeadlineText() {
 		FocusPanel wrapper = new FocusPanel();
 
 		HorizontalPanel panel = new HorizontalPanel();
@@ -50,7 +46,11 @@ public class EditContact extends CommonPage {
 		});
 
 		this.add(wrapper);
-		return "Kontakt bearbeiten";
+	}
+
+	@Override
+	protected String getHeadlineText() {
+		return "Kontakt '"+ kontakt.getName() +"' bearbeiten";
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class EditContactList extends CommonPage {
 
 	@Override
 	protected String getHeadlineText() {
-		return "Kontaktliste bearbeiten";
+		return "Kontaktliste '"+ liste.getKontaktlistenname() +"' bearbeiten";
 	}
 
 	@Override

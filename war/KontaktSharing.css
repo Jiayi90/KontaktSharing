@@ -228,3 +228,11 @@ body {
 .detail-kontakt > tbody > tr:nth-child(1) {
 	border-bottom: 1px dotted lightgray;
 }
+
+.loginButton {
+	background-color: #da78ab;
+    color: white;
+    border: none;
+    height: 2.5em;
+    margin-left: 3em;
+}

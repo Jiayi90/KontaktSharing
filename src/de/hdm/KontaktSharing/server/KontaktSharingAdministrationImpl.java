@@ -479,8 +479,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 */
 
 	public void delete(Teilhaberschaft t) throws IllegalArgumentException, Exception {
-
-		this.teilhaberschaftMapper.delete(t);
+		this.teilbaresObjektMapper.deleteForTeilhaberschaft(t.getId());
+		this.teilhaberschaftNutzerMapper.deleteByTeilhaberschaft(t.getId());
+		this.teilhaberschaftMapper.delete(t.getId());
 
 	}
 
@@ -705,8 +706,10 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			List<Kontakt> kontakte;
 			kontakte = this.getKontaktOf(liste);
 			liste.setKontakte(kontakte);
-			Integer id = this.teilbaresObjektMapper.findIdFromListe(liste.getId());
-			liste.setTeilhaberschaftId(id);
+			TeilbaresObjekt to = this.teilbaresObjektMapper.findFromListe(liste.getId());
+			if(to != null) {
+				liste.setTeilhaberschaftId(to.getIdTeilhaberschaft());
+			}
 		}
 		return listen;
 	}
@@ -947,6 +950,25 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	public void deleteTeilhaberschaftForUser(int idNutzer, Kontakt kontakt) throws Exception {
 		TeilbaresObjekt to = this.teilbaresObjektMapper.findByKontakt(kontakt);
 		this.teilhaberschaftNutzerMapper.delete(idNutzer, to.getIdTeilhaberschaft());
+		
+		if(this.teilhaberschaftNutzerMapper.findAllTeilhaberschaft(to.getIdTeilhaberschaft()).size() == 0) {
+			Teilhaberschaft th = new Teilhaberschaft();
+			th.setId(to.getIdTeilhaberschaft());
+			this.delete(th);
+		}
+	}
+
+	@Override
+	public void deleteTeilhaberschaftForUser(int idNutzer, Kontaktliste kontakt) throws Exception {
+		TeilbaresObjekt to = this.teilbaresObjektMapper.findByKontakt(kontakt);
+		this.teilhaberschaftNutzerMapper.delete(idNutzer, to.getIdTeilhaberschaft());
+		
+		if(this.teilhaberschaftNutzerMapper.findAllTeilhaberschaft(to.getIdTeilhaberschaft()).size() == 0) {
+			Teilhaberschaft th = new Teilhaberschaft();
+			th.setId(to.getIdTeilhaberschaft());
+			this.delete(th);
+		}
+		
 	}
 	
 

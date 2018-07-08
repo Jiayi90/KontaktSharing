@@ -289,4 +289,6 @@ public interface KontaktSharingAdministrationAsync {
 	void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails, AsyncCallback<Void> callback);
 
 	void deleteTeilhaberschaftForUser(int idNutzer, Kontakt kontakt, AsyncCallback<Void> callback);
+
+	void deleteTeilhaberschaftForUser(int loggedInId, Kontaktliste liste, AsyncCallback<Void> callback);
 }

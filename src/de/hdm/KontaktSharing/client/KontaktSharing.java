@@ -40,7 +40,6 @@ public class KontaktSharing implements EntryPoint {
 
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
-	private Label loginMessage = new Label("Bitte logge dich mit dem Google Account ein");
 	private Anchor signInLink = new Anchor("Sign In");
 	private Anchor signOutLink = new Anchor("Sign Out");
 
@@ -49,12 +48,13 @@ public class KontaktSharing implements EntryPoint {
 
 	private TextBox textBox = new TextBox();
 	private Button logoutButton = new Button("Logout");
-	private Button loginButton = new Button("Login");
+	private Button loginButton = new Button("> Bitte logge dich mit dem Google Account ein");
+	
 	Nutzer nu = new Nutzer();
 	
 	@Override
 	public void onModuleLoad() {
-
+		loginButton.getElement().setClassName("login-button");
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + "KontaktSharing.html", new LoginCallback());
 
@@ -71,8 +71,6 @@ public class KontaktSharing implements EntryPoint {
 		loginButton.addClickHandler(new loginButtonClickHandler());
 		loginButton.setStylePrimaryName("loginButton");
 		loginPanel.setStylePrimaryName("loginPanel");
-		loginMessage.setStylePrimaryName("landingPageLoginMessage");
-		loginPanel.add(loginMessage);
 		loginPanel.add(loginButton);
 		contentPanel.add(loginPanel);
 

@@ -327,5 +327,7 @@ public interface KontaktSharingAdministration extends RemoteService {
 	
 	public Vector<TeilhaberschaftKontakt> getSharedKontakteForUser(int idNutzer) throws Exception;
 	
-	public void deleteTeilhaberschaftForUser(int idNutzer, Kontakt kontakt) throws Exception;
+	public void deleteTeilhaberschaftForUser(int idNutzer, Kontaktliste kontakt) throws Exception;
+	
+	public void deleteTeilhaberschaftForUser(int idNutzer, Kontakt liste) throws Exception;
 }
