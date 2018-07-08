@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
+import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.TeilbaresObjekt;
 
 public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
@@ -22,7 +24,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	@Override
 	public TeilbaresObjekt findByKey(int id) throws SQLException {
 		return this.findObject(
-				"SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE idTeilbaresObjekt=%s",
+				"SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE idTeilbaresObjekt=%s",
 				id);
 	}
 	/**
@@ -31,7 +33,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	@Override
 	public Vector<TeilbaresObjekt> findAll() throws SQLException {
 		return this.findVector(
-				"SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt");
+				"SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt");
 	}
 	/**
 	 * Id aus der Liste auslesen lassen
@@ -40,7 +42,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 * @throws SQLException
 	 */
 	public Integer findIdFromListe(int idListe) throws SQLException {
-		TeilbaresObjekt to = this.findObject("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Kontaktliste_idKontaktliste=%s", idListe);
+		TeilbaresObjekt to = this.findObject("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Kontaktliste_idKontaktliste=%s", idListe);
 		if(to == null) {
 			return null;
 		}
@@ -53,8 +55,14 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 * @throws SQLException
 	 */
 	public Vector<TeilbaresObjekt> findAllKontaktlisteByTeilhaberschaft(int idTeilhaberschaft) throws SQLException {
-		return this.findVector("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=%s AND Kontaktliste_idKontaktliste IS NOT NULL", idTeilhaberschaft);
+		return this.findVector("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=%s AND Kontaktliste_idKontaktliste IS NOT NULL", idTeilhaberschaft);
 	}
+
+	
+	public Vector<TeilbaresObjekt> findAllKontakteByTeilhaberschaft(int idTeilhaberschaft) throws SQLException {
+		return this.findVector("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=%s AND Eigenschaftauspraegung_idEigenschaftauspraegung IS NOT NULL", idTeilhaberschaft);
+	}
+
 	/**
 	 * Datensatz in TeilbaresObjekt auslesen
 	 * @param to
@@ -62,7 +70,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 * @throws SQLException
 	 */
 	public TeilbaresObjekt insert(TeilbaresObjekt to) throws SQLException {
-		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (%s, %s, %s)", to.getIdKontaktliste(), to.getIdEigenschaftsauspraegung(), to.getIdTeilhaberschaft());
+		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (%s, %s, %s)", to.getIdKontaktliste(), to.getIdEigenschaftsauspraegung(), to.getIdTeilhaberschaft());
 	}
 	/**
 	 * 
@@ -72,7 +80,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 * @throws SQLException
 	 */
 	public TeilbaresObjekt insertEigenschaftauspraegung(int idEigenschaftauspraegung, int idTeilhaberschaft) throws SQLException {
-		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (null, %s, %s)", idEigenschaftauspraegung, idTeilhaberschaft);
+		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (null, %s, %s)", idEigenschaftauspraegung, idTeilhaberschaft);
 	}
 	/**
 	 * 
@@ -82,7 +90,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 * @throws SQLException
 	 */
 	public TeilbaresObjekt insertKontaktliste(int idKontaktliste, int idTeilhaberschaft) throws SQLException {
-		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (%s, null, %s)", idKontaktliste, idTeilhaberschaft);
+		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (%s, null, %s)", idKontaktliste, idTeilhaberschaft);
 	}
 	/**
 	 * 
@@ -106,7 +114,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 * @throws SQLException
 	 */
 	public void deleteForEigenschaftsauspraegung(int id) throws SQLException {
-		this.excecute("DELETE FROM teilbaresobjekt WHERE Eigenschaftausprägung_idEigenschaftauspraegung=" + id);
+		this.excecute("DELETE FROM teilbaresobjekt WHERE Eigenschaftauspraegung_idEigenschaftauspraegung=" + id);
 	}
 	/**
 	 * 
@@ -117,6 +125,16 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 		this.excecute("DELETE FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=" + id);
 	}
 	
+	public TeilbaresObjekt findByKontakt(Kontakt kontakt) throws SQLException {
+		for(Eigenschaftauspraegung auspraegung: kontakt.getEigenschaftauspraegung()) {
+			TeilbaresObjekt to = this.findObject("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Eigenschaftauspraegung_idEigenschaftauspraegung="+auspraegung.getId());
+			if(to != null) {
+				return to;
+			}
+		}
+		return null;
+	}
+	
 	
 
 	@Override
@@ -124,7 +142,7 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 		TeilbaresObjekt to = new TeilbaresObjekt();
 		to.setId(rs.getInt("idTeilbaresObjekt"));
 		to.setIdKontaktliste(rs.getInt("Kontaktliste_idKontaktliste"));
-		to.setIdEigenschaftsauspraegung(rs.getInt("Eigenschaftausprägung_idEigenschaftauspraegung"));
+		to.setIdEigenschaftsauspraegung(rs.getInt("Eigenschaftauspraegung_idEigenschaftauspraegung"));
 		to.setIdTeilhaberschaft(rs.getInt("Teilhaberschaft_idTeilhaberschaft"));
 		return to;
 	}

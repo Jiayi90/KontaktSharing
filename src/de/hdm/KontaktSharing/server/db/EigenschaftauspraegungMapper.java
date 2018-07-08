@@ -150,6 +150,7 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	public void deleteByKontaktId(Kontakt kontakt) throws SQLException {
 		this.excecute("DELETE FROM eigenschaftauspraegung WHERE Kontakt_idKontakt=" + kontakt.getId());
 	}
+	
 	/**
 	 * Eigenschaftauspraegung anlegen
 	 */

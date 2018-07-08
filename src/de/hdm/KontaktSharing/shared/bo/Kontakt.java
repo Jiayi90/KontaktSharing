@@ -26,6 +26,10 @@ public class Kontakt extends BusinessObject implements Comparator<Kontakt> {
 	private int idNutzer;
 	
 	private Vector<Eigenschaftauspraegung> eigenschaftauspraegung;
+	
+	private boolean wasShared;
+	
+	private Integer teilhaberschaftId;
 
 	/**
 	 * No Argument Constructor
@@ -126,6 +130,26 @@ public class Kontakt extends BusinessObject implements Comparator<Kontakt> {
 		return arg0.getName().toLowerCase().compareTo(arg1.getName().toLowerCase());
 	}
 	
-	
+
+	public boolean isWasShared() {
+		return wasShared;
+	}
+
+	public void setWasShared(boolean wasShared) {
+		this.wasShared = wasShared;
+	}
+
+	public boolean isShared() {
+		return teilhaberschaftId != null;
+	}
+
+
+	public Integer getTeilhaberschaftId() {
+		return teilhaberschaftId;
+	}
+
+	public void setTeilhaberschaftId(Integer teilhaberschaftId) {
+		this.teilhaberschaftId = teilhaberschaftId;
+	}
 
 }
