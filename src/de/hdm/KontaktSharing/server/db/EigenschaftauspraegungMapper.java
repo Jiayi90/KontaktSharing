@@ -135,6 +135,7 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 		this.excecute("DELETE FROM eigenschaftauspraegung WHERE Kontakt_idKontakt=" + kontakt.getId());
 	}
 
+
 	@Override
 	protected Eigenschaftauspraegung createFromResultSet(ResultSet rs) throws SQLException {
 		Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();

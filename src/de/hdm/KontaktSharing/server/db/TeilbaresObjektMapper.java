@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
+import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.TeilbaresObjekt;
 
 public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
@@ -41,6 +43,10 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	public Vector<TeilbaresObjekt> findAllKontaktlisteByTeilhaberschaft(int idTeilhaberschaft) throws SQLException {
 		return this.findVector("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=%s AND Kontaktliste_idKontaktliste IS NOT NULL", idTeilhaberschaft);
 	}
+	
+	public Vector<TeilbaresObjekt> findAllKontakteByTeilhaberschaft(int idTeilhaberschaft) throws SQLException {
+		return this.findVector("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=%s AND Eigenschaftausprägung_idEigenschaftauspraegung IS NOT NULL", idTeilhaberschaft);
+	}
 
 	public TeilbaresObjekt insert(TeilbaresObjekt to) throws SQLException {
 		return this.insert("INSERT INTO teilbaresobjekt (Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft) VALUES (%s, %s, %s)", to.getIdKontaktliste(), to.getIdEigenschaftsauspraegung(), to.getIdTeilhaberschaft());
@@ -68,6 +74,16 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	
 	public void deleteForTeilhaberschaft(int id) throws SQLException {
 		this.excecute("DELETE FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=" + id);
+	}
+	
+	public TeilbaresObjekt findByKontakt(Kontakt kontakt) throws SQLException {
+		for(Eigenschaftauspraegung auspraegung: kontakt.getEigenschaftauspraegung()) {
+			TeilbaresObjekt to = this.findObject("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftausprägung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Eigenschaftausprägung_idEigenschaftauspraegung="+auspraegung.getId());
+			if(to != null) {
+				return to;
+			}
+		}
+		return null;
 	}
 	
 	

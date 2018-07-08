@@ -87,6 +87,10 @@ public interface KontaktSharingAdministrationAsync {
 	
 	void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails, AsyncCallback<Void> callback);
 	
+	void shareKontakt(int idNutzer, List<Integer> ids, List<String> mails, AsyncCallback<Void> callback);
+
+	void getSharedKontakteForUser(int idNutzer, AsyncCallback<Vector<TeilhaberschaftKontakt>> callback);
+
 
 	
 }

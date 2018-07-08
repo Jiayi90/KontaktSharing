@@ -69,7 +69,6 @@ public class ListContactListPage extends CommonPage {
 				});
 
 	}
-	
 
 	private void renderTable() {
 		panel.clear();
@@ -144,7 +143,6 @@ public class ListContactListPage extends CommonPage {
 				});
 				table.setWidget(row, 2, shareButton);
 
-			
 			}
 
 			Label nameLabel = new Label(liste.getKontaktlistenname());

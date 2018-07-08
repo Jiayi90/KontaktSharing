@@ -19,6 +19,7 @@ import de.hdm.KontaktSharing.client.widget.SmallButton;
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
+import de.hdm.KontaktSharing.shared.bo.TeilhaberschaftKontakt;
 
 public class ListContactsPage extends CommonPage {
 
@@ -34,7 +35,9 @@ public class ListContactsPage extends CommonPage {
 		createContactButton.addClickHandler(new CreateContactButtonClickHandler());
 		this.add(createContactButton);
 		ClientsideSettings.getKontaktSharingAdministration().init(new InitCallback());
-		ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(this));
+		ListContactsPage page = this;
+		
+		ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(page));
 	}
 	
 	class CreateContactButtonClickHandler implements ClickHandler {
@@ -115,7 +118,7 @@ public class ListContactsPage extends CommonPage {
 								@Override
 								public void onSuccess(Void result) {
 									Window.alert("User mit id " + kontakt.getId() + " und seine Eigenschaftsauspraegungen wurde geloescht");
-									table.removeAllRows();
+									table.getParent().removeFromParent();
 									ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(page));
 								}
 							});
@@ -136,11 +139,53 @@ public class ListContactsPage extends CommonPage {
 					
 				});
 				table.insertRow(row);
-				table.setWidget(row, 0, editButton);
-				table.setWidget(row, 1, deleteButton);
+				if(!kontakt.isWasShared()) {
+					table.setWidget(row, 0, editButton);
+					table.setWidget(row, 1, deleteButton);
+					if(kontakt.isShared()) {
+						SmallButton shareButton = new SmallButton("icons/shared.png");
+						shareButton.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								NavigationWidget.navigateTo(new EditShareContakt(kontakt.getTeilhaberschaftId()));
+							}
+
+						});
+						table.setWidget(row, 2, shareButton);
+						
+					} else {
+						SmallButton shareButton = new SmallButton("icons/share.png");
+						shareButton.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								NavigationWidget.navigateTo(new ShareContakt(kontakt));
+							}
+
+						});
+						table.setWidget(row, 2, shareButton);
+					}
+					
+				} else {
+					SmallButton shareButton = new SmallButton("icons/unshare.png");
+					shareButton.addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							NavigationWidget.navigateTo(new ShareContakt(kontakt));
+						}
+
+					});
+					
+					table.setWidget(row, 2, shareButton);
+				}
 				table.setWidget(row, 3, nameLabel);
 				table.setText(row, 4, kontakt.getErzeugungsdatum().toString());
 				table.setText(row, 5, kontakt.getModifikationsdatum().toString());
+				
+				
+				
 			}
 			
 		});
@@ -186,8 +231,23 @@ public class ListContactsPage extends CommonPage {
 		}
 
 		@Override
-		public void onSuccess(Vector<Kontakt> contacts) {
-			this.page.createContaktTable(contacts);
+		public void onSuccess(final Vector<Kontakt> contacts) {
+			kontaktSharingAdmin.getSharedKontakteForUser(getLoggedInId(), new AsyncCallback<Vector<TeilhaberschaftKontakt>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					page.add(new HTML("Fehler beim Laden der Kontakte"));
+				}
+
+				@Override
+				public void onSuccess(Vector<TeilhaberschaftKontakt> sharedContacts) {
+					for(TeilhaberschaftKontakt thk: sharedContacts) {
+						contacts.add(thk.getKontakt());
+					}
+					page.createContaktTable(contacts);
+				}
+				
+			});
 		}
 		
 	}

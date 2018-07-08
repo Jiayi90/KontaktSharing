@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -210,7 +212,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	 */
 
 	public void delete(Eigenschaftauspraegung ea) throws IllegalArgumentException, SQLException {
-
+		this.teilbaresObjektMapper.deleteForEigenschaftsauspraegung(ea.getId());
 		this.eigenschaftauspraegungMapper.delete(ea);
 
 	}
@@ -309,6 +311,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	public void delete(Kontaktliste kl) throws IllegalArgumentException, Exception {
 
+		this.teilbaresObjektMapper.deleteForKontaktliste(kl.getId());
 		this.listenstrukturMapper.delete(kl);
 		this.kontaktlisteMapper.delete(kl);
 
@@ -358,15 +361,25 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Löschen eines Kontakts
-	 * 
-	 * @throws SQLException
+	 * @throws Exception 
 	 */
 
 	@Override
-	public void delete(Kontakt kontakt) throws IllegalArgumentException, SQLException {
+	public void delete(Kontakt kontakt) throws Exception {
+		this.deleteTeilhaberschaftForKontakt(kontakt);
 		this.listenstrukturMapper.deleteByKontaktId(kontakt.getId());
 		this.eigenschaftauspraegungMapper.deleteByKontaktId(kontakt);
 		this.kontaktMapper.delete(kontakt);
+	}
+
+	private void deleteTeilhaberschaftForKontakt(Kontakt kontakt) throws Exception {
+		TeilbaresObjekt to = this.teilbaresObjektMapper.findByKontakt(kontakt);
+		if(to != null) { 
+			int id = to.getIdTeilhaberschaft();
+			this.teilbaresObjektMapper.deleteForTeilhaberschaft(id);
+			this.teilhaberschaftNutzerMapper.deleteByTeilhaberschaft(id);
+			this.teilhaberschaftMapper.delete(id);
+		}
 	}
 
 	public Teilhaberschaft createTeilhaberschaft() throws IllegalArgumentException, Exception {
@@ -426,8 +439,16 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Vector<Kontakt> getAllKontaktByNutzer(int id) throws SQLException {
-		return this.kontaktMapper.findAllByNutzerId(id);
+	public Vector<Kontakt> getAllKontaktByNutzer(int id) throws IllegalArgumentException, Exception {
+		Vector<Kontakt> kontakte = this.kontaktMapper.findAllByNutzerId(id);
+		for(Kontakt kontakt: kontakte) {
+			kontakt.setEigenschaftauspraegung(this.getAllEigenschaftauspraegungByKontakt(kontakt));
+			TeilbaresObjekt to = this.teilbaresObjektMapper.findByKontakt(kontakt);
+			if(to != null) {
+				kontakt.setTeilhaberschaftId(to.getIdTeilhaberschaft());
+			}
+		}
+		return kontakte;
 	}
 
 	@Override
@@ -734,6 +755,56 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			thn.setIdTeilhaberschaft(idTeilhaberschaft);
 			this.teilhaberschaftNutzerMapper.insert(thn);
 		}
+	}
+
+	@Override
+	public void shareKontakt(int idNutzer, List<Integer> ids, List<String> mails) throws Exception {
+		Teilhaberschaft th = new Teilhaberschaft();
+		th.setIdNutzer(idNutzer);
+		th = this.teilhaberschaftMapper.insert(th);
+		
+		for(Integer id: ids) {
+			this.teilbaresObjektMapper.insertEigenschaftauspraegung(id, th.getId());
+		}
+		
+		for(String mail: mails) {
+			Nutzer nutzer = this.nutzerMapper.findByMail(mail);
+			TeilhaberschaftNutzer thn = new TeilhaberschaftNutzer();
+			thn.setIdNutzer(nutzer.getId());
+			thn.setIdTeilhaberschaft(th.getId());
+			this.teilhaberschaftNutzerMapper.insert(thn);
+		}
+	}
+
+	@Override
+	public Vector<TeilhaberschaftKontakt> getSharedKontakteForUser(int idNutzer) throws Exception {
+		Map<Integer, TeilhaberschaftKontakt> thks = new HashMap<Integer, TeilhaberschaftKontakt>();
+		
+		Vector<TeilhaberschaftNutzer> thns = this.teilhaberschaftNutzerMapper.findAllByNutzer(idNutzer);
+		for(TeilhaberschaftNutzer thn: thns) {
+			Vector<TeilbaresObjekt> tos = this.teilbaresObjektMapper.findAllKontakteByTeilhaberschaft(thn.getIdTeilhaberschaft());
+			Vector<Teilhaberschaft> ths = getTeilhaberschaftenFromTeilbaresObject(tos);
+				
+				for(TeilbaresObjekt to: tos) {
+					Eigenschaftauspraegung ep = this.eigenschaftauspraegungMapper.findByKey(to.getIdEigenschaftsauspraegung());
+
+					if(thks.get(ep.getIdKontakt()) == null) {
+						Kontakt kontakt = this.kontaktMapper.findByKey(ep.getIdKontakt());
+						TeilhaberschaftKontakt thkl = new TeilhaberschaftKontakt();
+						thkl.setId(to.getIdTeilhaberschaft());
+						thkl.setIdNutzer(idNutzer);
+						thkl.setKontakt(kontakt);
+						kontakt.setEigenschaftauspraegung(new Vector());
+						kontakt.getEigenschaftauspraegung().add(ep);
+						kontakt.setWasShared(true);
+						thkl.setKontakt(kontakt);
+						thks.put(ep.getIdKontakt(), thkl);	
+					} else {
+						thks.get(ep.getIdKontakt()).getKontakt().getEigenschaftauspraegung().add(ep);
+					}
+				}
+		}
+		return new Vector<TeilhaberschaftKontakt>(thks.values());
 	}
 	
 

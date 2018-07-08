@@ -1,10 +1,8 @@
 package de.hdm.KontaktSharing.client.widget;
 
-import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,37 +13,42 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.hdm.KontaktSharing.client.page.ChooseUserPage;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
 
 public class ChooseUserWidget extends VerticalPanel {
 		SuggestBox box;
-		ChooseUserPage page;
 		Vector<Nutzer> allNutzer;
 		MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
 		
-		List<String> emails = new ArrayList<String>();
+		//List<String> selectedEmails;
+		EmailContainer container;
 		List<String> ignoredMails = new ArrayList<String>();
 		
-		public ChooseUserWidget(ChooseUserPage page, Vector<Nutzer> allNutzer, Vector<Nutzer> addedNutzer) {
-			this(page, allNutzer);
+		public ChooseUserWidget(Vector<Nutzer> allNutzer, Vector<Nutzer> addedNutzer) {
+			this(allNutzer);
 			for(Nutzer nutzer: addedNutzer) {
 				addMail(nutzer.getEmail());
 			}
 			
 		}
 		
-		public ChooseUserWidget(ChooseUserPage page, Vector<Nutzer> allNutzer) {
-			this.page = page;
+		public List<String> getMails() {
+			return container.getMails();
+		}
+		
+		public ChooseUserWidget(Vector<Nutzer> allNutzer) {
+			Label headline = new Label("Nutzer auswaehlen");
+			headline.getElement().setClassName("widget-headline");
+			this.add(headline);
+			
+			container = new EmailContainer();
 			this.allNutzer = allNutzer;
 			getNutzerSuggetions();
 			this.box = new SuggestBox(oracle);
@@ -62,20 +65,9 @@ public class ChooseUserWidget extends VerticalPanel {
 			    }
 			});
 			
-			Button shareButton = new Button("Liste teilen");
-			shareButton.getElement().addClassName("share-button");
-			
-			shareButton.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					shareNow();
-				}
-			});
-			
 			HorizontalPanel panel = new HorizontalPanel();
 			panel.getElement().setClassName("input-flex");
 			panel.add(box);
-			panel.add(shareButton);
 			this.add(panel);
 		}
 		
@@ -100,7 +92,7 @@ public class ChooseUserWidget extends VerticalPanel {
 			table.setText(0, 1, mail);
 			table.setWidget(0, 0, deleteButton);
 			this.add(table);
-			emails.add(mail);
+			container.add(mail);
 			box.setValue("");
 			removeOracleMail(mail);
 		}
@@ -111,7 +103,7 @@ public class ChooseUserWidget extends VerticalPanel {
 		
 		private void removeMail(FlexTable table, String mail) {
 			table.removeFromParent();
-			emails.remove(mail);
+			container.remove(mail);
 			addOracleMail(mail);
 		}
 		
@@ -120,11 +112,7 @@ public class ChooseUserWidget extends VerticalPanel {
 			MatchResult matcher = pattern.exec(mail);
 			//return matcher != null;
 			return true;
-		}
-		
-		private void shareNow() {
-			page.confirmMailEvent(emails);
-		}		
+		}	
 		
 		private void getNutzerSuggetions() {
 			  oracle.clear();
@@ -156,6 +144,26 @@ public class ChooseUserWidget extends VerticalPanel {
 				}
 			}
 			return l;
+		}
+		
+		private class EmailContainer {
+			private final List<String> mails;
+			
+			public EmailContainer() {
+				mails = new LinkedList<String>();
+			}
+			
+			public void add(String mail) {
+				this.mails.add(mail);
+			}
+			
+			public void remove(String mail) {
+				this.mails.remove(mail);
+			}
+			
+			public List<String> getMails() {
+				return mails;
+			}
 		}
 		
 		

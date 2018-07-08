@@ -8,14 +8,18 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 
 import de.hdm.KontaktSharing.client.widget.ChooseUserWidget;
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
+import de.hdm.KontaktSharing.client.widget.SmallButton;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
 
-public class EditShareContactList extends CommonPage implements ChooseUserPage {
+public class EditShareContactList extends CommonPage {
 	
 	int idTh;
+	ChooseUserWidget userWidget;
 
 	public EditShareContactList(int idTh) {
 		this.idTh = idTh;
@@ -69,7 +73,23 @@ public class EditShareContactList extends CommonPage implements ChooseUserPage {
 
 					@Override
 					public void onSuccess(Vector<Nutzer> sharedNutzer) {
-						add(new ChooseUserWidget(page, allNutzer, sharedNutzer));
+						HorizontalPanel hPanel = new HorizontalPanel();
+						hPanel.getElement().setClassName("navibutton");
+						SmallButton share = new SmallButton("icons/share.png");
+						share.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								update();
+							}
+							
+						});
+						hPanel.add(share);
+						hPanel.add(new Label("Teilen"));
+						add(hPanel);
+						
+						userWidget = new ChooseUserWidget(allNutzer, sharedNutzer); 
+						add(userWidget);
 					}
 					
 				});
@@ -79,9 +99,8 @@ public class EditShareContactList extends CommonPage implements ChooseUserPage {
 		});
 	}
 
-	@Override
-	public void confirmMailEvent(List<String> mail) {
-		this.kontaktSharingAdmin.updateTeilhaberschaftListe(idTh, mail, new AsyncCallback<Void>() {
+	public void update() {
+		this.kontaktSharingAdmin.updateTeilhaberschaftListe(idTh, userWidget.getMails(), new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
