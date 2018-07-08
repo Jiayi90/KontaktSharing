@@ -32,6 +32,7 @@ public class EditContact extends CommonPage {
 	@Override
 	protected void run() {
 		table = new FlexTable();
+		table.getElement().setClassName("detail-kontakt");
 		this.add(table);
 		renderPage();
 

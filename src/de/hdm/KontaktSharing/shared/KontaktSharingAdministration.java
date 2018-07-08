@@ -15,6 +15,7 @@ import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 import de.hdm.KontaktSharing.shared.bo.Nutzer;
 import de.hdm.KontaktSharing.shared.bo.Teilhaberschaft;
+import de.hdm.KontaktSharing.shared.bo.TeilhaberschaftKontakt;
 import de.hdm.KontaktSharing.shared.bo.TeilhaberschaftKontaktliste;
 
 @RemoteServiceRelativePath("administrationService")
@@ -321,4 +322,8 @@ public interface KontaktSharingAdministration extends RemoteService {
 	 * @throws Exception
 	 */
 	public void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails) throws Exception;
+	
+	public void shareKontakt(int idNutzer, List<Integer> ids, List<String> mails) throws Exception;
+	
+	public Vector<TeilhaberschaftKontakt> getSharedKontakteForUser(int idNutzer) throws Exception;
 }

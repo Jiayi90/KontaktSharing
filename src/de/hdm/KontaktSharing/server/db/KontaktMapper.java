@@ -151,6 +151,11 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	public void delete(Kontakt k) throws SQLException {
 		this.excecute("DELETE FROM kontakt WHERE idKontakt=" + k.getId());
 	}
+
+	public Kontakt findByEigenschaftsauspraegung(int idEigenschaftsauspraegung) throws SQLException {
+		Integer id = this.findObject("SELECT idKontakt, Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer FROM eigenschaftauspraegung WHERE idEigenschaftauspraegung="+idEigenschaftsauspraegung).getIdNutzer();
+		return this.findByKey(id);
+	}
 	
 	/**
 	 * Erzeuge Kontakt

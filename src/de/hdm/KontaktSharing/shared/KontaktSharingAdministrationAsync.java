@@ -62,7 +62,7 @@ public interface KontaktSharingAdministrationAsync {
 	void createKontaktliste(Nutzer n, AsyncCallback<Kontaktliste> callback);
 
 	/**
-	 * Kontakt löschen
+	 * Kontakt lï¿½schen
 	 * @param k
 	 * @param callback
 	 */
@@ -179,7 +179,7 @@ public interface KontaktSharingAdministrationAsync {
 	void getAllKontaktlisten(AsyncCallback<Vector<Kontaktliste>> callback);
 
 	/**
-	 * alle Kontaktlisten mit User für Nutzer auslesen
+	 * alle Kontaktlisten mit User fï¿½r Nutzer auslesen
 	 * @param idNutzer
 	 * @param callback
 	 */
@@ -238,6 +238,11 @@ public interface KontaktSharingAdministrationAsync {
 	 * @param callback
 	 */
 	void getNutzerByMailOrCreate(String email, AsyncCallback<Nutzer> callback);
+	
+	void shareKontakt(int idNutzer, List<Integer> ids, List<String> mails, AsyncCallback<Void> callback);
+
+	void getSharedKontakteForUser(int idNutzer, AsyncCallback<Vector<TeilhaberschaftKontakt>> callback);
+
 
 	/**
 	 * geteilte Liste abrufen
@@ -249,7 +254,7 @@ public interface KontaktSharingAdministrationAsync {
 	void shareListe(int idNutzer, int idListe, List<String> mails, AsyncCallback<Void> callback);
 
 	/**
-	 * auslesen der geteilten Kontaktliste für User
+	 * auslesen der geteilten Kontaktliste fï¿½r User
 	 * @param idNutzer
 	 * @param callback
 	 */
