@@ -102,7 +102,7 @@ public class PlainTextReportWriter extends ReportWriter {
 	  public String getReportText() {
 	    return this.getHeader() + this.reportText + this.getTrailer();
 	  }
-
+	 
 	@Override
 	public void process(ShareKontaktByNutzerReport r) {
 		// TODO Auto-generated method stub

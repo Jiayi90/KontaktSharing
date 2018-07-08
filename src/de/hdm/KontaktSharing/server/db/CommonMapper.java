@@ -48,7 +48,13 @@ public abstract class CommonMapper<T> {
 		Statement stmt = con.createStatement();
 		stmt.executeUpdate(parseQueryString(sqlStatement, args));
 	}
-
+	/**
+	 * 
+	 * @param sqlStatement
+	 * @param args
+	 * @return null
+	 * @throws SQLException
+	 */
 	protected T insert(String sqlStatement, Object ... args) throws SQLException {
 		Connection con = DBConnection.connection();
 		Statement stmt = con.createStatement();
@@ -63,7 +69,7 @@ public abstract class CommonMapper<T> {
 	}
 	
 	/**
-	 * führt ein sql statement aus, wie zb update, delete, insert
+	 * fuehrt ein sql statement aus, wie zb update, delete, insert
 	 * @param sqlStatement
 	 * @return result
 	 * @throws SQLException
@@ -80,7 +86,12 @@ public abstract class CommonMapper<T> {
 		}
 		return result;
 	}
-	
+	/**
+	 * 
+	 * @param sqlStatement
+	 * @param args
+	 * @return sqlStatement
+	 */
 	private String parseQueryString(String sqlStatement, Object ... args) {
 		List<String> list = new ArrayList<String>();
 		for(int i = 0; i < args.length; i++) {

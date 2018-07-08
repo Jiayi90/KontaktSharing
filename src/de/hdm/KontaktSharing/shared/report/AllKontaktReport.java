@@ -11,15 +11,21 @@ public class AllKontaktReport extends CompositeReport implements Serializable {
 
 
 	private String title;
-
+	
+	/**
+	 * Titel auslesen
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Titel auslesen
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	
 	public Object getHeaderData() {
 		// TODO Auto-generated method stub
 		return null;

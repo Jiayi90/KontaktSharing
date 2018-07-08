@@ -25,7 +25,7 @@ public class CreateContactList extends CommonPage {
 	protected void run() {
 		final TextBox listNameWidget = new TextBox();
 		final Vector<CheckBox> checkBoxKontakte = new Vector<CheckBox>();
-		
+
 		FlexTable table = new FlexTable();
 		table.setText(0, 0, "Name der Liste");
 		table.setWidget(0, 1, listNameWidget);
@@ -39,12 +39,12 @@ public class CreateContactList extends CommonPage {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onSuccess(Vector<Kontakt> konakte) {
-				for(Kontakt kontakt: konakte) {
+				for (Kontakt kontakt : konakte) {
 					CheckBox checkBox = new CheckBox(kontakt.getName());
 					checkBox.getElement().setAttribute("data-idKontakt", String.valueOf(kontakt.getId()));
 					panel.setWidget(panel.getRowCount(), 0, checkBox);
@@ -57,28 +57,29 @@ public class CreateContactList extends CommonPage {
 			@Override
 			public void onClick(ClickEvent event) {
 				List<Integer> ids = new ArrayList<Integer>();
-				
-				for(int i = 0; i < checkBoxKontakte.size(); i ++) {
+
+				for (int i = 0; i < checkBoxKontakte.size(); i++) {
 					CheckBox box = checkBoxKontakte.get(i);
-					if(box.getValue()) {
+					if (box.getValue()) {
 						Integer id = Integer.parseInt(box.getElement().getAttribute("data-idKontakt"));
 						ids.add(id);
 					}
 				}
 				String name = listNameWidget.getValue();
-				page.kontaktSharingAdmin.createKontaktlisteForNutzer(getLoggedInId(), name, ids, new AsyncCallback<Void>() {
+				page.kontaktSharingAdmin.createKontaktlisteForNutzer(getLoggedInId(), name, ids,
+						new AsyncCallback<Void>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Es ist ein Fehler aufgetretten");
-					}
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Es ist ein Fehler aufgetretten");
+							}
 
-					@Override
-					public void onSuccess(Void result) {
-						NavigationWidget.navigateTo(new ListContactListPage());
-					}
-					
-				});
+							@Override
+							public void onSuccess(Void result) {
+								NavigationWidget.navigateTo(new ListContactListPage());
+							}
+
+						});
 			}
 		});
 		this.add(saveButton);

@@ -50,25 +50,47 @@ public class KontaktlisteMapper extends CommonMapper<Kontaktliste>  {
 
 		return kontaktlisteMapper;
 	}
-
+	/**
+	 * Kontaktliste anhand der id auslesen
+	 */
 	@Override
 	public Kontaktliste findByKey(int id) throws SQLException {
 		return this.findObject("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste WHERE idKontaktliste=" + id);
 	}
-
+	
+	/**
+	 * alle Kontaktlisten auslesen
+	 */
 	@Override
 	public Vector<Kontaktliste> findAll() throws SQLException {
 		return this.findVector("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste");
 	}
-	
+	/**
+	 * alle Nutzer auslesen
+	 * @param idNutzer
+	 * @return idNutzer
+	 * @throws SQLException
+	 */
 	public Vector<Kontaktliste> findAllByNutzer(int idNutzer) throws SQLException {
 		return this.findVector("SELECT idKontaktliste, Kontaktlistenname, nutzer_idNutzer FROM kontaktliste WHERE nutzer_idNutzer=" + idNutzer);
 	}
 
+	/**
+	 * Datensatz in Kontaktliste
+	 * @param name
+	 * @param idNutzer
+	 * @return idNutzer
+	 * @throws SQLException
+	 */
 	public Kontaktliste insert(String name, int idNutzer) throws SQLException {
 		return this.insert("INSERT INTO kontaktliste (Kontaktlistenname, nutzer_idNutzer) VALUES (%s, %s)", name, idNutzer);
 	}
-	
+	/**
+	 * 
+	 * @param kl
+	 * @return
+	 * @throws SQLException
+	 */
 	public Kontaktliste insert(Kontaktliste kl) throws SQLException {
 		return this.insert(kl.getKontaktlistenname(), kl.getNutzerId());
 	}
@@ -96,11 +118,18 @@ public class KontaktlisteMapper extends CommonMapper<Kontaktliste>  {
 	public void delete(Kontaktliste kl) throws SQLException {
 		this.excecute("DELETE FROM kontaktliste WHERE idKontaktliste=%s", kl.getId());
 	}
-	
+	/**
+	 * Name aktualisieren
+	 * @param id
+	 * @param name
+	 * @throws SQLException
+	 */
 	public void updateName(int id, String name) throws SQLException {
 		this.excecute("UPDATE kontaktliste SET Kontaktlistenname=%s WHERE idKontaktliste=%s", name, id);
 	}
-
+	/**
+	 * Kontaktliste anlegen 
+	 */
 	@Override
 	protected Kontaktliste createFromResultSet(ResultSet rs) throws SQLException {
 		Kontaktliste liste = new Kontaktliste();

@@ -14,26 +14,28 @@ public class DebugWidget extends ListBox {
 		this.addItem("2", "2");
 		this.addItem("3", "3");
 		final DebugWidget box = this;
-		
-		this.addChangeHandler(new ChangeHandler() {
 
+		this.addChangeHandler(new ChangeHandler() {
+			
+			
 			@Override
 			public void onChange(ChangeEvent event) {
 				int index = Integer.parseInt(box.getSelectedValue());
-				ClientsideSettings.getKontaktSharingAdministration().setCurrentNutzerId(index, new AsyncCallback<Void>() {
+				ClientsideSettings.getKontaktSharingAdministration().setCurrentNutzerId(index,
+						new AsyncCallback<Void>() {
 
-		 			@Override
-		 			public void onFailure(Throwable caught) {
-		 				// TODO Auto-generated method stub
-		 				
-		 			}
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
 
-		 			@Override
-		 			public void onSuccess(Void result) {
-		 				NavigationWidget.navigateTo(new ListContactsPage());
-		 			}
-		         	 
-		          });
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								NavigationWidget.navigateTo(new ListContactsPage());
+							}
+
+						});
 			}
 		});
 	}

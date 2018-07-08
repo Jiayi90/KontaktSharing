@@ -40,6 +40,7 @@ public class ListContactsPage extends CommonPage {
 		ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(page));
 	}
 	
+		
 	class CreateContactButtonClickHandler implements ClickHandler {
 
 		@Override
@@ -76,7 +77,11 @@ public class ListContactsPage extends CommonPage {
 			
 		}
 	}
-	
+	/**
+	 * 
+	 * @param kontakt
+	 * @param table
+	 */
 	private void createContactRow(final Kontakt kontakt, final FlexTable table) {
 		final ListContactsPage page = this;
 		final int row = table.getRowCount();
@@ -199,7 +204,10 @@ public class ListContactsPage extends CommonPage {
 		}
 		return null;
 	}
-	
+	/**
+	 * 
+	 * @param contacts
+	 */
 	private void createContaktTable(Vector<Kontakt> contacts) {
 		FlexTable table = new FlexTable();
 		table.getElement().setClassName("list");

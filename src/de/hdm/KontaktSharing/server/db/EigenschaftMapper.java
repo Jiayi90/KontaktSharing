@@ -57,7 +57,7 @@ public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 	 * genau ein Objekt zur�ckgegeben.
 	 * 
 	 * @param id
-	 *            Primärschlüsselattribut (->DB)
+	 *            PK-Attribut (->DB)
 	 * @return Eigenschaft-Objekt, das dem übergebenen Schlüssel entspricht, null
 	 *         bei nicht vorhandenem DB-Tupel.
 	 * @throws SQLException 
@@ -66,15 +66,27 @@ public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 	public Eigenschaft findByKey(int id) throws SQLException {
 		return this.findObject("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft WHERE idEigenschaft=" + id);
 	}
-	
+	/**
+	 * 
+	 * @param bezeichnung
+	 * @return bezeichnung
+	 * @throws SQLException
+	 */
 	public Eigenschaft findByBezeichnung(String bezeichnung) throws SQLException {
 		return this.findObject("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft WHERE Bezeichnung=" + bezeichnung);
 	}
-
+	/**
+	 * alle Eigenschaften auslesen
+	 */
 	public Vector<Eigenschaft> findAll() throws SQLException {
 		return this.findVector("SELECT idEigenschaft, Bezeichnung, Typ, mehrfach FROM eigenschaft");
 	}
-
+	/**
+	 * Datensatz in Eigenschaft einfuegen
+	 * @param e
+	 * @return 
+	 * @throws SQLException
+	 */
 	public Eigenschaft insert(Eigenschaft e) throws SQLException {
 		return this.insert("INSERT INTO eigenschaft (Bezeichnung, Typ, mehrfach) " + 
 				"VALUES (" + e.getBezeichnung() + ","+ e.getTyp() + ","+ e.isMehrfach() +")");
@@ -105,7 +117,7 @@ public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Eigenschaft</code>-Objekts aus der Datenbank.
+	 * Loeschen der Daten eines <code>Eigenschaft</code>-Objekts aus der Datenbank.
 	 * 
 	 * @param e
 	 *            das aus der DB zu löschende "Objekt"
@@ -122,7 +134,9 @@ public class EigenschaftMapper extends CommonMapper<Eigenschaft> {
 			e2.printStackTrace();
 		}
 	}
-
+	/**
+	 * Eigenschaft anlegen vom ResultSet
+	 */
 	@Override
 	protected Eigenschaft createFromResultSet(ResultSet rs) throws SQLException {
 		Eigenschaft eigenschaft = new Eigenschaft();

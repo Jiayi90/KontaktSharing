@@ -64,10 +64,9 @@ public class CompositeParagraph extends Paragraph implements Serializable{
 	  /**
 	   * Auslesen eines einzelnen Unterabschnitts.
 	   * 
-	   * @param i der Index des gewünschten Unterabschnitts (0 <= i <n), mit n =
-	   *          Anzahl der Unterabschnitte.
+	   * @param i der Index des gewuenschten Unterabschnitts 
 	   * 
-	   * @return der gewünschte Unterabschnitt.
+	   * @return der gewuennschte Unterabschnitt.
 	   */
 	  public SimpleParagraph getParagraphAt(int i) {
 	    return this.subParagraphs.elementAt(i);
@@ -96,8 +95,8 @@ public class CompositeParagraph extends Paragraph implements Serializable{
 	    }
 
 	    /*
-	     * Schließlich wird der Buffer in einen String umgewandelt und
-	     * zurückgegeben.
+	     * Schlie�lichh wird der Buffer in einen String umgewandelt und
+	     * zurueckgegeben.
 	     */
 	    return result.toString();
 	  }

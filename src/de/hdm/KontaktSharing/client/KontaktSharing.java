@@ -29,42 +29,45 @@ import de.hdm.KontaktSharing.shared.LoginService;
 import de.hdm.KontaktSharing.shared.LoginServiceAsync;
 import de.hdm.KontaktSharing.shared.bo.*;
 import de.hdm.KontaktSharing.shared.report.AllKontaktReport;
-//@author samina
 
+
+/**
+ * 
+ * @author Samina
+ *
+ */
 public class KontaktSharing implements EntryPoint {
-	
 
-	
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginMessage = new Label("Bitte logge dich mit dem Google Account ein");
 	private Anchor signInLink = new Anchor("Sign In");
 	private Anchor signOutLink = new Anchor("Sign Out");
-	
+
 	private static KontaktSharingAdministrationAsync administration = ClientsideSettings
 			.getKontaktSharingAdministration();
-	
+
 	private TextBox textBox = new TextBox();
 	private Button logoutButton = new Button("Logout");
 	private Button loginButton = new Button("Login");
-	Nutzer nu = new Nutzer();	
-
-
+	Nutzer nu = new Nutzer();
+	
 	@Override
 	public void onModuleLoad() {
-		
+
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + "KontaktSharing.html", new LoginCallback());
 
 	}
-	
+	/**
+	 * Login laden
+	 */
 	private void loadLogin() {
-		CommonPage contentPanel = new EmptyPage("Login");
-		
-		
-		loginPanel.add(new HTML ("<p>Herzlich Willkommen auf der Kontakt-Sharing Plattform!</p> "
-		+ "<p>Diese Plattform bietet dir das Anlegen, Bearbeiten, Loeschen und Teilen</p>" +
-		"<p>von Kontakten, Kontaktlisten und Eigenschaften an.</p> "));
+		CommonPage contentPanel = new EmptyPage("");
+
+		loginPanel.add(new HTML("<p>Herzlich Willkommen auf der Kontakt-Sharing Plattform!</p> "
+				+ "<p>Diese Plattform bietet dir das Anlegen, Bearbeiten, Loeschen und Teilen</p>"
+				+ "<p>von Kontakten, Kontaktlisten und Eigenschaften an.<p></p> "));
 		loginButton.addClickHandler(new loginButtonClickHandler());
 		loginButton.setStylePrimaryName("loginButton");
 		loginPanel.setStylePrimaryName("loginPanel");
@@ -72,12 +75,14 @@ public class KontaktSharing implements EntryPoint {
 		loginPanel.add(loginMessage);
 		loginPanel.add(loginButton);
 		contentPanel.add(loginPanel);
-		
+
 		this.showPage(contentPanel, false);
 	}
-	
+	/**
+	 * KontaktSharing laden
+	 */
 	private void loadKontaktSharing() {
-		
+
 		RootPanel.get("content").clear();
 		textBox.addKeyPressHandler(new KeyPressHandler() {
 
@@ -91,9 +96,13 @@ public class KontaktSharing implements EntryPoint {
 				}
 			}
 		});
-	
-		
+
 	}
+	/**
+	 * 
+	 * loginButton 
+	 *
+	 */
 	class loginButtonClickHandler implements ClickHandler {
 
 		@Override
@@ -116,7 +125,7 @@ public class KontaktSharing implements EntryPoint {
 			loginInfo = result;
 			if (loginInfo.isLoggedIn()) {
 				administration.getNutzerByMailOrCreate(loginInfo.getEmailAddress(), new FindNutzerCallback());
-				
+
 			} else {
 				loadLogin();
 			}
@@ -129,32 +138,28 @@ public class KontaktSharing implements EntryPoint {
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert(caught.toString());
-			
+
 		}
 
 		@Override
 		public void onSuccess(Nutzer nutzer) {
 			nu = nutzer;
 			Cookies.setCookie("email", nutzer.getEmail());
-			Cookies.setCookie("id", nutzer.getId()+ "");
-			
+			Cookies.setCookie("id", nutzer.getId() + "");
+
 			showPage(new ListContactsPage(), true);
 
-			
-
-			
 		}
 
 	}
 
 	class CreateNutzerDialogBox extends DialogBox {
-		private Label frage = new Label(
-				"Du bist noch kein Nutzer auf der Kontakt-Sharing Plattform?");
+		private Label frage = new Label("Du bist noch kein Nutzer auf der Kontakt-Sharing Plattform?");
 		private Button nein = new Button("Nein");
 		private Button ja = new Button("Ja");
 		private String googleMail1 = "";
 		private VerticalPanel vpanel = new VerticalPanel();
-		
+
 		private String googleMail = "";
 
 		public CreateNutzerDialogBox(String mail) {
@@ -209,18 +214,16 @@ public class KontaktSharing implements EntryPoint {
 
 		}
 	}
+
 	private void showPage(CommonPage contentPanel, boolean showMenu) {
 
 		VerticalPanel rootPanel = new VerticalPanel();
-		
+
 		HorizontalPanel mainPanel = new HorizontalPanel();
 		mainPanel.getElement().setId("main");
-		
-		
+
 		HeaderWidget headerPanel = new HeaderWidget();
 		NavigationWidget navPanel = NavigationWidget.getNavigationWidget(mainPanel, contentPanel, showMenu);
-		
-		
 
 		rootPanel.add(headerPanel);
 		rootPanel.add(mainPanel);
@@ -228,7 +231,7 @@ public class KontaktSharing implements EntryPoint {
 		mainPanel.add(contentPanel);
 
 		RootPanel.get("rootElement").add(rootPanel);
-		
+
 	}
 
 	public static class SuchenCommand implements Command {
@@ -242,6 +245,3 @@ public class KontaktSharing implements EntryPoint {
 	}
 
 }
-
-
-	

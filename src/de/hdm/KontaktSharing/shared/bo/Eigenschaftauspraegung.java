@@ -30,7 +30,10 @@ public class Eigenschaftauspraegung extends BusinessObject {
 
 	private int idEigenschaft;
 	private int idKontakt;
-
+	
+	/**
+	 * no argument constructor
+	 */
 	public Eigenschaftauspraegung() {
 		super();
 	}
@@ -38,6 +41,8 @@ public class Eigenschaftauspraegung extends BusinessObject {
 
 	/**
 	 * Auslesen des Textes.
+	 * 
+	 * @return text
 	 */
 	public String getText() {
 		return this.text;
@@ -46,26 +51,34 @@ public class Eigenschaftauspraegung extends BusinessObject {
 
 	/**
 	 * Auslesen der Zahl
+	 * 
+	 * @return zahl
 	 */
-
 	public Integer getZahl() {
 		return this.zahl;
 	}
 	
+	/**
+	 * Zahl als String auslesen
+	 * @return zahl
+	 */
 	public String getZahlAsString() {
 		return String.valueOf(this.zahl);
 	}
 
 	/**
 	 * Auslesen vom Datum
+	 * 
+	 * @return datum
 	 */
-
 	public Date getDatum() {
 		return this.datum;
 	}
 
 	/**
 	 * Setzen des Textes der Eigenschaftsauspr�gung
+	 * 
+	 * @param string
 	 */
 	public void setText(String string) {
 		this.text = string;
@@ -84,31 +97,53 @@ public class Eigenschaftauspraegung extends BusinessObject {
 	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
-
+	/**
+	 * eigenschaftid auslesen
+	 * @return idEigenschaft
+	 */
 	public int getIdEigenschaft() {
 		return idEigenschaft;
 	}
-	
+	/**
+	 * Eigenschaftid als string ausgeben
+	 * @return idEigenschaft
+	 */
 	public String getIdEigenschaftAsString() {
 		return String.valueOf(this.idEigenschaft);
 	}
-
+	/**
+	 * Eigenschaftid setzen
+	 * @param idEigenschaft
+	 */
 	public void setIdEigenschaft(int idEigenschaft) {
 		this.idEigenschaft = idEigenschaft;
 	}
-
+	/**
+	 * Kontaktid auslesen
+	 * @return idKontakt
+	 */
 	public int getIdKontakt() {
 		return idKontakt;
 	}
-	
+	/**
+	 * auslesen der kontaktid als string
+	 * @return idKontakt
+	 */
 	public String getIdKontaktAsString() {
 		return String.valueOf(this.idKontakt);
 	}
-
+	/**
+	 * Kontakt setzen
+	 * @param idKontakt
+	 */
 	public void setIdKontakt(int idKontakt) {
 		this.idKontakt = idKontakt;
 	}
-
+	/**
+	 * Wert des Typs auslesen
+	 * @param typ
+	 * @return typ
+	 */
 	public String getValue(Typ typ) {
 		if (typ == Typ.STRING) {
 			return this.getText();
@@ -120,7 +155,11 @@ public class Eigenschaftauspraegung extends BusinessObject {
 			return null;
 		}
 	}
-
+	/**
+	 * Wert des Typs setzen
+	 * @param typ
+	 * @param value
+	 */
 	public void setValue(Typ typ, String value) {
 		if (typ == Typ.STRING) {
 			this.setText(value);

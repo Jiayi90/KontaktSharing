@@ -71,7 +71,12 @@ public class TeilhaberschaftMapper extends CommonMapper<Teilhaberschaft> {
 		return this.findVector("SELECT idTeilhaberschaft, Name ,Nutzer_idNutzer FROM teilhaberschaft");
 	}
 
-
+	/**
+	 * Fuegt Datensatz in Teilhaberschaft ein
+	 * @param th
+	 * @return
+	 * @throws SQLException
+	 */
 	public Teilhaberschaft insert(Teilhaberschaft th) throws SQLException {
 		return this.insert("INSERT INTO teilhaberschaft (Name, Nutzer_idNutzer) VALUES (%s, %s)", th.getName(), th.getIdNutzer());
 	}

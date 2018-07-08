@@ -147,7 +147,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	/**
-	 * Löschen eines Nutzers
+	 * Loeschen eines Nutzers
 	 * 
 	 * @throws SQLException
 	 */
@@ -157,7 +157,15 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.nutzerMapper.delete(n);
 
 	}
-
+	/**
+	 * Eigenschaftauspraegung anlegen
+	 * @param text
+	 * @param zahl
+	 * @param datum
+	 * @return eigenschaftauspraegungMapper
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
 	public Eigenschaftauspraegung createEigenschaftauspraegung(String text, int zahl, Date datum)
 			throws IllegalArgumentException, SQLException {
 
@@ -207,7 +215,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	/**
-	 * Löschen einer Eigenschaftauspraegung
+	 * Loeschen einer Eigenschaftauspraegung
 	 * @throws SQLException 
 	 */
 
@@ -216,7 +224,14 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.eigenschaftauspraegungMapper.delete(ea);
 
 	}
-
+	/**
+	 * Eigenschaft anlegen
+	 * @param bezeichnung
+	 * @param typ
+	 * @return eigenschaftMapper
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
 	public Eigenschaft createEigenschaft(String bezeichnung, String typ) throws IllegalArgumentException, SQLException {
 
 		Eigenschaft e = new Eigenschaft();
@@ -246,6 +261,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Speichern einer Eigenschaft
+	 * 
+	 * @param e
+	 * @throws IllegalArgumentException
 	 */
 
 	public void save(Eigenschaft e) throws IllegalArgumentException {
@@ -253,7 +271,8 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	/**
-	 * Löschen einer Eigenschaft
+	 *Loeschen einer Eigenschaft
+	 * 
 	 */
 
 	public void delete(Eigenschaft e) throws IllegalArgumentException {
@@ -261,14 +280,20 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		this.eigenschaftMapper.delete(e);
 
 	}
-
+	/**
+	 * Kontaktliste einfuegen
+	 * @param kontaktlistenname
+	 * @return kontaktlisteMapper
+	 * @throws IllegalArgumentException
+	 * @throws Exception
+	 */
 	public Kontaktliste createKontaktliste(String kontaktlistenname) throws IllegalArgumentException, Exception {
 
 		Kontaktliste kl = new Kontaktliste();
 		kl.setKontaktlistenname(kontaktlistenname);
 
 		/**
-		 * Setzen eines vorläufigen Kontaktliste-ID.
+		 * Setzen eines vorlaeufigen Kontaktliste-ID.
 		 */
 
 		kl.setId(1);
@@ -281,8 +306,12 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Auslesen einer Kontaktliste anhand seiner ID
+	 * 
+	 * @param id
+	 * @return kontaktlisteMapper
+	 * @throws IllegalArgumentException
+	 * @throws Exception
 	 */
-
 	public Kontaktliste getKontaktlisteById(int id) throws IllegalArgumentException, Exception {
 		return this.kontaktlisteMapper.findByKey(id);
 	}
@@ -299,14 +328,18 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Speichern einer Kontaktliste
+	 * 
+	 * @param kl
+	 * @throws IllegalArgumentException
+	 * @throws Exception
 	 */
-
 	public void save(Kontaktliste kl) throws IllegalArgumentException, Exception {
 		kontaktlisteMapper.update(kl);
 	}
 
 	/**
-	 * Löschen einer Kontaktliste
+	 * Loeschen einer Kontaktliste
+	 * 
 	 */
 
 	public void delete(Kontaktliste kl) throws IllegalArgumentException, Exception {
@@ -381,13 +414,18 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			this.teilhaberschaftMapper.delete(id);
 		}
 	}
-
+	/**
+	 * 
+	 * @return teilhaberschaftMapper
+	 * @throws IllegalArgumentException
+	 * @throws Exception
+	 */
 	public Teilhaberschaft createTeilhaberschaft() throws IllegalArgumentException, Exception {
 
 		Teilhaberschaft t = new Teilhaberschaft();
 
 		/**
-		 * Setzen eines vorläufigen Teilhaberschaft-ID.
+		 * Setzen eines vorlaeufigen Teilhaberschaft-ID.
 		 */
 
 		t.setId(1);
@@ -400,6 +438,11 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Auslesen einer Teilhaberschaft anhand seiner ID
+	 * 
+	 * @param id
+	 * @return teilhaberschaftMapper
+	 * @throws IllegalArgumentException
+	 * @throws Exception
 	 */
 
 	public Teilhaberschaft getTeilhaberschaftById(int id) throws IllegalArgumentException, Exception {
@@ -408,6 +451,10 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Auslesen aller Teilhaberschaft
+	 * 
+	 * @return teilhaberschaftMapper
+	 * @throws IllegalArgumentException
+	 * @throws Exception
 	 */
 
 	public Vector<Teilhaberschaft> getAllTeilhaberschaft() throws IllegalArgumentException, Exception {
@@ -417,6 +464,10 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	/**
 	 * Speichern einer Teilhaberschaft
+	 * 
+	 * @param t
+	 * @throws IllegalArgumentException
+	 * @throws Exception
 	 */
 
 	public void save(Teilhaberschaft t) throws IllegalArgumentException, Exception {
@@ -424,7 +475,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	/**
-	 * Löschen einer Teilhaberschaft
+	 * Loeschen einer Teilhaberschaft
 	 */
 
 	public void delete(Teilhaberschaft t) throws IllegalArgumentException, Exception {
@@ -433,11 +484,15 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 
 	}
 
+	
 	@Override
 	public void setNutzer(Nutzer n) {
 //		this.nutzer = n;
 	}
 
+	/**
+	 * Alle Kontakte des Nutzers auslesen
+	 */
 	@Override
 	public Vector<Kontakt> getAllKontaktByNutzer(int id) throws IllegalArgumentException, Exception {
 		Vector<Kontakt> kontakte = this.kontaktMapper.findAllByNutzerId(id);
@@ -450,18 +505,26 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return kontakte;
 	}
-
+	
+	/**
+	 * Nutzer anhand der Email auslesen
+	 */
 	@Override
 	public Nutzer getNutzerByEmail(String mail) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * Kontakt anlegen
+	 */
 	@Override
-	public Kontakt createKontakt(Kontakt k) throws IllegalArgumentException, SQLException {
+	public Kontakt createKontakt(Kontakt k) throws IllegalArgumentException, Exception {
 		return kontaktMapper.insert(k);
 	}
 
+	/**
+	 * Kontakt aktualisieren
+	 */
 	@Override
 	public void update(Kontakt k) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -474,75 +537,107 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		
 	}
 
+	/**
+	 * Kontaktliste anlegen
+	 */
 	@Override
 	public Kontaktliste createKontaktliste(Nutzer n) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Kontaktliste aktualisieren
+	 */
 	@Override
 	public void update(Kontaktliste kl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Eigenschaft anlegen
+	 */
 	@Override
 	public Eigenschaft createEigenschaft(Kontakt k) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Eigenschaft aktualisieren
+	 */
 	@Override
 	public void update(Eigenschaft e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/**
+	 * Eigenschaftauspraegung anlegen
+	 */
 	@Override
 	public Eigenschaftauspraegung createEigenschaftauspraegung(Eigenschaftauspraegung e) throws IllegalArgumentException, SQLException {
 		return this.eigenschaftauspraegungMapper.insert(e);
 	}
-
+	
+	/**
+	 * Eigenschaftauspraegung aktualisieren
+	 */
 	@Override
 	public void update(Eigenschaftauspraegung ea) throws IllegalArgumentException, Exception {
 		this.eigenschaftauspraegungMapper.update(ea);		
 	}
-
+	/**
+	 * alle Kontakte von der Kontaktliste auslesen
+	 */
 	@Override
 	public List<Kontakt> getKontaktOf(Kontaktliste kl) throws IllegalArgumentException, Exception {
 		return this.kontaktMapper.findAllByKontaktlistId(kl.getId());
 	}
-
+	/**
+	 * Eigenschaft vom Kontakt auslesen (mit der Eigenschaftauspraegung)
+	 */
 	@Override
 	public List<Eigenschaftauspraegung> getEigenschaftOf(Kontakt k) throws IllegalArgumentException, SQLException {
 		// TODO Auto-generated method stub
 		return this.eigenschaftauspraegungMapper.findAll();
 	}
-
+	/**
+	 * Eigenschaftauspraegung von Eigenschaft auslesen
+	 */
 	@Override
 	public ArrayList<Eigenschaftauspraegung> getEigenschaftauspraegungOf(Eigenschaftauspraegung e)
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * Nutzer auslesen
+	 */
 	@Override
 	public Nutzer getNutzer() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * alle Eigenschaften auslesen
+	 */
 	@Override
 	public Vector<Eigenschaft> getAllEigenschaft() throws IllegalArgumentException, Exception {
 		return this.eigenschaftMapper.findAll();
 	}
-
+	/**
+	 * Eigenschaftauspraegung von Kontakt auslesen
+	 */
 	@Override
 	public Vector<Eigenschaftauspraegung> getAllEigenschaftauspraegungByKontakt(Kontakt kontakt)
 			throws IllegalArgumentException, Exception {
 		return this.eigenschaftauspraegungMapper.findAllByIdKontakt(kontakt.getId());
 	}
-
+	/**
+	 * Eigenschaftauspraegung anlegen
+	 */
 	@Override
 	public void createEigenschaftauspraegungen(Vector<Eigenschaftauspraegung> auspraegungen)
 			throws IllegalArgumentException, Exception {
@@ -555,12 +650,16 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			}
 		}
 	}
-
+	/**
+	 * alle Kontaktlisten auslesen
+	 */
 	@Override
 	public Vector<Kontaktliste> getAllKontaktlisten() throws IllegalArgumentException, Exception {
 		return this.kontaktlisteMapper.findAll();
 	}
-
+	/**
+	 * Alle Kontakte mit Namen auslesen
+	 */
 	@Override
 	public Vector<Kontakt> getAllKontaktWithNameByNutzer(int id) throws IllegalArgumentException, Exception {
 		Vector<Kontakt> kontakte = this.getAllKontaktByNutzer(id);
@@ -579,7 +678,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		Collections.sort(kontakte,new Kontakt());
 		return kontakte;
 	}
-
+	/**
+	 * Kontaktliste anlegen f�r Nutzer
+	 */
 	@Override
 	public void createKontaktlisteForNutzer(int idNutzer, String name, List<Integer> idsKontakte)
 			throws IllegalArgumentException, Exception {
@@ -594,7 +695,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		
 	}
-
+	/**
+	 * Alle Kontaktlsten mit User f�r Nutzer auslesen
+	 */
 	@Override
 	public Vector<Kontaktliste>  getAllKontaktlistenWithUserCountForNutzer(int idNutzer) throws IllegalArgumentException, Exception {
 		Vector<Kontaktliste> listen = this.kontaktlisteMapper.findAllByNutzer(idNutzer);
@@ -607,7 +710,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return listen;
 	}
-
+	/**
+	 * Kontaktliste mit User information auslesen
+	 */
 	@Override
 	public Kontaktliste getKontaktlisteWithUserinformation(int idKontaktliste) throws Exception {
 		Kontaktliste liste = this.kontaktlisteMapper.findByKey(idKontaktliste);
@@ -621,7 +726,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		
 		return liste;
 	}
-
+	/**
+	 * Kontaktliste aktualisieren
+	 */
 	@Override
 	public void updateKontaktliste(int id, String name, List<Integer> idsKontakte)
 			throws IllegalArgumentException, Exception {
@@ -636,17 +743,23 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			}
 		}
 	}
-
+	/**
+	 * aktuellen Nutzer setzen
+	 */
 	@Override
 	public void setCurrentNutzerId(int id) {
 		this.currentUserId = id;
 	}
-
+	/**
+	 * aktuellen Nutzer ueberpruefen
+	 */
 	public Nutzer checkNutzer(String email) {
 		// TODO Auto-generated method stub
 		return null;
 		}
-
+	/**
+	 * Nutzer anhand der mail auslesen oder anlegen
+	 */
 	@Override
 	public Nutzer getNutzerByMailOrCreate(String email) throws Exception {
 		Nutzer nutzer = this.nutzerMapper.findByMail(email);
@@ -660,7 +773,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			return this.nutzerMapper.findByMail(email);
 		}
 	}
-
+	/**
+	 * Liste teilen
+	 */
 	@Override
 	public void shareListe(int idNutzer,int idListe, List<String> mails) throws Exception {
 		Teilhaberschaft th = new Teilhaberschaft();
@@ -677,7 +792,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 			this.teilhaberschaftNutzerMapper.insert(thn);
 		}
 	}
-
+	/**
+	 * ausgabe der geteilten Kontaktlisten f�r den User
+	 */
 	@Override
 	public Vector<TeilhaberschaftKontaktliste> getSharedKontaktlistenForUser(int idNutzer) throws Exception {
 		Vector<TeilhaberschaftKontaktliste> thkls = new Vector<TeilhaberschaftKontaktliste>();
@@ -695,7 +812,12 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return thkls;
 	}
-	
+	/**
+	 * Teilhaberschaft vom teilbarenobjekt ausgeben
+	 * @param tos
+	 * @return ths
+	 * @throws Exception
+	 */
 	private Vector<Teilhaberschaft> getTeilhaberschaftenFromTeilbaresObject(Vector<TeilbaresObjekt> tos) throws Exception {
 		Vector<Teilhaberschaft> ths = new Vector<Teilhaberschaft>();
 		for(TeilbaresObjekt to: tos) {
@@ -706,7 +828,13 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		
 		return ths;
 	}
-	
+	/**
+	 * Kontaktliste mit User Inforation anhand der teilhaberschaft auslesen
+	 * @param idTeilhaberschaft
+	 * @param tos
+	 * @return null
+	 * @throws Exception
+	 */
 	private Kontaktliste filterKontaktlisteWithUserinformationByTeilhaberschaft(int idTeilhaberschaft, Vector<TeilbaresObjekt> tos) throws Exception {
 		for(TeilbaresObjekt to: tos) {
 			if(to.getIdTeilhaberschaft() == idTeilhaberschaft) {
@@ -715,7 +843,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return null;
 	}
-
+	/**
+	 * Alle aktuellen Nutzer auslesen
+	 */
 	@Override
 	public Vector<Nutzer> getAllNutzerWithoutCurrent(int idNutzer) throws Exception {
 		Vector<Nutzer> allNutzer = new Vector<Nutzer>();
@@ -726,7 +856,9 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return allNutzer;
 	}
-
+	/**
+	 * Alle Nutzer die sich in einer Teilhabeschaft befinden auslesen
+	 */
 	@Override
 	public Vector<Nutzer> getAllNutzerInTeilhaberschaft(int idTeilhaberschaft) throws Exception {
 		Vector<Nutzer> allNutzer = new Vector<Nutzer>();
@@ -737,14 +869,18 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return allNutzer;
 	}
-
+	/**
+	 * Teilhaberschaft auslesen
+	 */
 	@Override
 	public void deleteTeilhaberschaft(int idTeilhaberschaft) throws Exception {
 		this.teilbaresObjektMapper.deleteForTeilhaberschaft(idTeilhaberschaft);
 		this.teilhaberschaftNutzerMapper.deleteByTeilhaberschaft(idTeilhaberschaft);
 		this.teilhaberschaftMapper.delete(idTeilhaberschaft);
 	}
-
+	/**
+	 * Teilhaberschaftliste aktualisieren
+	 */
 	@Override
 	public void updateTeilhaberschaftListe(int idTeilhaberschaft, List<String> mails) throws Exception {
 		this.teilhaberschaftNutzerMapper.deleteByTeilhaberschaft(idTeilhaberschaft);

@@ -60,8 +60,8 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	 * ist, wird genau ein Objekt zur�ckgegeben.
 	 * 
 	 * @param id
-	 *            Primärschlüsselattribut (->DB)
-	 * @return Eigenschaftauspraegung-Objekt, das dem übergebenen Schlüssel
+	 *            PK-Attribut (->DB)
+	 * @return Eigenschaftauspraegung-Objekt, das dem Uebergebenen Schluessel
 	 *         entspricht, null bei nicht vorhandenem DB-Tupel.
 	 * @throws SQLException 
 	 */
@@ -79,15 +79,21 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 	/**
 	 * Auslesen aller Eigenschaftsausprägung.
 	 * 
-	 * @return Ein ArrayList mit Eigenschaftsausprägung-Objekten, die sämtliche
+	 * @return Ein ArrayList mit Eigenschaftsausprägung-Objekten, die saemtliche
 	 *         Eigenschaftauspraegungen repräsentieren. Bei evtl. Exceptions wird ein
-	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
+	 *         partiell gefuellter oder ggf. auch leerer Vetor zurueckgeliefert.
 	 * @throws SQLException 
 	 */
 	public Vector<Eigenschaftauspraegung> findAll() throws SQLException {
 		return this.findVector("SELECT idEigenschaftauspraegung, Eigenschaft_idEigenschaft, Kontakt_idKontakt, Text, Zahl, Datum FROM eigenschaftauspraegung");
 	}
-
+	
+	/**
+	 * 
+	 * @param ea
+	 * @return
+	 * @throws SQLException
+	 */
 	public Eigenschaftauspraegung insert(Eigenschaftauspraegung ea) throws SQLException {
 		return this.insert("INSERT INTO eigenschaftauspraegung (Text, Zahl, Datum, Eigenschaft_idEigenschaft, Kontakt_idKontakt) VALUES (%s, %s, %s, %s, %s)", ea.getText(), ea.getZahlAsString(), toSqlDate(ea.getDatum()), ea.getIdEigenschaftAsString(), ea.getIdKontaktAsString());
 	}
@@ -111,6 +117,11 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 		return this.findByKey(ea.getId());
 	}
 	
+	/**
+	 * 
+	 * @param date
+	 * @return date
+	 */
 	private String toSqlDate(Date date) {
 		if(date == null) {
 			return null;
@@ -131,11 +142,18 @@ public class EigenschaftauspraegungMapper extends CommonMapper<Eigenschaftauspra
 		this.excecute("DELETE FROM eigenschaftauspraegung WHERE idEigenschaftauspraegung=" + ea.getId());
 	}
 	
+	/**
+	 * 
+	 * @param kontakt
+	 * @throws SQLException
+	 */
 	public void deleteByKontaktId(Kontakt kontakt) throws SQLException {
 		this.excecute("DELETE FROM eigenschaftauspraegung WHERE Kontakt_idKontakt=" + kontakt.getId());
 	}
-
-
+	
+	/**
+	 * Eigenschaftauspraegung anlegen
+	 */
 	@Override
 	protected Eigenschaftauspraegung createFromResultSet(ResultSet rs) throws SQLException {
 		Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();

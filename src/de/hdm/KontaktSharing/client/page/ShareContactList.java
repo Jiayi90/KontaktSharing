@@ -27,12 +27,13 @@ public class ShareContactList extends CommonPage{
 	ShareContactList(Kontaktliste liste) {
 		this.liste = liste;		
 	}
+	
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Kontaktliste teilen";
 	}
-
+	
 	@Override
 	protected void run() {
 		
@@ -71,8 +72,6 @@ public class ShareContactList extends CommonPage{
 	}
 	
 	public void create() {
-
-		
 		this.kontaktSharingAdmin.shareListe(getLoggedInId(), liste.getId(), userWidget.getMails(), new AsyncCallback<Void>() {
 
 			@Override

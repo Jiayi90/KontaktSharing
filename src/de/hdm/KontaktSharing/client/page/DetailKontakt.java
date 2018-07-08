@@ -23,47 +23,59 @@ import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 
 public class DetailKontakt extends CommonPage {
-	
+
 	Kontakt kontakt;
 	String kontaktName = "";
 	Kontaktliste liste;
-	
+
+	/**
+	 * 
+	 * @param kontakt
+	 */
 	public DetailKontakt(Kontakt kontakt) {
 		this.kontakt = kontakt;
 		createBackButton();
 	}
-	
+
+	/**
+	 * 
+	 * @param kontakt
+	 * @param liste
+	 */
 	public DetailKontakt(Kontakt kontakt, Kontaktliste liste) {
 		this.liste = liste;
 		this.kontakt = kontakt;
 		createBackButton();
 	}
-	
+
+	/**
+	 * anlegen des zurueck buttons
+	 */
 	private void createBackButton() {
 		FocusPanel wrapper = new FocusPanel();
-		
+
 		HorizontalPanel panel = new HorizontalPanel();
-		
+
 		panel.getElement().setClassName("navibutton");
 		SmallButton backButton = new SmallButton("icons/back.png");
 		panel.add(backButton);
 		panel.add(new Label("Zurueck"));
 		wrapper.add(panel);
-		
+
 		wrapper.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(liste != null) {
+				if (liste != null) {
 					NavigationWidget.navigateTo(new DetailKontaktliste(liste));
 				} else {
 					NavigationWidget.navigateTo(new ListContactsPage());
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		this.add(wrapper);
 	}
 
@@ -74,19 +86,15 @@ public class DetailKontakt extends CommonPage {
 
 	@Override
 	protected void run() {
-	
-	
+
 		NaviBackWidget back = new NaviBackWidget("Zurueck", new ListContactsPage());
 		this.add(back);
-	
-		
 		this.kontaktSharingAdmin.getAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
 
-			
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -109,7 +117,7 @@ public class DetailKontakt extends CommonPage {
 					});
 				}
 			}
-			
+
 		});
 
 	}
@@ -131,20 +139,25 @@ public class DetailKontakt extends CommonPage {
 		add(table);
 	}
 	
+	/**
+	 * 
+	 * @param eigenschaft
+	 * @param auspraegungen
+	 * @param table
+	 */
 	private void printEigenschaft(Eigenschaft eigenschaft, List<Eigenschaftauspraegung> auspraegungen, FlexTable table) {
 		if(auspraegungen.size() != 0 && eigenschaft.getId() != 1) {
 			int row = table.getRowCount();
-			
+
 			table.setText(row, 0, eigenschaft.getBezeichnung());
-			
+
 			VerticalPanel panel = new VerticalPanel();
-			for(Eigenschaftauspraegung auspraegung: auspraegungen) {
+			for (Eigenschaftauspraegung auspraegung : auspraegungen) {
 				panel.add(new Label(auspraegung.getValue(eigenschaft.getTyp())));
 			}
 			table.setWidget(row, 1, panel);
 		}
 
-		
 	}
 
 }

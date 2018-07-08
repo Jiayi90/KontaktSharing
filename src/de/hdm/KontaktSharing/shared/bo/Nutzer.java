@@ -22,6 +22,8 @@ public class Nutzer extends BusinessObject{
 		  }
 	  /**
 	   * Auslesen der Email.
+	   * 
+	   * @return email
 	   */
 	  public String getEmail() {
 	    return this.email;
@@ -29,6 +31,8 @@ public class Nutzer extends BusinessObject{
 	  
 	  /**
 	   * Setzen der Email.
+	   * 
+	   * @param email
 	   */
 	  public void setEmail(String email) {
 	    this.email = email;

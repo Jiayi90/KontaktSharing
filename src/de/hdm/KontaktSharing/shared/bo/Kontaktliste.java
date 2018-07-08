@@ -63,36 +63,66 @@ public class Kontaktliste extends BusinessObject{
 
 	/**
 	 * Setzen des Kontaktlistennamen.
+	 * 
+	 * @param kontaktlistenname
 	 */
 	public void setKontaktlistenname(String kontaktlistenname) {
 		this.kontaktlistenname = kontaktlistenname;
 	}
 
+	/**
+	 * NutzerId ausgeben
+	 * @return nutzerId
+	 */
 	public int getNutzerId() {
 		return nutzerId;
 	}
-
+	
+	/**
+	 * Nutzerid setzen
+	 * @param nutzerId
+	 */
 	public void setNutzerId(int nutzerId) {
 		this.nutzerId = nutzerId;
 	}
 
+	
+	/**
+	 * ueberpruefung
+	 * @return wasShared
+	 */
 	public boolean isWasShared() {
 		return wasShared;
 	}
 
+	/**
+	 * setzen des Attributs
+	 * @param wasShared
+	 */
 	public void setWasShared(boolean wasShared) {
 		this.wasShared = wasShared;
 	}
 
+	/**
+	 * 
+	 * @return teilhaberschaftId
+	 */
 	public boolean isShared() {
 		return teilhaberschaftId != null;
 	}
 
-
+	/**
+	 * ausgeben der teilhaberschaftid
+	 * @return teilhaberschaftId
+	 */
 	public Integer getTeilhaberschaftId() {
 		return teilhaberschaftId;
 	}
-
+	
+	/**
+	 * teilhaberschaftid setzen
+	 * @param teilhaberschaftId
+	 */
 	public void setTeilhaberschaftId(Integer teilhaberschaftId) {
 		this.teilhaberschaftId = teilhaberschaftId;
 	}
