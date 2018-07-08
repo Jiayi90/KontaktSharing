@@ -77,6 +77,10 @@ public class TeilhaberschaftNutzerMapper extends CommonMapper<TeilhaberschaftNut
 	public void deleteByNutzer(int id) throws SQLException {
 		this.excecute("DELETE FROM teilhaberschaft_nutzer WHERE Nutzer_idNutzer=" + id);
 	}
+	
+	public void delete(int idNutzer, int idTeilhaberschaft) throws SQLException {
+		this.excecute("DELETE FROM teilhaberschaft_nutzer WHERE Nutzer_idNutzer="+idNutzer+" AND Teilhaberschaft_idTeilhaberschaft=" + idTeilhaberschaft);
+	}
 
 	@Override
 	protected TeilhaberschaftNutzer createFromResultSet(ResultSet rs) throws SQLException {
@@ -86,5 +90,6 @@ public class TeilhaberschaftNutzerMapper extends CommonMapper<TeilhaberschaftNut
 		return thn;
 	}
 
+	
 
 }

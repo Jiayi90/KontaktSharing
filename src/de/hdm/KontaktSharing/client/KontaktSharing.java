@@ -124,6 +124,7 @@ public class KontaktSharing implements EntryPoint {
 		public void onSuccess(LoginInfo result) {
 			loginInfo = result;
 			if (loginInfo.isLoggedIn()) {
+				Cookies.setCookie("logout", loginInfo.getLogoutUrl());
 				administration.getNutzerByMailOrCreate(loginInfo.getEmailAddress(), new FindNutzerCallback());
 
 			} else {

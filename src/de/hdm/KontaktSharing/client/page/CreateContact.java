@@ -33,7 +33,7 @@ public class CreateContact extends CommonPage {
 	protected void run() {
 		FlexTable table = new FlexTable();
 		table.getElement().setClassName("detail-table");
-		;
+		
 		ClientsideSettings.getKontaktSharingAdministration().getAllEigenschaft(new RenderForm(table));
 		this.add(table);
 		Button saveButton = new Button("Neuen Kontakt erstellen");

@@ -178,7 +178,23 @@ public class ListContactsPage extends CommonPage {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							NavigationWidget.navigateTo(new ShareContakt(kontakt));
+							if(Window.confirm("Wollen sie den mit Ihnen geteilten Kontakt nicht laenger verfolgen?")) {
+								kontaktSharingAdmin.deleteTeilhaberschaftForUser(getLoggedInId(), kontakt, new AsyncCallback<Void>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										Window.alert("Fehler beim loeschen");
+									}
+
+									@Override
+									public void onSuccess(Void result) {
+										Window.alert("Kontakt wurde geloescht");
+										table.getParent().removeFromParent();
+										ClientsideSettings.getKontaktSharingAdministration().getAllKontaktByNutzer(getLoggedInId(), new GetAllKontaktByNutzerCallback(page));
+									}
+									
+								});
+							}
 						}
 
 					});

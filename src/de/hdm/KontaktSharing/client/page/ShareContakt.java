@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -29,6 +30,26 @@ public class ShareContakt extends CommonPage {
 	
 	public ShareContakt(Kontakt kontakt) {
 		this.kontakt = kontakt;
+		FocusPanel wrapper = new FocusPanel();
+
+		HorizontalPanel panel = new HorizontalPanel();
+
+		panel.getElement().setClassName("navibutton");
+		SmallButton backButton = new SmallButton("icons/back.png");
+		panel.add(backButton);
+		panel.add(new Label("Zurueck"));
+		wrapper.add(panel);
+
+		wrapper.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				NavigationWidget.navigateTo(new ListContactsPage());
+			}
+
+		});
+
+		this.add(wrapper);
 	}
 
 	@Override
