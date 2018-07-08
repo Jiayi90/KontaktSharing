@@ -437,7 +437,7 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 	}
 
 	@Override
-	public Kontakt createKontakt(Kontakt k) throws IllegalArgumentException, SQLException {
+	public Kontakt createKontakt(Kontakt k) throws IllegalArgumentException, Exception {
 		return kontaktMapper.insert(k);
 	}
 

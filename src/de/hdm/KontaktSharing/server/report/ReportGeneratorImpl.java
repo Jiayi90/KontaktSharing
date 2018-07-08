@@ -61,12 +61,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		if (this.getAdministration() == null) {
 			return null;
 		}
-		Nutzer n = new Nutzer();
-		n.setId(Integer.valueOf(Cookies.getCookie("id")));
-		n.setEmail(Cookies.getCookie("email"));
+//		Nutzer n = new Nutzer();
+//		n.setId(Integer.valueOf(Cookies.getCookie("id")));
+//		n.setEmail(Cookies.getCookie("email"));
 		// Die Erstellung einer Instanz dieses Reports
 		AllKontaktByNutzerReport report = new AllKontaktByNutzerReport();
-
+ 
 		// Festlegung des Titels und des Generierungsdatums dieses Reports
 		report.setTitle("Alle Kontakte");
 		report.setCreated(new Date());

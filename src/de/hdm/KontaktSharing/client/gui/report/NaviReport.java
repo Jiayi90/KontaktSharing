@@ -50,31 +50,37 @@ public class NaviReport {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				n.setId(Integer.valueOf(Cookies.getCookie("id")));
-				n.setEmail(Cookies.getCookie("email"));
-					final HTMLReportWriter writer = new HTMLReportWriter();			
-					//final PlainTextReportWriter writer1 = new PlainTextReportWriter();		
-					
-					Window.alert(n.toString());
-					ClientsideSettings.getReportGenerator().createAllKontaktReport(n, new AsyncCallback<AllKontaktByNutzerReport>(){
-
-						@Override
-						public void onFailure(Throwable caught) {
-							caught.getMessage().toString();
-							
-						}
-
-						@Override
-						public void onSuccess(AllKontaktByNutzerReport result) {
-							
-							RootPanel.get("content").clear();
-							writer.process(result);
-							HTML html = new HTML("<div align=\"center\">" + writer.getReportText()+ "</br></div>");
-							RootPanel.get("content").add(html);
-							
-						}
-						
-					});
+				
+				Window.alert("Button wurde geklickt");
+				RootPanel.get("content").clear();
+				AllKontaktByNutzer allKonRe = new AllKontaktByNutzer();
+				Window.alert(allKonRe +"");
+				RootPanel.get("content").add(allKonRe);
+//				n.setId(Integer.valueOf(Cookies.getCookie("id")));
+//				n.setEmail(Cookies.getCookie("email"));
+//					final HTMLReportWriter writer = new HTMLReportWriter();			
+//					//final PlainTextReportWriter writer1 = new PlainTextReportWriter();		
+//					
+//					Window.alert(n.toString());
+//					ClientsideSettings.getReportGenerator().createAllKontaktReport(n, new AsyncCallback<AllKontaktByNutzerReport>(){
+//
+//						@Override
+//						public void onFailure(Throwable caught) {
+//							caught.getMessage().toString();
+//							
+//						}
+//
+//						@Override
+//						public void onSuccess(AllKontaktByNutzerReport result) {
+//							
+//							RootPanel.get("content").clear();
+//							writer.process(result);
+//							HTML html = new HTML("<div align=\"center\">" + writer.getReportText()+ "</br></div>");
+//							RootPanel.get("content").add(html);
+//							
+//						}
+//						
+//					});
 			}
 			
 		});

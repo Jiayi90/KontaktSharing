@@ -102,7 +102,8 @@ public class KontaktMapper extends CommonMapper<Kontakt> {
 	 */
 	public Kontakt insert(Kontakt k) throws SQLException {
 		String sql = String.format("INSERT INTO kontakt (Erzeugungsdatum, Modifikationsdatum, nutzer_idNutzer) VALUES "
-				+ "('%s', '%s', %o)", toSqlDate(k.getErzeugungsdatum()), toSqlDate(k.getModifikationsdatum()), k.getIdNutzer());
+				+ "('%s', '%s', "+k.getIdNutzer()+")", toSqlDate(k.getErzeugungsdatum()), toSqlDate(k.getModifikationsdatum()));
+
 		return this.insert(sql);
 
 	}
