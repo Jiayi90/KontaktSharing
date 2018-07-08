@@ -10,9 +10,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
+import de.hdm.KontaktSharing.client.widget.SmallButton;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
 import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 
@@ -24,6 +28,26 @@ public class EditContactList extends CommonPage {
 	Vector<CheckBox> checkBoxKontakte;
 	public EditContactList(Kontaktliste liste) {
 		this.liste = liste;
+		FocusPanel wrapper = new FocusPanel();
+
+		HorizontalPanel panel = new HorizontalPanel();
+
+		panel.getElement().setClassName("navibutton");
+		SmallButton backButton = new SmallButton("icons/back.png");
+		panel.add(backButton);
+		panel.add(new Label("Zurueck"));
+		wrapper.add(panel);
+
+		wrapper.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				NavigationWidget.navigateTo(new ListContactListPage());
+			}
+
+		});
+
+		this.add(wrapper);
 	}
 
 	@Override

@@ -4,11 +4,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -71,15 +74,20 @@ public class NavigationWidget extends VerticalPanel{
 			
 			this.add(contact);
 			this.add(contactList);
-			this.add(report);
-			
+			this.add(report);			
 		}
 		
 		final SimplePanel panel = new SimplePanel();
 		panel.getElement().setId("expander");
-		
-
 		this.add(panel);
+		
+		if(show) {
+			this.add(new Label("Eingeloggt als:"));
+			this.add(new Label(Cookies.getCookie("email")));
+			Anchor logout = new Anchor("[logout]");
+			logout.setHref(Cookies.getCookie("logout"));
+			this.add(logout);
+		}
 	}
 
 	

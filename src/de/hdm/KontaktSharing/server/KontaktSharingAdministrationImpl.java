@@ -942,6 +942,12 @@ public class KontaktSharingAdministrationImpl extends RemoteServiceServlet imple
 		}
 		return new Vector<TeilhaberschaftKontakt>(thks.values());
 	}
+
+	@Override
+	public void deleteTeilhaberschaftForUser(int idNutzer, Kontakt kontakt) throws Exception {
+		TeilbaresObjekt to = this.teilbaresObjektMapper.findByKontakt(kontakt);
+		this.teilhaberschaftNutzerMapper.delete(idNutzer, to.getIdTeilhaberschaft());
+	}
 	
 
 }

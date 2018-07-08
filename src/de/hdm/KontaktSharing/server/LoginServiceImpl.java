@@ -34,15 +34,4 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			return loginInfo;
 	  }
 }
-	
-
-//		} catch (Exception e) {
-			
-//			System.out.println("##################### " + requestUri); 
-//			loginInfo.setLoggedIn(false);
-//			loginInfo.setLoginUrl(requestUri);
-
-//			loginInfo.setLoggedIn(true);
-//            loginInfo.setEmailAddress("dummy@hdm-stuttgart.de");
-//            loginInfo.setNickname("Dummy");
 		
