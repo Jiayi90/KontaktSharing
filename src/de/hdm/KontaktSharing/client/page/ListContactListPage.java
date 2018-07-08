@@ -24,7 +24,6 @@ public class ListContactListPage extends CommonPage {
 	Vector<TeilhaberschaftKontaktliste> sharedListen = new Vector<TeilhaberschaftKontaktliste>();
 	SimplePanel panel = new SimplePanel();
 
-	
 	@Override
 	protected String getHeadlineText() {
 		return "Kontaktlisten";
@@ -112,7 +111,7 @@ public class ListContactListPage extends CommonPage {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							NavigationWidget.navigateTo(new EditShareContactList(liste.getTeilhaberschaftId()));
+							NavigationWidget.navigateTo(new EditShareContactList(liste.getTeilhaberschaftId(), liste));
 						}
 
 					});
@@ -138,7 +137,37 @@ public class ListContactListPage extends CommonPage {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						NavigationWidget.navigateTo(new ShareContactList(liste));
+						if (Window.confirm("Wollen sie die mit Ihnen geteilte Kontaktliste nicht laenger verfolgen?")) {
+							kontaktSharingAdmin.deleteTeilhaberschaftForUser(getLoggedInId(), liste,
+									new AsyncCallback<Void>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											Window.alert("Fehler beim loeschen");
+										}
+
+										@Override
+										public void onSuccess(Void result) {
+											table.removeAllRows();
+											page.kontaktSharingAdmin.getAllKontaktlistenWithUserCountForNutzer(
+													getLoggedInId(), new AsyncCallback<Vector<Kontaktliste>>() {
+
+														@Override
+														public void onFailure(Throwable caught) {
+															Window.alert(
+																	"error getAllKontaktlistenWithUserCountForNutzer");
+														}
+
+														@Override
+														public void onSuccess(Vector<Kontaktliste> result) {
+															NavigationWidget.navigateTo(new ListContactListPage());
+														}
+
+													});
+										}
+
+									});
+						}
 					}
 
 				});
@@ -165,7 +194,7 @@ public class ListContactListPage extends CommonPage {
 		panel.add(table);
 		page.add(panel);
 	}
-	
+
 	class CreateContactListButtonClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {

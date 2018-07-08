@@ -52,7 +52,7 @@ public class ShareContactList extends CommonPage{
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
-		return "Kontaktliste teilen";
+		return "Kontaktliste '"+ liste.getKontaktlistenname() +"' teilen";
 	}
 	
 	@Override

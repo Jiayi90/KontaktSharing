@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import de.hdm.KontaktSharing.shared.bo.Eigenschaftauspraegung;
 import de.hdm.KontaktSharing.shared.bo.Kontakt;
+import de.hdm.KontaktSharing.shared.bo.Kontaktliste;
 import de.hdm.KontaktSharing.shared.bo.TeilbaresObjekt;
 
 public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
@@ -56,6 +57,10 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 	 */
 	public Vector<TeilbaresObjekt> findAllKontaktlisteByTeilhaberschaft(int idTeilhaberschaft) throws SQLException {
 		return this.findVector("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Teilhaberschaft_idTeilhaberschaft=%s AND Kontaktliste_idKontaktliste IS NOT NULL", idTeilhaberschaft);
+	}
+	
+	public TeilbaresObjekt findFromListe(int idListe) throws SQLException {
+		return this.findObject("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Kontaktliste_idKontaktliste=%s", idListe);
 	}
 
 	
@@ -145,6 +150,9 @@ public class TeilbaresObjektMapper extends CommonMapper<TeilbaresObjekt> {
 		to.setIdEigenschaftsauspraegung(rs.getInt("Eigenschaftauspraegung_idEigenschaftauspraegung"));
 		to.setIdTeilhaberschaft(rs.getInt("Teilhaberschaft_idTeilhaberschaft"));
 		return to;
+	}
+	public TeilbaresObjekt findByKontakt(Kontaktliste liste) throws SQLException {
+		return this.findObject("SELECT idTeilbaresObjekt, Kontaktliste_idKontaktliste, Eigenschaftauspraegung_idEigenschaftauspraegung, Teilhaberschaft_idTeilhaberschaft FROM teilbaresobjekt WHERE Kontaktliste_idKontaktliste="+liste.getId());
 	}
 
 }

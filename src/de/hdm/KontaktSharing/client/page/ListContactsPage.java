@@ -153,7 +153,7 @@ public class ListContactsPage extends CommonPage {
 
 							@Override
 							public void onClick(ClickEvent event) {
-								NavigationWidget.navigateTo(new EditShareContakt(kontakt.getTeilhaberschaftId()));
+								NavigationWidget.navigateTo(new EditShareContakt(kontakt.getTeilhaberschaftId(), kontakt));
 							}
 
 						});

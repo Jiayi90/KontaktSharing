@@ -10,13 +10,16 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.hdm.KontaktSharing.client.widget.NavigationWidget;
 import de.hdm.KontaktSharing.client.widget.SmallButton;
+import de.hdm.KontaktSharing.shared.bo.Kontakt;
 
 public class EditShareContakt extends CommonPage {
 	
 	int idTh;
+	Kontakt kontakt;
 
-	public EditShareContakt(Integer teilhaberschaftId) {
+	public EditShareContakt(Integer teilhaberschaftId, Kontakt kontakt) {
 		idTh = teilhaberschaftId; 
+		this.kontakt = kontakt;
 		FocusPanel wrapper = new FocusPanel();
 
 		HorizontalPanel panel = new HorizontalPanel();
@@ -41,11 +44,13 @@ public class EditShareContakt extends CommonPage {
 
 	@Override
 	protected String getHeadlineText() {
-		return "Teilhaberschaft bearbeiten";
+		return "Teilhaberschaft '"+kontakt.getName()+"' bearbeiten";
 	}
 
 	@Override
 	protected void run() {
+		
+		Kontakt kontakt = new Kontakt();
 		
 		FocusPanel wrapper = new FocusPanel();
 
